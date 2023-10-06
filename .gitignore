@@ -1,0 +1,31 @@
+# Python
+*.pyc
+*.pyo
+*.egg-info
+__pycache__/
+*.log
+*.pot
+*.db
+*.sqlite3
+
+# Django
+*.log
+*.pot
+*.egg-info
+db.sqlite3
+media/
+
+# Virtual environment
+venv/
+*.virtualenv/
+pyvenv.cfg
+
+# IDE - PyCharm
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+*.swp
+*~
+Thumbs.db
