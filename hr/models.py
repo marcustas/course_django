@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.db import models
 
 
 class Department(models.Model):
@@ -20,7 +20,7 @@ class Position(models.Model):
         if self.is_manager:
             existing_manager = Position.objects.filter(department=self.department, is_manager=True).exists()
             if existing_manager:
-                raise ValidationError(f"Manager already exists in the {self.department.name} department.")
+                raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)
 
     def __str__(self):
