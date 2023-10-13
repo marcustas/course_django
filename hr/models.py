@@ -3,6 +3,21 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=200)
+    email = models.EmailField()
+    tax_code = models.CharField(max_length=200)
+
+    def __str(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.pk and Company.objects.exists():
+            raise ValidationError('There can be only one Company instance')
+        return super(Company, self).save(*args, **kwargs)
+
+
 class Department(models.Model):
     name = models.CharField(max_length=200)
     parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
@@ -15,6 +30,7 @@ class Position(models.Model):
     title = models.CharField(max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
+    job_description = models.CharField(max_length=500, default='')
 
     def save(self, *args, **kwargs):
         if self.is_manager:
@@ -31,3 +47,4 @@ class Employee(AbstractUser):
     hire_date = models.DateField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
+    phone_number = models.CharField(max_length=151, default='')
