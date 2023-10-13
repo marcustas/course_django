@@ -4,10 +4,10 @@ from django.db import models
 
 
 class Company(models.Model):
-    name: models.CharField(max_length=100)
-    address: models.CharField(max_length=200)
-    email: models.EmailField()
-    tax_code: models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=200)
+    email = models.EmailField()
+    tax_code = models.CharField(max_length=200)
 
     def __str(self):
         return self.name
