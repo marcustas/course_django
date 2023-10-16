@@ -30,6 +30,7 @@ class Position(models.Model):
     title = models.CharField(max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     job_description = models.CharField(max_length=500, default='')
 
     def save(self, *args, **kwargs):
