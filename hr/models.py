@@ -30,6 +30,7 @@ class Position(models.Model):
     title = models.CharField(max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
+    job_description = models.TextField(max_length=500, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.is_manager:
