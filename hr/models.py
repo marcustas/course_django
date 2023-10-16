@@ -4,10 +4,10 @@ from django.db import models
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    email = models.EmailField(max_length=254)
-    tax_code = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=False, blank=False)
+    address = models.CharField(max_length=200, null=False, blank=False)
+    email = models.EmailField(max_length=254, null=False, blank=False)
+    tax_code = models.CharField(max_length=100, null=False, blank=False)
 
     def save(self, *args, **kwargs):
         if not self.pk and Company.objects.exists():
@@ -46,3 +46,4 @@ class Employee(AbstractUser):
     hire_date = models.DateField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, unique=True)
