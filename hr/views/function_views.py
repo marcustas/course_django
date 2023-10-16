@@ -24,8 +24,11 @@ def employee_list(request):
         employees = employees.filter(
             Q(first_name__icontains=search) |
             Q(last_name__icontains=search) |
-            Q(position__name__icontains=search),
+            Q(position__title__icontains=search),
         )
+
+    for employee in employees:
+        print(employee.birth_date)
 
     context = {'employees': employees}
     return render(request, 'employee_list.html', context)
