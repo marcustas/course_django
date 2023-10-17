@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.11"
 django = "^4.2.6"
 ruff = "^0.0.292"
+pidantic = "^0.1.2"
+pydantic = "^2.4.2"
 
 
 [build-system]
