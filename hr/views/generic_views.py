@@ -68,7 +68,6 @@ class EmployeeDeleteView(UserPassesTestMixin, DeleteView):
 
 class EmployeeProfileView(UserPassesTestMixin, DetailView):
     model = Employee
-    form_class = EmployeeForm
     template_name = 'employee_profile.html'
 
     def test_func(self):
