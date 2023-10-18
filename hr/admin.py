@@ -5,7 +5,13 @@ from hr.models import (
     Department,
     Employee,
     Position,
+    Company,
 )
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'tax_code')
 
 
 @admin.register(Department)
