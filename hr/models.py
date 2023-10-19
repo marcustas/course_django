@@ -39,7 +39,7 @@ class Company(models.Model):
     name_company = models.CharField(max_length=30)
     adress_company = models.CharField(max_length=40)
     email_company = models.EmailField(max_length=50)
-    tax_code = models.CharField(max_length=20)
+    tax_code = models.CharField(max_length=30)
 
     def save(self,*args, **kwargs):
         if not self.pk and Company.object.exist():
@@ -48,5 +48,8 @@ class Company(models.Model):
 
     def __str__(self):
         return self.tittle
+
+
+
 
 
