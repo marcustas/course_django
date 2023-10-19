@@ -23,4 +23,7 @@ from django.urls import (
 urlpatterns = [
     path('', include('hr.urls')),
     path('napshhdf/', admin.site.urls),
+
+    # Examples
+    path('examples/', include('examples.urls'))
 ]
