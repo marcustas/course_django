@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in employees %}
+      {% for employee in page_obj %}
       <tr>
         <td>{{ employee.first_name }}</td>
         <td>{{ employee.last_name }}</td>
@@ -37,13 +37,31 @@
         <td>{{ employee.position.title }}</td>
         <td>
           {% if request.user.is_superuser %}
-          <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
-          <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+              <a href="{% url 'employee_detail' employee.pk %}" class="btn btn-info">Details</a>
+              <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
+              <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
           {% endif %}
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+<div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
 </div>
 {% endblock %}
