@@ -2,7 +2,7 @@ from django.db.models import (
     Count,
     Q,
 )
-
+from django.http import HttpResponse
 from hr.models import (
     Department,
     Position,
@@ -11,6 +11,7 @@ from hr.models import (
 
 def querysets_examples(request):
     all_active_positions = Position.objects.filter(is_active=True)
+
     explain = all_active_positions.explain()
     sql_query = str(all_active_positions.query)
 
@@ -35,10 +36,12 @@ def querysets_examples(request):
 
     # OR (|)
     and_positions = Position.objects.filter(Q(is_active=True) | Q(is_manager=False))
+    and_positions = Position.objects.filter(is_active=True, is_manager=False)
     or_positions = Position.objects.filter(is_active=True) | Position.objects.filter(is_manager=False)
 
     # non-queryset methods
-    get_position = Position.objects.get(id=1)
+    first_position = Position.objects.first()
+    get_position = Position.objects.get(id=first_position.id)
 
     created = Department.objects.create(
         name='New Departmnet',
@@ -48,27 +51,27 @@ def querysets_examples(request):
 
     count_positions = Position.objects.count()
 
-    first_position = Position.objects.first()
-
     last_position = Position.objects.last()
 
-    exists_positions = Position.objects.exists()
+    exists_positions = Position.objects.filter(is_active=False).exists()
 
     # Deleted positions where is_manager is True
     deleted, _rows_count = Position.objects.filter(is_manager=False).delete()
 
-    for position in Position.objects.iterator():
+    for position in Position.objects.iterator(chunk_size=1000):
         print(position.title)
-
+    Position.objects.iterator()
     # Lookups
+    department = Department.objects.first()
     positions_starting_with_d = Position.objects.filter(title__startswith='D')
-    positions_containing_manager = Position.objects.filter(title__icontains='manager')
+    positions_containing_manager = Position.objects.filter(title__icontains='teac')
     positions_in_date_range = Position.objects.filter(department__name__range=('A', 'Z'))
 
     # JOINs в Django (INNER JOIN приклад)
     inner_joined = Position.objects.select_related('department')
 
-    # JOINs в Django (LEFT OUTER JOIN приклад)
-    left_joined = Department.objects.prefetch_related('position_set')
 
-    return
+    # JOINs в Django (LEFT OUTER JOIN приклад)
+    left_joined = Department.objects.prefetch_related('positions').distinct()
+
+    return HttpResponse()
