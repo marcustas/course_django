@@ -37,6 +37,15 @@ class EmployeeListView(ListView):
         return queryset
 
 
+class EmployeeDetailsView(UserPassesTestMixin, DetailView):
+    model = Employee
+    template_name = 'employee_details.html'
+    context_object_name = 'employees'
+
+    def test_func(self):
+        return user_is_superadmin(self.request.user)
+
+
 class EmployeeCreateView(UserPassesTestMixin, CreateView):
     model = Employee
     form_class = EmployeeForm
