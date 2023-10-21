@@ -1,13 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    ListView,
-    UpdateView,
-    DetailView
-)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from hr.forms import EmployeeForm
 from hr.models import Employee
@@ -30,9 +24,20 @@ class EmployeeListView(ListView):
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
-                Q(position__title__icontains=search),
+                Q(position__title__icontains=search) |
+                Q(email__icontains=search),
+
             )
         return queryset
+
+
+class EmployeeDetailsView(UserPassesTestMixin, DetailView):
+    model = Employee
+    template_name = 'employee_details.html'
+    context_object_name = 'employees'
+
+    def test_func(self):
+        return user_is_superadmin(self.request.user)
 
 
 class EmployeeCreateView(UserPassesTestMixin, CreateView):
