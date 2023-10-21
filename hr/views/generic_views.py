@@ -1,13 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    ListView,
-    UpdateView,
-    DetailView
-)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from hr.forms import EmployeeForm
 from hr.models import Employee
