@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1>{{ employee.first_name }} {{ employee.last_name }}</h1>
+  {% if employee.birthdate %}
+  <p>Birthdate: {{ employee.birth_date }}</p>
+  {% endif %}
+
+  {% if employee.position %}
+  <p>Position: {{ employee.position }}</p>
+  {% endif %}
+
+  {% if employee.hire_date %}
+  <p>Hire date: {{ employee.hire_date }}</p>
+  {% endif %}
+
+  {% if employee.email %}
+  <p>Email: {{ employee.email }}</p>
+  {% endif %}
+
+  {% if employee.phone_number %}
+  <p>Phone Number: {{ employee.phone_number }}</p>
+  {% endif %}
+
+  <p>Is staff: {{ employee.is_staff }}</p>
+  <p>Is active: {{ employee.is_active }}</p>
+
+  {% if user.is_superuser %}
+  <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Edit</a>
+  <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+  {% endif %}
+
+  <a href="{% url 'employee_list' %}" class="btn btn-secondary">Back to Employees List</a>
+</div>
+{% endblock %}
