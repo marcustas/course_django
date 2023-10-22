@@ -1,33 +1,28 @@
-from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
 from django.db import models
+from django.core.exceptions import ValidationError
 
-
-class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=200)
+    email = models.EmailField()
+    tax_code = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        # Забезпечення того, що існує лише один інстанс
+        if Company.objects.exists() and not self.pk:
+            raise ValidationError('There can be only one Company instance.')
+        return super(Company, self).save(*args, **kwargs)
+
+
+class Employee(models.Model):
+    name = models.CharField(max_length=15)
+    surname = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=13)
+
 
 class Position(models.Model):
-    title = models.CharField(max_length=200)
-    department = models.ForeignKey('Department', on_delete=models.CASCADE)
-    is_manager = models.BooleanField(default=False)
+    job_description = models.CharField(max_lenght=100)
 
-    def save(self, *args, **kwargs):
-        if self.is_manager:
-            existing_manager = Position.objects.filter(department=self.department, is_manager=True).exists()
-            if existing_manager:
-                raise ValidationError(f'Manager already exists in the {self.department.name} department.')
-        super(Position, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-
-class Employee(AbstractUser):
-    hire_date = models.DateField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
