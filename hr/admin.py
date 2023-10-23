@@ -27,4 +27,9 @@ class PositionAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('username', 'position', 'hire_date')
+    list_display = ('username', 'position', 'hire_date', 'phone_number_display')
+
+    def phone_number_display(self, obj):
+        return obj.phone_number
+
+    phone_number_display.short_description = 'Phone Number'
