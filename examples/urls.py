@@ -4,5 +4,5 @@ from examples.querysets import querysets_examples
 
 
 urlpatterns = [
-    path('querysets/', querysets_examples, name='querysets_examples'),
+    path('querysets/', querysets_examples, name='querysets'),
 ]
