@@ -21,6 +21,7 @@ class EmployeeListView(ListView):
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -31,8 +32,15 @@ class EmployeeListView(ListView):
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
                 Q(position__title__icontains=search),
+                Q(email__icontains=search),
             )
         return queryset
+
+
+class EmployeeDetailView(DetailView):
+    model = Employee
+    template_name = 'new_employee_list.html'
+    context_object_name = 'employee'
 
 
 class EmployeeCreateView(UserPassesTestMixin, CreateView):
