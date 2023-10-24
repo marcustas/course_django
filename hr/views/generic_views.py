@@ -1,16 +1,11 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
+from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    ListView,
-    UpdateView,
-    DetailView
-)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from hr.forms import EmployeeForm
-from hr.models import Employee
+from hr.models import Department, Employee, Position
 
 
 def user_is_superadmin(user) -> bool:
@@ -72,3 +67,24 @@ class EmployeeProfileView(UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
+
+
+class HomeWorkQuerysetsView(ListView):
+
+    def get(self, request, *args, **kwargs):
+        departments_with_managers = Department.objects.filter(position__is_manager=True).order_by('name').values()
+        active_positions = Position.objects.filter(is_active=True).count()
+        hr_or_active_pos = Position.objects.filter(Q(is_active=True) | Q(department__name='HR')).values()
+        manager_available = Department.objects.filter(position__is_manager=True).values('name')
+        last_queryset = Position.objects.order_by('title').values('title', 'is_active')
+
+        response = {
+            'departments_with_managers': list(departments_with_managers.values()),
+            'active_positions': int(active_positions),
+            'hr_or_active_pos': list(hr_or_active_pos),
+            'ManagerAvaible': list(manager_available),
+            'SortedPositions': list(last_queryset),
+        }
+        return JsonResponse(response)
+
+
