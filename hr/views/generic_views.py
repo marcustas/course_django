@@ -6,6 +6,7 @@ from django.views.generic import (
     DeleteView,
     ListView,
     UpdateView,
+    DetailView,
 )
 
 from hr.forms import EmployeeForm
@@ -29,9 +30,19 @@ class EmployeeListView(ListView):
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
-                Q(position__name__icontains=search),
+                Q(position__title__icontains=search) |
+                Q(email__icontains=search),
             )
         return queryset
+
+
+class EmployeeDetailsListView(UserPassesTestMixin, DetailView):
+    model = Employee
+    template_name = 'employee_details.html'
+    context_object_name = 'employee'
+
+    def test_func(self):
+        return user_is_superadmin(self.request.user)
 
 
 class EmployeeCreateView(UserPassesTestMixin, CreateView):

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <ul>
+        <li>First name: {{ employee.first_name }}</li>
+        <li>Last name: {{ employee.last_name }}</li>
+        <li>Birth date: {{ employee.birth_date }}</li>
+        <li>Email: {{ employee.email }}</li>
+        <li>Position: {{ employee.position.title }}</li>
+    </ul>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'employee_update' pk=employee.pk %}">Edit Employee</a>
+        <a href="{% url 'employee_delete' pk=employee.pk %}">Delete Employee</a>
+    {% endif %}
+</div>
+
+{% endblock %}
