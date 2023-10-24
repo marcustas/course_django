@@ -37,11 +37,11 @@ class EmployeeListView(ListView):
         return queryset
 
 
-class EmployeeDetailView(DetailView):
+class NewEmployeeListView(DetailView):
     model = Employee
     template_name = 'new_employee_list.html'
     context_object_name = 'employee'
-
+    paginate_by = 10
 
 class EmployeeCreateView(UserPassesTestMixin, CreateView):
     model = Employee
