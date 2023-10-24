@@ -8,7 +8,6 @@ from django.views.generic import (
     UpdateView,
     DetailView,
 )
-
 from hr.forms import EmployeeForm
 from hr.models import Employee
 
