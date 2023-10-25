@@ -1,7 +1,13 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    ListView,
+    UpdateView,
+    DetailView
+)
 
 from hr.forms import EmployeeForm
 from hr.models import Employee
@@ -12,6 +18,7 @@ def user_is_superadmin(user) -> bool:
 
 
 class EmployeeListView(ListView):
+    paginate_by = 10
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
@@ -26,18 +33,8 @@ class EmployeeListView(ListView):
                 Q(last_name__icontains=search) |
                 Q(position__title__icontains=search) |
                 Q(email__icontains=search),
-
             )
         return queryset
-
-
-class EmployeeDetailsView(UserPassesTestMixin, DetailView):
-    model = Employee
-    template_name = 'employee_details.html'
-    context_object_name = 'employees'
-
-    def test_func(self):
-        return user_is_superadmin(self.request.user)
 
 
 class EmployeeCreateView(UserPassesTestMixin, CreateView):
@@ -64,6 +61,14 @@ class EmployeeDeleteView(UserPassesTestMixin, DeleteView):
     model = Employee
     template_name = 'employee_confirm_delete.html'
     success_url = reverse_lazy('employee_list')
+
+    def test_func(self):
+        return user_is_superadmin(self.request.user)
+
+
+class EmployeeProfileView(UserPassesTestMixin, DetailView):
+    model = Employee
+    template_name = 'employee_profile.html'
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
