@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Departments with managers</h1>
+    <ul>
+        {% for department in all_departments_with_managers %}
+            <li>{{ department.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Active position count</h1>
+    <p>{{ count_active_positions }}</p>
+
+    <h1>Active or HR positions</h1>
+    <ul>
+        {% for position in active_or_hr_positions %}
+            <li>{{ position.title }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Departments with managers</h1>
+    <ul>
+        {% for department in departments_with_managers %}
+            <li>{{ department.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>All positions sorted by name</h1>
+    <ul>
+        {% for position in positions_sorted_by_name %}
+            <li>{{ position.title }} - Is_manager: {{ position.is_manager }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
