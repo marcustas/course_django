@@ -1,16 +1,18 @@
+from abc import ABC, abstractmethod
 from math import ceil
 
 from common.enums import WorkDayEnum
 from hr.models import Employee
 
 
-class AbstractSalaryCalculate:
+class AbstractSalaryCalculate(ABC):
     sick_days_multiplier = 0.6
     day_prefix = 'day_'
 
     def __init__(self, employee: Employee):
         self.employee = employee
 
+    @abstractmethod
     def calculate_salary(self, days_dict: dict[str, int]):
         raise NotImplementedError()
 
