@@ -15,8 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import (
+    include,
+    path,
+)
+
+from examples import homework_query_sets
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('hr.urls')),
+    path('homework_querysets/', homework_query_sets, name='homework_query_sets'),
 ]
