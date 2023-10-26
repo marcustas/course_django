@@ -1,3 +1,4 @@
+import datetime
 
 from django.db.models import Q
 from django.shortcuts import render
@@ -85,6 +86,8 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
         days = {day: day_type for day, day_type in cleaned_data.items() if day.startswith(calculator.day_prefix)}
 
         salary = calculator.calculate_salary(days_dict=days)
+
+        calculator.save_salary(salary=salary, date=datetime.date.today())
 
         return render(
             request=self.request,

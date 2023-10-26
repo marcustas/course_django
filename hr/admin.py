@@ -5,6 +5,7 @@ from hr.models import (
     Department,
     Employee,
     Position,
+    MonthlySalary,
 )
 
 
@@ -28,3 +29,8 @@ class PositionAdmin(admin.ModelAdmin):
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('username', 'position', 'hire_date', 'phone_number')
+
+
+@admin.register(MonthlySalary)
+class MonthlySalaryAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'month_year', 'salary', 'paid')
