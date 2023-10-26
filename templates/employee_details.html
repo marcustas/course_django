@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee Details{% endblock title %}
+
+{% block content %}
+    <div class="jumbotron">
+    <i class="bi bi-person-circle"></i>
+      <h1 class="text-center">{{ employees }}</h1>
+      <ul class="list-group">
+          <li class="list-group-item">Email: <b>{{ employees.email }}</b></li>
+          <li class="list-group-item">First name: <b>{{ employees.first_name }}</b></li>
+          <li class="list-group-item">Last name: <b>{{ employees.last_name }}</b></li>
+          <li class="list-group-item">On the project from: <b>{{ employees.date_joined }}</b></li>
+
+      </ul>
+        <a href="{% url 'employee_list' %}" class="btn btn-primary mt-2">< Back</a>
+    {% if request.user.is_superuser %}
+
+          <a href="/employees/update/{{ employees.id }}" class="btn btn-primary mt-2">Update</a>
+          <a href="/employees/delete/{{ employees.id }}" class="btn btn-danger mt-2">Delete</a>
+
+    {% endif %}
+    </div>
+
+
+
+
+
+
+{% endblock %}
