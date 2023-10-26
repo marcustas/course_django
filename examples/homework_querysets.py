@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+
 from hr.models import (
     Department,
     Position,
