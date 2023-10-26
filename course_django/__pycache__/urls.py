@@ -25,5 +25,5 @@ from examples import homework_query_sets
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('hr.urls')),
-    path('homework_querysets/', homework_query_sets, name='homework_query_sets'),
+    path('homework_query_sets/', homework_query_sets, name='homework_query_sets'),
 ]
