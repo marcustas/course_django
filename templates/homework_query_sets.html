@@ -1,0 +1,30 @@
+<h1>Departments with Managers</h1>
+<ul>
+    {% for department in departments_with_managers %}
+        <li>{{ department.name }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Active Positions Count</h1>
+<p>{{ active_positions_count }}</p>
+
+<h1>Active Positions in HR</h1>
+<ul>
+    {% for position in active_positions_in_hr %}
+        <li>{{ position.name }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Departments with Managers Names</h1>
+<ul>
+    {% for department in departments_with_managers_names %}
+        <li>{{ department.name }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Positions Sorted by Name</h1>
+<ul>
+    {% for position in positions_sorted_by_name %}
+        <li>{{ position.name }} - {{ position.is_active }}</li>
+    {% endfor %}
+</ul>

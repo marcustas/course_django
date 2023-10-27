@@ -19,11 +19,4 @@ from django.urls import (
     include,
     path,
 )
-
-urlpatterns = [
-    path('', include('hr.urls')),
-    path('napshhdf/', admin.site.urls),
-
-    # Examples
-    path('examples/', include('examples.urls'))
 ]
