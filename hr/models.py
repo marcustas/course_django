@@ -16,6 +16,7 @@ class Position(models.Model):
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    job_description = models.TextField(default='do your best')
 
     def save(self, *args, **kwargs):
         if self.is_manager:
@@ -32,3 +33,19 @@ class Employee(AbstractUser):
     hire_date = models.DateField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
+    phone_number = models.CharField(max_length=100, null=True)  # makes field optional
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=256)
+    address = models.CharField(max_length=512)
+    email = models.EmailField()
+    tax_code = models.CharField(max_length=256)
+
+    def save(self, *args, **kwargs):
+        if not self.pk and Company.objects.exists():
+            raise ValidationError('There can be only one Company instance.')
+        return super(Company, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
