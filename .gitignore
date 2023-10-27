@@ -29,3 +29,5 @@ pyvenv.cfg
 *.swp
 *~
 Thumbs.db
+
+/https://github.com/UlyaM17/course_django/tree/master/course_django/__pycache__
