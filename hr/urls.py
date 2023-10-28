@@ -4,6 +4,7 @@ from hr.views import generic_views as views
 
 
 urlpatterns = [
+    path('employees/details/<int:pk>/', views.EmployeeDetailView.as_view(), name='employee_view'),
     path('employees/', views.EmployeeListView.as_view(), name='employee_list'),
     path('employees/create/', views.EmployeeCreateView.as_view(), name='employee_create'),
     path('employees/update/<int:pk>/', views.EmployeeUpdateView.as_view(), name='employee_update'),

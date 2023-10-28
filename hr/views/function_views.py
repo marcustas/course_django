@@ -66,3 +66,5 @@ def employee_delete(request, pk):
         employee.delete()
         return redirect(reverse('employee_list'))
     return render(request, 'employee_confirm_delete.html', {'object': employee})
+
+
