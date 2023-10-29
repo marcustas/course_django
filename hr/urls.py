@@ -8,6 +8,7 @@ urlpatterns = [
     path('employees/create/', views.EmployeeCreateView.as_view(), name='employee_create'),
     path('employees/update/<int:pk>/', views.EmployeeUpdateView.as_view(), name='employee_update'),
     path('employees/delete/<int:pk>/', views.EmployeeDeleteView.as_view(), name='employee_delete'),
+    path('homework_querysets/', views.homework_querysets, name='homework_querysets'),
 ]
 
 # from hr.views.function_views import (
