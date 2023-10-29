@@ -50,7 +50,7 @@ class SalaryForm(forms.Form):
             raise forms.ValidationError('Заповніть поле')
         return employee
 
-    def clean(self):
+    def clean_days(self):
         clean = super().clean()
         sick_days = clean.get('sick days')
         if sick_days is not None and sick_days > 5:
