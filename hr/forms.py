@@ -42,3 +42,22 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+    def clean_employee(self):
+        clean = super().clean()
+        employee = clean.get('employee')
+        if not employee:
+            raise forms.ValidationError('Заповніть поле')
+        return employee
+
+    def clean(self):
+        clean = super().clean()
+        sick_days = clean.get('sick days')
+        if sick_days is not None and sick_days > 5:
+            raise forms.ValidationError('Забагато днів для хвороби')
+
+        vacation_days = clean.get('vacation days')
+        if vacation_days is not None and vacation_days > 3:
+            raise forms.ValidationError('Забагато днів для відпочинку')
+
+        return clean
