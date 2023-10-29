@@ -9,6 +9,7 @@ from hr.models import (
 )
 
 
+
 def querysets_examples(request):
     all_active_positions = Position.objects.filter(is_active=True)
 
@@ -75,3 +76,20 @@ def querysets_examples(request):
     left_joined = Department.objects.prefetch_related('positions').distinct()
 
     return HttpResponse()
+
+
+
+def homework_querysets(request):
+
+    departments_with_managers = Department.objects.filter(position__is_manager=True).order_by('name')
+
+    total_active_positions = Position.objects.filter(is_active=True).count()
+
+    positions_active_or_hr = Position.objects.filter(Q(is_active=True) | Q(department__name='HR'))
+
+    departments_with_managers_names = Department.objects.filter(position__is_manager=True).values('name').distinct()
+
+    positions_sorted_by_name = Position.objects.order_by('title').values('title', 'is_active')
+
+    return HttpResponse()
+
