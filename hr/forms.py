@@ -75,6 +75,15 @@ class SalaryForm(forms.Form):
         return cleaned_data
 
     def clean_employee(self):
+        """
+        Clean and validate the employee field.
+
+        Returns:
+            str: The cleaned and validated employee value.
+
+        Raises:
+            forms.ValidationError: If the employee value is not provided.
+        """
         # Call the parent class's clean method to get the cleaned data
         cleaned_data = super().clean()
 
