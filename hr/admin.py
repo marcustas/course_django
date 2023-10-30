@@ -15,7 +15,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'department', 'is_manager')
+    list_display = ('title', 'department', 'is_manager', 'monthly_rate')
 
     def save_model(self, request, obj, form, change):
         try:
