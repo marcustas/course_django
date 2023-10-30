@@ -44,13 +44,12 @@ class SalaryForm(forms.Form):
                 )
 
     def clean_employee(self):
-        clean = super().clean()
-        employee = clean.get('employee')
+        employee = self.cleaned_data.get('employee')
         if not employee:
             raise forms.ValidationError('Заповніть поле')
         return employee
 
-    def clean_days(self):
+    def clean(self):
         clean = super().clean()
         sick_days = clean.get('sick days')
         if sick_days is not None and sick_days > 5:
@@ -61,3 +60,5 @@ class SalaryForm(forms.Form):
             raise forms.ValidationError('Забагато днів для відпочинку')
 
         return clean
+
+
