@@ -47,7 +47,7 @@ class SalaryForm(forms.Form):
         cleaned_data = super().clean()
         employee = cleaned_data.get('employee')
         if not employee or employee is None:
-            raise forms.ValidationError('Заповніть поле')
+            raise forms.ValidationError('Заповніть поле "Employee"')
         return employee
 
     def clean_days(self):
