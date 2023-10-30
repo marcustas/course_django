@@ -1,6 +1,5 @@
 from django.urls import path
-
-from hr.views import generic_views as views
+from hr.views import generic_views as views,homework_querysets
 
 
 urlpatterns = [
@@ -8,7 +7,9 @@ urlpatterns = [
     path('employees/create/', views.EmployeeCreateView.as_view(), name='employee_create'),
     path('employees/update/<int:pk>/', views.EmployeeUpdateView.as_view(), name='employee_update'),
     path('employees/delete/<int:pk>/', views.EmployeeDeleteView.as_view(), name='employee_delete'),
-]
+    path('employees/details/<int:pk>/', views.EmployeeDetailsView.as_view(), name='employee_details'),
+    path('homework_querysets/',homework_querysets.query_sets,name='homework_querysets')
+    ]
 
 # from hr.views.function_views import (
 #     employee_create,

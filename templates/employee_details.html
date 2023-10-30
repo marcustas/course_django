@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ employee.first_name }} {{ employee.last_name }}</h1>
+    <p>Birt date: {{ employee.birth_date }}</p>
+    <p>Position: {{ employee.position }}</p>
+    <p>Hire date: {{ employee.hire_date }}</p>
+
+    {% if user.is_superuser %}
+        <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">UPDATE</a>
+        <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">DELETE</a>
+    {% endif %}
+</div>
+{% endblock %}

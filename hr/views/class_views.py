@@ -25,7 +25,7 @@ class EmployeeListView(View):
             employees = employees.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
-                Q(position__title__icontains=search),
+                Q(position__title__icontains=search) ,
             )
 
         context = {'employees': employees}
