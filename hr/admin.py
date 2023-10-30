@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 from hr.models import (
     Department,
     Employee,
-    Position,
     MonthlySalary,
+    Position,
 )
 
 
