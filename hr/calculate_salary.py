@@ -6,6 +6,7 @@ from math import ceil
 from common.enums import WorkDayEnum
 from hr.models import Employee, MonthlySalary
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -84,12 +85,12 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
             MonthlySalary.objects.update_or_create(
                 month_year=month_date,
                 employee=self.employee,
-                defaults={'salary': salary, 'paid': False}
+                defaults={'salary': salary, 'paid': False},
             )
             logger.info(
-                msg=f'Salary for employee {self.employee} for {month_date.month}/{month_date.year} created.'
+                msg=f'Salary for employee {self.employee} for {month_date.month}/{month_date.year} created.',
             )
         else:
             logger.warning(
-                msg=f'Salary for employee {self.employee} for {month_date.month}/{month_date.year} already paid.'
+                msg=f'Salary for employee {self.employee} for {month_date.month}/{month_date.year} already paid.',
             )

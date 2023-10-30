@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+
 from hr.models import MonthlySalary
 
 
 class Command(BaseCommand):
-    help = 'Set "paid" as True for all MonthlySalary instances where month_year is the current month'
+    help = 'Set "paid" as True for all MonthlySalary instances where month_year is the current month'  # noqa: A003
 
     def handle(self, *args, **kwargs):
         current_month = timezone.now().month
@@ -22,6 +23,6 @@ class Command(BaseCommand):
 
         self.stdout.write(
             self.style.SUCCESS(
-                f'Successfully set "paid" to True for {salaries.count()} MonthlySalary instances for the current month'
-            )
+                f'Successfully set "paid" to True for {salaries.count()} MonthlySalary instances for the current month',
+            ),
         )
