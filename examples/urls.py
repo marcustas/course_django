@@ -1,8 +1,8 @@
 from django.urls import path
 
-from examples.querysets import querysets_examples
+from examples.Homework_querystes import homework_querysets
 
 
 urlpatterns = [
-    path('querysets/', querysets_examples, name='querysets_examples'),
+    path('querysets/', homework_querysets, name='homework_querystes'),
 ]
