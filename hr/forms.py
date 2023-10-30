@@ -43,9 +43,9 @@ class SalaryForm(forms.Form):
                 )
 
     def clean(self):
-        clean = super().clean()
-        count_of_sick_days = list(clean.values()).count(WorkDayEnum.SICK_DAY.name)
-        count_of_holiday_days = list(clean.values()).count(WorkDayEnum.HOLIDAY.name)
+        clean_data = super().clean()
+        count_of_sick_days = list(clean_data.values()).count(WorkDayEnum.SICK_DAY.name)
+        count_of_holiday_days = list(clean_data.values()).count(WorkDayEnum.HOLIDAY.name)
 
         if count_of_sick_days > 5:
             raise forms.ValidationError('No more than 5 sick days!')
@@ -53,11 +53,11 @@ class SalaryForm(forms.Form):
         if count_of_holiday_days > 3:
             raise forms.ValidationError('No more than 3 holiday days!')
 
-        return clean
+        return clean_data
 
     def clean_employee(self):
-        clean = super().clean()
-        employee = clean.get('employee')
+        clean_data = super().clean()
+        employee = clean_data.get('employee')
         if not employee:
             raise forms.ValidationError("This field is required!")
 
