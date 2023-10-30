@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Query Sets Results</title>
+</head>
+<body>
+    <h1>Department with Manager:</h1>
+    <ul>
+        {% for department in department_with_manager %}
+            <li>{{ department.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Count of Active Positions: {{ count_of_active_position }}</h1>
+
+    <h1>Active Positions or HR Department:</h1>
+    <ul>
+        {% for position in activ_posistion_or_HR %}
+            <li>{{ position.title }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Departments with Managers' Names:</h1>
+    <ul>
+        {% for department in departments_with_managers_names %}
+            <li>{{ department.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Positions Sorted by Name:</h1>
+    <ul>
+        {% for position in position_sorted_by_name %}
+            <li>Title: {{ position.title }}, Active: {{ position.is_active }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
