@@ -10,8 +10,7 @@ from hr.models import (
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent_department')
-
+    list_display = ('title', 'department', 'is_manager', 'monthly_rate')
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
