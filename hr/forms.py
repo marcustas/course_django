@@ -52,21 +52,13 @@ class SalaryForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
-        total_sick_days = 0
-        for day in range(1, 32):
-            if cleaned_data.get(f'day_{day}') == WorkDayEnum.SICK_DAY.name:
-                total_sick_days += 1
-
+        total_sick_days = list(cleaned_data.values()).count(WorkDayEnum.SICK_DAY.name)
         max_number_of_allowed_sick_days = 5
 
         if total_sick_days > max_number_of_allowed_sick_days:
             raise forms.ValidationError(f'You can not choose more than {max_number_of_allowed_sick_days} sick days.')
 
-        total_holidays = 0
-        for day in range(1, 32):
-            if cleaned_data.get(f'day_{day}') == WorkDayEnum.HOLIDAY.name:
-                total_holidays += 1
-
+        total_holidays = list(cleaned_data.values()).count(WorkDayEnum.HOLIDAY.name)
         max_number_of_allowed_holidays = 3
 
         if total_holidays > max_number_of_allowed_holidays:
