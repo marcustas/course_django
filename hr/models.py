@@ -50,3 +50,4 @@ class Employee(AbstractUser):
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=151, default='')
 
+

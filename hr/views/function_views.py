@@ -90,3 +90,7 @@ def homework_querysets(request):
         'query_5': query_5,
     }
     return render(request, template_name, context=context)
+
+
+def training(request):
+    return render(request, 'training.html')
