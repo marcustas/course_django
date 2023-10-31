@@ -7,7 +7,6 @@ from django.forms import ChoiceField
 from common.enums import WorkDayEnum
 from hr.models import Employee
 
-
 WorkDayChoices = [(tag.name, tag.value) for tag in WorkDayEnum]
 
 
@@ -19,6 +18,12 @@ class EmployeeForm(forms.ModelForm):
 
 class SalaryForm(forms.Form):
     employee = forms.ModelChoiceField(queryset=Employee.objects.all())
+
+    def clean_employee_field(self):
+        data = self.cleaned_data['employee']
+        if not data:
+            raise forms.ValidationError("Employee field can not be empty")
+        return data
 
     def __init__(self, *args, **kwargs):
         super(SalaryForm, self).__init__(*args, **kwargs)
@@ -42,3 +47,28 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        total_sick_days = 0
+        for day in range(1, 32):
+            if cleaned_data.get(f'day_{day}') == WorkDayEnum.SICK_DAY.name:
+                total_sick_days += 1
+
+        max_number_of_allowed_sick_days = 5
+
+        if total_sick_days > max_number_of_allowed_sick_days:
+            raise forms.ValidationError(f'You can not choose more than {max_number_of_allowed_sick_days} sick days.')
+
+        total_holidays = 0
+        for day in range(1, 32):
+            if cleaned_data.get(f'day_{day}') == WorkDayEnum.HOLIDAY.name:
+                total_holidays += 1
+
+        max_number_of_allowed_holidays = 3
+
+        if total_holidays > max_number_of_allowed_holidays:
+            raise forms.ValidationError(f'You can not choose more than {max_number_of_allowed_holidays} holidays.')
+
+        return cleaned_data
