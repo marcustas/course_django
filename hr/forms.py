@@ -1,28 +1,44 @@
-from django import forms
-from django.core.exceptions import ValidationError
+import calendar
+from datetime import date
 
+from django import forms
+from django.forms import ChoiceField
+
+from common.enums import WorkDayEnum
 from hr.models import Employee
+
+
+WorkDayChoices = [(tag.name, tag.value) for tag in WorkDayEnum]
 
 
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ('username', 'first_name', 'last_name', 'email', 'position', 'employee', 'sick_leave', 'holiday')
+        fields = ('username', 'first_name', 'last_name', 'email', 'position')
 
-    def clean_employee(self):
-        employee = self.cleaned_data.get('employee')
-        if not employee:
-            raise ValidationError("Поле Employee обязательно для заполнения.")
-        return employee
 
-    def clean_sick_leave(self):
-        sick_leave = self.cleaned_data.get('sick_leave')
-        if sick_leave > 5:
-            raise ValidationError("Количество лікарняних днів не може бути більше 5.")
-        return sick_leave
+class SalaryForm(forms.Form):
+    employee = forms.ModelChoiceField(queryset=Employee.objects.all())
 
-    def clean_holiday(self):
-        holiday = self.cleaned_data.get('holiday')
-        if holiday > 3:
-            raise ValidationError("Кількість днів відпочинку не може бути більше 3.")
-        return holiday
+    def __init__(self, *args, **kwargs):
+        super(SalaryForm, self).__init__(*args, **kwargs)
+
+        today = date.today()
+        _, num_days = calendar.monthrange(today.year, today.month)
+
+        for day in range(1, num_days + 1):
+            weekday_name = calendar.day_name[calendar.weekday(today.year, today.month, day)]
+            field_name = f'day_{day}'
+
+            if calendar.weekday(today.year, today.month, day) >= 5:  # Saturday and Sunday
+                self.fields[field_name] = ChoiceField(
+                    label=f'{day} - {weekday_name}',
+                    choices=[(WorkDayEnum.WEEKEND.name, WorkDayEnum.WEEKEND.value)],
+                    initial=WorkDayEnum.WEEKEND.name,
+                )
+            else:
+                self.fields[field_name] = ChoiceField(
+                    label=f'{day} - {weekday_name}',
+                    choices=WorkDayChoices,
+                    initial=WorkDayEnum.WORKING_DAY.name,
+                )
