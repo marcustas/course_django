@@ -7,6 +7,7 @@ from django.forms import ChoiceField
 from common.enums import WorkDayEnum
 from hr.models import Employee
 
+
 WorkDayChoices = [(tag.name, tag.value) for tag in WorkDayEnum]
 
 
@@ -22,7 +23,7 @@ class SalaryForm(forms.Form):
     def clean_employee_field(self):
         data = self.cleaned_data['employee']
         if not data:
-            raise forms.ValidationError("Employee field can not be empty")
+            raise forms.ValidationError('Employee field can not be empty')
         return data
 
     def __init__(self, *args, **kwargs):
