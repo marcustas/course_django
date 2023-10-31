@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.shortcuts import (
     get_object_or_404,
     redirect,
@@ -8,7 +8,7 @@ from django.shortcuts import (
 from django.urls import reverse
 
 from hr.forms import EmployeeForm
-from hr.models import Employee
+from hr.models import Employee, Position, Department
 
 
 def user_is_superadmin(user) -> bool:
@@ -68,3 +68,25 @@ def employee_delete(request, pk):
     return render(request, 'employee_confirm_delete.html', {'object': employee})
 
 
+def homework_querysets(request):
+    # department_names = Department.objects.values_list('name', flat=True)
+    # for name in department_names:
+        # if a := Department.objects.get(name=name).position_set.filter(is_manager=True):
+        #     a.order_by('departmnet')
+
+    template_name = 'homework_querysets.html'
+
+    query_1 = Department.objects.filter(position__is_manager=True).order_by('department')
+    query_2 = Position.objects.filter(is_active=True).count()
+    query_3 = Position.objects.filter(Q(is_active=True) | Q(department__name='HR'))
+    query_4 = Department.objects.filter(position__is_manager=True).values('name')
+    query_5 = Position.objects.order_by('title').values('title', 'job_description')
+
+    context = {
+        'query_1': query_1,
+        'query_2': query_2,
+        'query_3': query_3,
+        'query_4': query_4,
+        'query_5': query_5,
+    }
+    return render(request, template_name, context=context)

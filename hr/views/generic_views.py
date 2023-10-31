@@ -95,3 +95,4 @@ class EmployeeDetailView(DetailView):
         # merged_context = context.update(context_to_merge)
         # return merged_context                                 # didn`t work that way for some reason (((
         return context
+

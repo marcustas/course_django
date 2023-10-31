@@ -4,10 +4,10 @@ from django.db import models
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=256)
-    address = models.CharField(max_length=512)
+    name = models.CharField(max_length=256, null=True)
+    address = models.CharField(max_length=512, null=True)
     email = models.EmailField()
-    tax_code = models.CharField(max_length=256)
+    tax_code = models.CharField(max_length=256, null=True)
 
     def save(self, *args, **kwargs):
         if not self.pk and Company.objects.exists():
