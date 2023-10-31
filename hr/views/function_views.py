@@ -69,11 +69,6 @@ def employee_delete(request, pk):
 
 
 def homework_querysets(request):
-    # department_names = Department.objects.values_list('name', flat=True)
-    # for name in department_names:
-        # if a := Department.objects.get(name=name).position_set.filter(is_manager=True):
-        #     a.order_by('departmnet')
-
     template_name = 'homework_querysets.html'
 
     query_1 = Department.objects.filter(position__is_manager=True).order_by('department')
