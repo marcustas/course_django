@@ -7,8 +7,7 @@ class Command(BaseCommand):
     help = 'Set "active" status for all Employees'
 
     def handle(self, *args, **kwargs):
-        employees = Employee.objects.all()
-        employees.update(is_active=True)
+        employees = Employee.objects.update(is_active=True)
 
         self.stdout.write(
             self.style.SUCCESS(
