@@ -26,3 +26,11 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
 
             stats.requests += 1
             stats.save()
+
+    def process_exception(self, request, exception):
+        if request.user.is_authenticated and not request.path.startswith('/napshhdf/'):
+            user = request.user
+            stats, created = RequestStatistics.objects.get_or_create(user=user)
+
+            stats.exception += 1
+            stats.save()
