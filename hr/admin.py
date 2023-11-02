@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from hr.models import (
     Department,
     Employee,
+    MonthlySalary,
     Position,
 )
 
@@ -28,3 +29,8 @@ class PositionAdmin(admin.ModelAdmin):
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('username', 'position', 'hire_date', 'phone_number')
+
+
+@admin.register(MonthlySalary)
+class MonthlySalaryAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'month_year', 'salary', 'paid')

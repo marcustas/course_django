@@ -1,8 +1,13 @@
+import datetime
+import logging
 from abc import ABC, abstractmethod
 from math import ceil
 
 from common.enums import WorkDayEnum
-from hr.models import Employee
+from hr.models import Employee, MonthlySalary
+
+
+logger = logging.getLogger(__name__)
 
 
 class AbstractSalaryCalculate(ABC):
@@ -61,7 +66,7 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
         return working_days * self._daily_salary
 
     def calculate_salary(self, days_dict: dict[str, int]) -> int:
-        base_working_days = self._calculate_base_work_days(days_dict)
+        base_working_days = self._calculate_base_work_days(days_dict=days_dict)
 
         self._daily_salary = self._calculate_daily_salary(base_working_days=base_working_days)
 
@@ -71,3 +76,21 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
         salary = working_days_salary + sick_monthly_salary
 
         return salary if salary <= self.employee.position.monthly_rate else self.employee.position.monthly_rate
+
+    def save_salary(self, salary: int, date: datetime.date):
+        month_date = date.replace(day=1)
+        try:
+            MonthlySalary.objects.get(month_year=month_date, employee=self.employee, paid=True)
+        except MonthlySalary.DoesNotExist:
+            MonthlySalary.objects.update_or_create(
+                month_year=month_date,
+                employee=self.employee,
+                defaults={'salary': salary, 'paid': False},
+            )
+            logger.info(
+                msg=f'Salary for employee {self.employee} for {month_date.month}/{month_date.year} created.',
+            )
+        else:
+            logger.warning(
+                msg=f'Salary for employee {self.employee} for {month_date.month}/{month_date.year} already paid.',
+            )

@@ -62,3 +62,7 @@ class MonthlySalary(models.Model):
     salary = models.IntegerField()
     bonus = models.IntegerField(null=True, blank=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.employee} - {self.month_year.month}/{self.month_year.year}'
