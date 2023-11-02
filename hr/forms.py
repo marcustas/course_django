@@ -42,21 +42,3 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
-
-    def clean_employee(self):
-        employee = self.cleaned_data['employee']
-        if not employee:
-            raise forms.ValidationError('Employee must be selected', code='invalid')
-        return employee
-
-    def clean(self):
-        cleaned_data = super().clean()
-        sick_days = len([day for day in cleaned_data.values() if day == WorkDayEnum.SICK_DAY.name])
-        holiday_days = len([day for day in cleaned_data.values() if day == WorkDayEnum.HOLIDAY.name])
-
-        if sick_days > 5:
-            raise forms.ValidationError('Count of sick days cannot be more than 5', code='invalid')
-
-        if holiday_days > 3:
-            raise forms.ValidationError('Count of holidays cannot be more than 3', code='invalid')
-        return cleaned_data
