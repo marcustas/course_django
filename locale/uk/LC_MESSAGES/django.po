@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 11:45+0000\n"
-"PO-Revision-Date: 2023-11-01 19:35+0100\n"
+"POT-Creation-Date: 2023-11-02 17:33+0000\n"
+"PO-Revision-Date: 2023-11-02 18:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -23,11 +23,17 @@ msgstr ""
 msgid "Title"
 msgstr "Назва"
 
+#: hr/models.py:32
+msgid "Department"
+msgstr "Відділ"
+
 #: hr/models.py:35
-#, fuzzy
-#| msgid "Position"
 msgid "Job Description"
-msgstr "Посада"
+msgstr "Опис посади"
+
+#: templates/base.html:30
+msgid "Change Language"
+msgstr "Змінити мову"
 
 #: templates/employee_list.html:4 templates/home.html:13
 msgid "Employee List"
@@ -43,7 +49,7 @@ msgstr "Калькулятор заробітної плати"
 
 #: templates/employee_list.html:23
 msgid "Filter"
-msgstr ""
+msgstr "Фільтр"
 
 #: templates/employee_list.html:31
 msgid "First Name"

@@ -20,13 +20,13 @@ msgstr ""
 
 #: hr/models.py:31
 msgid "Title"
-msgstr ""
+msgstr "Title"
 
 #: hr/models.py:35
 #, fuzzy
 #| msgid "Position"
 msgid "Job Description"
-msgstr "Position"
+msgstr "Job Description"
 
 #: templates/employee_list.html:4 templates/home.html:13
 msgid "Employee List"
