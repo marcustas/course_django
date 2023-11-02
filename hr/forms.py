@@ -42,3 +42,27 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+
+    def clean(self):
+        clean_data = super().clean()
+        clean_sick_days = list(clean_data.values()).count(WorkDayEnum.SICK_DAY.name)
+        clean_hildays = list(clean_data.values()).count(WorkDayEnum.HOLIDAY.name)
+
+        if clean_sick_days > 5:
+            raise forms.ValidationError('No more 5 sick days')
+
+        if clean_hildays > 3:
+            raise forms.ValidationError('No more 3 holidays')
+
+        return clean_data
+
+
+    def clean_employee(self):
+        clean_data = super().clean()
+        employee = clean_data.get('employee')
+
+        if not employee:
+            raise forms.ValidationError('Please, choose employee!')
+
+        return employee
