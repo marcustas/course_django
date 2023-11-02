@@ -1,5 +1,4 @@
 import logging
-from datetime import date
 from django.utils.deprecation import MiddlewareMixin
 from general.models import RequestStatistics
 logger = logging.getLogger('middlewares')
@@ -25,7 +24,7 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         try:
             user = request.user
-            stats, created = RequestStatistics.objects.get_or_create(user=user, date=date.today())
+            stats, created = RequestStatistics.objects.get_or_create(user=user)
             stats.exceptions += 1
             stats.save()
         except RequestStatistics.DoesNotExist:
