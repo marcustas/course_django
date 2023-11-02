@@ -1,6 +1,6 @@
 from django.urls import path
 
-from hr.views import generic_views as views
+from hr import views
 
 
 urlpatterns = [

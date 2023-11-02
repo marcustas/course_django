@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 django = "^4.2.6"
 ruff = "^0.0.292"
+django-modeltranslation = "^0.18.11"
 
 
 [build-system]

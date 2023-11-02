@@ -14,17 +14,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import (
     include,
     path,
 )
 
+from general.views import HomePageView
+
 
 urlpatterns = [
-    path('', include('hr.urls')),
     path('napshhdf/', admin.site.urls),
-
-    # Examples
     path('examples/', include('examples.urls')),
 ]
+
+urlpatterns += i18n_patterns(
+    path('', HomePageView.as_view(), name='home'),
+    path('hr/', include(('hr.urls', 'hr'), namespace='hr')),
+    path('i18n/', include('django.conf.urls.i18n')),
+)

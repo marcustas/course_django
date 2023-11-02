@@ -86,8 +86,8 @@
             </li>
             <li class="pt-10">
                 {% if request.user.is_superuser %}
-                    <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
-                    <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-primary">Update</a>
+                    <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
                 {% endif %}
             </li>
         </ul>

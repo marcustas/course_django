@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
@@ -27,11 +28,11 @@ class Department(models.Model):
 
 
 class Position(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(verbose_name=_('Title'), max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    job_description = models.CharField(max_length=500, default='')
+    job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
     monthly_rate = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):

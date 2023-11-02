@@ -1,4 +1,4 @@
-from enum import Enum, StrEnum, IntEnum, unique
+from enum import Enum, IntEnum, StrEnum, unique
 
 
 class Color(Enum):
