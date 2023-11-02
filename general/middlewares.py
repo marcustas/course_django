@@ -25,7 +25,7 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
         try:
             user = request.user
             stats, created = RequestStatistics.objects.get_or_create(user=user)
-            stats.exceptions += 1
+            stats.exception += 1
             stats.save()
         except RequestStatistics.DoesNotExist:
             pass
