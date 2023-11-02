@@ -5,7 +5,7 @@ from hr.models import Employee
 class Command(BaseCommand):
     help = "Mark all employees as active"
 
-    def active(self, *args, **kwargs):
+    def handle(self, *args, **kwargs):
         try:
             Employee.objects.update(is_active=True)
             self.stdout.write(self.style.SUCCESS('All employees are marked active'))

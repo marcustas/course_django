@@ -22,9 +22,10 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
             stats.requests += 1
             stats.save()
 
-    def process_exception(self):
+    def process_exception(self, request, exception):
         try:
-            stats = RequestStatistics.objects.get(date=date.today())
+            user = request.user
+            stats, created = RequestStatistics.objects.get_or_create(user=user, date=date.today())
             stats.exceptions += 1
             stats.save()
         except RequestStatistics.DoesNotExist:
