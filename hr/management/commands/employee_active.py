@@ -8,6 +8,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         try:
             Employee.objects.update(is_active=True)
-            self.stdout.write(self.style.SUCCESS('All employees are marked active'))
+            self.stdout.write(self.style.SUCCESS("All employees are marked active"))
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f'An error occurred: {str(e)}'))
+            self.stdout.write(self.style.ERROR(f"An error occurred: {str(e)}"))
+
