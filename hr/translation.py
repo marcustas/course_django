@@ -1,13 +1,15 @@
-from modeltranslation.translator import (
-    TranslationOptions,
-    translator,
-)
+from modeltranslation.translator import TranslationOptions, register
 
-from hr.models import Position
+from hr.models import Department, Position
 
 
+@register(Position)
 class PositionTranslationOptions(TranslationOptions):
     fields = ('title', 'job_description')
 
 
-translator.register(Position, PositionTranslationOptions)
+@register(Department)
+class DepartmentTranslationOptions(TranslationOptions):
+    fields = ('name',)
+
+

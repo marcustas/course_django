@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    email = models.EmailField()
-    tax_code = models.CharField(max_length=200)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
+    address = models.CharField(max_length=200, verbose_name=_('Address'))
+    email = models.EmailField(verbose_name=_('Email'))
+    tax_code = models.CharField(max_length=200, verbose_name=_('Tax Code'))
 
     def __str(self):
         return self.name
@@ -20,8 +20,8 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200, verbose_name=_('Name'))
+    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Parent Department'))
 
     def __str__(self):
         return self.name
@@ -33,7 +33,7 @@ class Position(models.Model):
     is_manager = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
-    monthly_rate = models.IntegerField(default=0)
+    monthly_rate = models.IntegerField(default=0, verbose_name=_('Monthly Rate'))
 
     def save(self, *args, **kwargs):
         if self.is_manager:
@@ -49,10 +49,10 @@ class Position(models.Model):
 
 
 class Employee(AbstractUser):
-    hire_date = models.DateField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
-    phone_number = models.CharField(max_length=151, default='')
+    hire_date = models.DateField(null=True, blank=True, verbose_name=_('Hire Date'))
+    birth_date = models.DateField(null=True, blank=True, verbose_name=_('Birth Date'))
+    position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Position'))
+    phone_number = models.CharField(max_length=151, default='', verbose_name=_('Phone Number'))
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.position or ""}'

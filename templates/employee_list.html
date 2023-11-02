@@ -17,7 +17,7 @@
         </div>
         <form method="get">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="search" name="search"
+                <input type="text" class="form-control" placeholder={% trans "Search" %} name="search"
                        value="{{ request.GET.search }}">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">{% trans 'Filter' %}</button>
