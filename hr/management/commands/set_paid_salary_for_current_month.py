@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from hr.models import MonthlySalary
+from hr.models import MonthlySalary, Employee
 
 
 class Command(BaseCommand):
@@ -26,3 +26,4 @@ class Command(BaseCommand):
                 f'Successfully set "paid" to True for {salaries.count()} MonthlySalary instances for the current month',
             ),
         )
+
