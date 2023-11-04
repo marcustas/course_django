@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h3 {
+            color: dimgray;
+        }
+        span {
+            color: red
+        }
+        li {
+            list-style-type: armenian;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>{{employee.first_name}} {{ employee.last_name }}</title>
+</head>
+<body>
+<h1> Detailed information about employee</h1>
+<ul>
+    <li><h3>Date of hiring: <span><i>{{ hire_date }}</i></span></h3></li>
+    <li><h3>Date of birth: <span><i>{{ birth_date }}</i></span></h3></li>
+    <li><h3>Position: <span><i>{{ title }}</i></span></h3></li>
+    <li><h3>Phone number: <span><i>{{ phone_number }}</i></span></h3></li>
+    <li><h3>Job description: <span><i>{{ job_description }}</i></span></h3></li>
+    <li><h3>Department: <span><i>{{ department }}</i></span></h3></li>
+</ul>
+
+</body>
+</html>
