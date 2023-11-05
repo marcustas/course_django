@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from hr.models import MonthlySalary
-from hr.models import Employee
+
 
 class Command(BaseCommand):
     help = 'Set "paid" as True for all MonthlySalary instances where month_year is the current month'
@@ -27,8 +27,3 @@ class Command(BaseCommand):
         )
 
 
-    help = 'Make all employees active'
-
-    def handle(self, *args, **options):
-        Employee.objects.update(is_active=True)
-        self.stdout.write(self.style.SUCCESS('All employees are now active.'))
