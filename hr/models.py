@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    email = models.EmailField()
-    tax_code = models.CharField(max_length=200)
+    name = models.CharField(verbose_name=_('Title'), max_length=100)
+    address = models.CharField(verbose_name=_('Address'), max_length=200)
+    email = models.EmailField(verbose_name=_('Email'))
+    tax_code = models.CharField(verbose_name=_('Tax Code'), max_length=200)
 
     def __str(self):
         return self.name
@@ -20,8 +20,8 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(verbose_name=_('Title'), max_length=200)
+    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Parent Department'))
 
     def __str__(self):
         return self.name
@@ -30,10 +30,10 @@ class Department(models.Model):
 class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
-    is_manager = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_manager = models.BooleanField(verbose_name=_('Is Manager'), default=False)
+    is_active = models.BooleanField(verbose_name=_('Is Active'), default=True)
     job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
-    monthly_rate = models.IntegerField(default=0)
+    monthly_rate = models.IntegerField(verbose_name=_('Monthly Rate'), default=0)
 
     def save(self, *args, **kwargs):
         if self.is_manager:
