@@ -12,6 +12,10 @@
     <p>Birth Date: {{ employee.birth_date }}</p>
     <p>Position: {{ employee.position }}</p>
 
-    <a href="{% url 'employee-list' %}">Back to Employee List</a>
+    {% if user.is_superuser %}
+        <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-primary">Delete</a>
+    {% endif %}
+
 </body>
 </html>
