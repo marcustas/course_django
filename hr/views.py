@@ -1,7 +1,12 @@
 import datetime
+
 from django.contrib import messages
+from django.core.cache import cache
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import (
+    get_object_or_404,
+    render,
+)
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -11,8 +16,7 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-from django.core.cache import cache
-from django.shortcuts import get_object_or_404
+
 from hr.calculate_salary import CalculateMonthRateSalary
 from hr.forms import (
     EmployeeForm,

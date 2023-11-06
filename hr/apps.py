@@ -6,4 +6,4 @@ class HrConfig(AppConfig):
     name = 'hr'
 
     def ready(self):
-        import hr.signals
+        import hr.signals  # noqa: F401

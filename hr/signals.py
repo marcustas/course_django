@@ -1,8 +1,11 @@
+import logging
+
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from hr.models import Position
-import logging
+
 from hr.constants import MINIMUM_SALARY
+from hr.models import Position
+
 
 logger = logging.getLogger()
 
