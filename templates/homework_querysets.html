@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homework QuerySets</title>
+</head>
+<body>
+<h1>Homework QuerySets Results</h1>
+
+<h2>Query 1: Departments with Managers</h2>
+<ul>
+  {% for department in query_1 %}
+  <li>{{ department.name }}</li>
+  {% empty %}
+  <li>No departments with managers found</li>
+  {% endfor %}
+</ul>
+
+<h2>Query 2: Active Positions Count</h2>
+<p>Total number of active positions: {{ query_2 }}</p>
+
+<h2>Query 3: Active Positions or HR Department</h2>
+<ul>
+  {% for position in query_3 %}
+  <li>{{ position.title }}</li>
+  {% empty %}
+  <li>No active positions in the HR department</li>
+  {% endfor %}
+</ul>
+
+<h2>Query 4: Department Names with Managers</h2>
+<ul>
+  {% for department in query_4 %}
+  <li>{{ department.name }}</li>
+  {% empty %}
+  <li>No departments with managers found</li>
+  {% endfor %}
+</ul>
+
+<h2>Query 5: Position Titles and Job Descriptions</h2>
+<ul>
+  {% for position in query_5 %}
+  <li>Title: {{ position.title }}, Description: {{ position.job_description }}</li>
+  {% empty %}
+  <li>No positions found</li>
+  {% endfor %}
+</ul>
+</body>
+</html>
