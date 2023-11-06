@@ -45,15 +45,20 @@ class SalaryForm(forms.Form):
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
 
-    def clean(self):
-        cleaned_data = super().clean()
-        employee = cleaned_data.get('employee')
+    def clean_employee(self):
+        employee = self.cleaned_data.get('employee')
+        print(f"Employee: {employee}")
 
         if not employee:
             raise forms.ValidationError("'Employee' field cannot be empty.")
 
-        sick_leave_days = sum(cleaned_data.get(f'day_{day}') == 'SICK_DAY' for day in range(1, self.num_days + 1))
-        holiday_days = sum(cleaned_data.get(f'day_{day}') == 'HOLIDAY' for day in range(1, self.num_days + 1))
+        return employee
+
+    def clean(self):
+        clean_data = super().clean()
+
+        sick_leave_days = sum(clean_data.get(f'day_{day}') == 'SICK_DAY' for day in range(1, self.num_days + 1))
+        holiday_days = sum(clean_data.get(f'day_{day}') == 'HOLIDAY' for day in range(1, self.num_days + 1))
 
         if sick_leave_days > self.max_sick_days:
             raise forms.ValidationError(f"The number of sick leaves should not exceed {self.max_sick_days}.")
