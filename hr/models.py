@@ -53,6 +53,8 @@ class Employee(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=151, default='')
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    cv = models.FileField(upload_to='cvs/', null=True, blank=True, help_text='PDF, DOC, or DOCX')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.position or ""}'

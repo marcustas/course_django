@@ -6,6 +6,18 @@
         <ul class="list-group">
             <li class="list-group-item d-flex">
                 <div class="mr-15">
+                    Avatar :
+                </div>
+                <img src="{{ employee.avatar.url }}" alt="Avatar" width=100>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    CV :
+                </div>
+                <a href="{{ employee.cv.url }}">Download CV</a>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
                     Username :
                 </div>
                 <div>{{ object.username }}</div>
