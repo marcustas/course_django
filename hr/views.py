@@ -11,7 +11,8 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-
+from django.core.cache import cache
+from django.shortcuts import get_object_or_404
 from hr.calculate_salary import CalculateMonthRateSalary
 from hr.forms import (
     EmployeeForm,
@@ -51,18 +52,28 @@ class EmployeeUpdateView(UserIsAdminMixin, UpdateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'employee_form.html'
-    success_url = reverse_lazy('employee_list')
+    success_url = reverse_lazy('hr:employee_list')
 
 
 class EmployeeDeleteView(UserIsAdminMixin, DeleteView):
     model = Employee
     template_name = 'employee_confirm_delete.html'
-    success_url = reverse_lazy('employee_list')
+    success_url = reverse_lazy('hr:employee_list')
 
 
 class EmployeeProfileView(UserIsAdminMixin, DetailView):
     model = Employee
     template_name = 'employee_profile.html'
+
+    def get_object(self):
+        employee_id = self.kwargs.get('pk')
+        employee = cache.get(f'employee_{employee_id}')
+
+        if not employee:
+            employee = get_object_or_404(Employee, pk=employee_id)
+            cache.set(f'employee_{employee_id}', employee, timeout=5 * 60)
+
+        return employee
 
 
 class SalaryCalculatorView(UserIsAdminMixin, FormView):

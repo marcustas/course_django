@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.functional import cached_property
+from django.core.cache import cache
 
 
 class Company(models.Model):
@@ -25,6 +27,10 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
+    @cached_property
+    def position_count(self):
+        return self.position_set.filter(is_active=True).count()
 
 
 class Position(models.Model):
@@ -58,6 +64,14 @@ class Employee(AbstractUser):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.position or ""}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'employee_{self.pk}')
+
+    def delete(self, *args, **kwargs):
+        cache.delete(f'employee_{self.pk}')
+        super().delete(*args, **kwargs)
 
 
 class MonthlySalary(models.Model):
