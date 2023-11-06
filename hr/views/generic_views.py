@@ -8,9 +8,11 @@ from django.views.generic import (
     UpdateView,
     DetailView
 )
+from django.views import View
+from django.http import JsonResponse
 
 from hr.forms import EmployeeForm
-from hr.models import Employee
+from hr.models import Employee, Department, Position
 
 
 def user_is_superadmin(user) -> bool:
@@ -72,3 +74,32 @@ class EmployeeProfileView(UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
+
+
+class homework_querysets(View):
+    def get(self, request, *args, **kwargs):
+        # Запит 1
+        departments_with_managers = Department.objects.filter(position__is_manager=True).order_by('name')
+
+        # Запит 2
+        total_active_positions = Position.objects.filter(is_active=True).count()
+
+        # Запит 3
+        hr_department = Department.objects.get(name="HR")
+        positions_active_or_hr = Position.objects.filter(Q(is_active=True) | Q(department=hr_department))
+
+        # Запит 4
+        departments_with_managers_names = Department.objects.filter(position__is_manager=True).values('name')
+
+        # Запит 5
+        sorted_positions = Position.objects.order_by('title').values('title', 'is_active')
+
+        data = {
+            'departments_with_managers': list(departments_with_managers.values('name')),
+            'total_active_positions': total_active_positions,
+            'positions_active_or_hr': list(positions_active_or_hr.values('title')),
+            'departments_with_managers_names': list(departments_with_managers_names),
+            'sorted_positions': list(sorted_positions),
+        }
+
+        return JsonResponse(data)
