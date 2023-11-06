@@ -19,14 +19,16 @@ class EmployeeForm(forms.ModelForm):
 
 class SalaryForm(forms.Form):
     employee = forms.ModelChoiceField(queryset=Employee.objects.all())
+    max_sick_days = 5
+    max_holiday_days = 3
 
     def __init__(self, *args, **kwargs):
         super(SalaryForm, self).__init__(*args, **kwargs)
 
         today = date.today()
-        _, num_days = calendar.monthrange(today.year, today.month)
+        _, self.num_days = calendar.monthrange(today.year, today.month)
 
-        for day in range(1, num_days + 1):
+        for day in range(1, self.num_days + 1):
             weekday_name = calendar.day_name[calendar.weekday(today.year, today.month, day)]
             field_name = f'day_{day}'
 
@@ -42,3 +44,24 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+    def clean_employee(self):
+        employee = self.cleaned_data.get('employee')
+        print(f"Employee: {employee}")
+
+        if not employee:
+            raise forms.ValidationError("'Employee' field cannot be empty.")
+
+        return employee
+
+    def clean(self):
+        clean_data = super().clean()
+
+        sick_leave_days = sum(clean_data.get(f'day_{day}') == 'SICK_DAY' for day in range(1, self.num_days + 1))
+        holiday_days = sum(clean_data.get(f'day_{day}') == 'HOLIDAY' for day in range(1, self.num_days + 1))
+
+        if sick_leave_days > self.max_sick_days:
+            raise forms.ValidationError(f"The number of sick leaves should not exceed {self.max_sick_days}.")
+
+        if holiday_days > self.max_holiday_days:
+            raise forms.ValidationError(f"The number of holidays should not exceed {self.max_holiday_days}.")
