@@ -26,3 +26,11 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
 
             stats.requests += 1
             stats.save()
+
+    def process_exception(self, request, exception):
+        if exception:
+            stats, created = RequestStatistics.objects.get_or_create(user=request.user)
+
+            stats.exception += 1
+            stats.save()
+
