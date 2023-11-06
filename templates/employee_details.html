@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Details</title>
+</head>
+<body>
+    <h1>Employee Details</h1>
+    <p>Name: {{ employee.get_full_name }}</p>
+    <p>Username: {{ employee.username }}</p>
+    <p>Email: {{ employee.email }}</p>
+    <p>Phone Number: {{ employee.phone_number }}</p>
+    <p>Is staff: {{ employee.is_staff }}</p>
+    <p>Is active: {{ employee.is_active }}</p>
+    <p>Hire Date: {{ employee.hire_date }}</p>
+    <p>Birth Date: {{ employee.birth_date }}</p>
+    <p>Position: {{ employee.position }}</p>
+
+    {% if user.is_superuser %}
+        <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-primary">Delete</a>
+    {% endif %}
+
+</body>
+</html>
