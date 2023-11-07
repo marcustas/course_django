@@ -6,11 +6,18 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 
+def company_logo_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{instance.name}.{ext}'
+    return f'logotypes/{filename}'
+
+
 class Company(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to=company_logo_upload_path, null=True, blank=False)
 
     def __str(self):
         return self.name

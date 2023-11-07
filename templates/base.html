@@ -36,7 +36,9 @@
 </nav>
 
 <div class="header">
-    <img src="{% static 'img/logo.png' %}" alt="Logo">
+    {% if logo %}
+      <img src="{{ logo }}" alt="Логотип компанії" class="logo_company">
+    {% endif %}
     <h1>Welcome to HR System</h1>
 </div>
 

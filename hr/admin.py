@@ -7,7 +7,14 @@ from hr.models import (
     Employee,
     MonthlySalary,
     Position,
+    Company,
 )
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'logo')
+
 
 
 @admin.register(Department)

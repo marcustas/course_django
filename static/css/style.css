@@ -19,4 +19,9 @@ body {
   border: 1px solid #dee2e6;
 }
 
+.logo_company {
+  height: 150px;
+  width: 150px;
+  margin: 0 auto;
+}
 /*# sourceMappingURL=style.css.map */
