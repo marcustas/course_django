@@ -20,8 +20,6 @@ msgstr ""
 "X-Generator: Poedit 3.4.1\n"
 
 #: hr/models.py:8 hr/models.py:23
-#, fuzzy
-#| msgid "Last Name"
 msgid "Name"
 msgstr "Назва"
 
@@ -30,8 +28,6 @@ msgid "Address"
 msgstr "Адресса"
 
 #: hr/models.py:24
-#, fuzzy
-#| msgid "Department"
 msgid "Parent Department"
 msgstr "Батьківський Відділ"
 
@@ -52,8 +48,6 @@ msgid "Change Language"
 msgstr "Змінити мову"
 
 #: templates/employee_confirm_delete.html:5
-#, fuzzy
-#| msgid "Delete"
 msgid "Confirm Delete"
 msgstr "Видалити"
 
@@ -125,14 +119,10 @@ msgid "View"
 msgstr "Показати"
 
 #: templates/employee_profile.html:15
-#, fuzzy
-#| msgid "First Name"
 msgid "First name"
 msgstr "Ім'я"
 
 #: templates/employee_profile.html:21
-#, fuzzy
-#| msgid "Last Name"
 msgid "Last name"
 msgstr "Прізвище"
 
@@ -149,8 +139,6 @@ msgid "Is staff"
 msgstr "В штаті"
 
 #: templates/employee_profile.html:58
-#, fuzzy
-#| msgid "Department"
 msgid "Position department"
 msgstr "Відділ"
 

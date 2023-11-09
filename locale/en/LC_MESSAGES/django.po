@@ -19,8 +19,6 @@ msgstr ""
 "X-Generator: Poedit 3.4.1\n"
 
 #: hr/models.py:8 hr/models.py:23
-#, fuzzy
-#| msgid "Last Name"
 msgid "Name"
 msgstr "Name"
 
@@ -29,8 +27,6 @@ msgid "Address"
 msgstr "Address"
 
 #: hr/models.py:24
-#, fuzzy
-#| msgid "Position department"
 msgid "Parent Department"
 msgstr "Parent departmen"
 
@@ -43,8 +39,6 @@ msgid "Department"
 msgstr "Department"
 
 #: hr/models.py:35 templates/employee_profile.html:76
-#, fuzzy
-#| msgid "Position"
 msgid "Job Description"
 msgstr "Job Description"
 
@@ -53,8 +47,6 @@ msgid "Change Language"
 msgstr "Change Language"
 
 #: templates/employee_confirm_delete.html:5
-#, fuzzy
-#| msgid "Delete"
 msgid "Confirm Delete"
 msgstr "Confirm Delete"
 
@@ -126,14 +118,10 @@ msgid "View"
 msgstr "View"
 
 #: templates/employee_profile.html:15
-#, fuzzy
-#| msgid "First Name"
 msgid "First name"
 msgstr "First Name"
 
 #: templates/employee_profile.html:21
-#, fuzzy
-#| msgid "Last Name"
 msgid "Last name"
 msgstr "Last Name"
 
