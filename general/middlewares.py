@@ -20,9 +20,9 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
 
         return response
 
-    # def process_view(self, request, view_func, view_args, view_kwargs):
-    #     if request.user.is_authenticated and not request.path.startswith('/napshhdf/'):
-    #         stats, created = RequestStatistics.objects.get_or_create(user=request.user)
-    #
-    #         stats.requests += 1
-    #         stats.save()
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        if request.user.is_authenticated and not request.path.startswith('/napshhdf/'):
+            stats, created = RequestStatistics.objects.get_or_create(user=request.user)
+
+            stats.requests += 1
+            stats.save()
