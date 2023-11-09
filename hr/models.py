@@ -42,6 +42,10 @@ class Position(models.Model):
     job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
     monthly_rate = models.IntegerField(default=0)
 
+    @cached_property
+    def total_positions(self):
+        return Position.objects.count()
+
     def save(self, *args, **kwargs):
         if self.is_manager:
             existing_manager = Position.objects.filter(
