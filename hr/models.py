@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    email = models.EmailField()
-    tax_code = models.CharField(max_length=200)
+    name = models.CharField(verbose_name=_('Company Name'), max_length=100)
+    address = models.CharField(verbose_name=_('Address'), max_length=200)
+    email = models.EmailField(verbose_name=_('Email'))
+    tax_code = models.CharField(verbose_name=_('Tax Code'), max_length=200)
 
     def __str(self):
         return self.name
@@ -20,7 +20,7 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(verbose_name=_('Department'), max_length=200)
     parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -49,10 +49,10 @@ class Position(models.Model):
 
 
 class Employee(AbstractUser):
-    hire_date = models.DateField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
-    phone_number = models.CharField(max_length=151, default='')
+    hire_date = models.DateField(verbose_name=_('Hire date'), null=True, blank=True)
+    birth_date = models.DateField(verbose_name=_('Birth date'), null=True, blank=True)
+    position = models.ForeignKey('Position', verbose_name=_('Position'), on_delete=models.SET_NULL, null=True, blank=True)
+    phone_number = models.CharField(verbose_name=_('Phone number'), max_length=151, default='')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.position or ""}'
