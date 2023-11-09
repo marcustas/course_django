@@ -117,6 +117,8 @@ LANGUAGES = [
     ('uk', 'Ukrainian'),
 ]
 
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+
 LANGUAGE_CODE = 'en'
 
 LOCALE_PATHS = (

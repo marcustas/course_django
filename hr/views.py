@@ -44,20 +44,20 @@ class EmployeeCreateView(UserIsAdminMixin, CreateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'employee_form.html'
-    success_url = reverse_lazy('employee_list')
+    success_url = reverse_lazy('hr:employee_list')
 
 
 class EmployeeUpdateView(UserIsAdminMixin, UpdateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'employee_form.html'
-    success_url = reverse_lazy('employee_list')
+    success_url = reverse_lazy('hr:employee_list')
 
 
 class EmployeeDeleteView(UserIsAdminMixin, DeleteView):
     model = Employee
     template_name = 'employee_confirm_delete.html'
-    success_url = reverse_lazy('employee_list')
+    success_url = reverse_lazy('hr:employee_list')
 
 
 class EmployeeProfileView(UserIsAdminMixin, DetailView):
