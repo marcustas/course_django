@@ -5,8 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
+    name = models.CharField(max_length=100,  verbose_name=_('Name'))
+    address = models.CharField(max_length=200,  verbose_name=_('Address'))
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
 
@@ -20,8 +20,8 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200,  verbose_name=_('Name'))
+    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Parent Department'))
 
     def __str__(self):
         return self.name
@@ -67,3 +67,4 @@ class MonthlySalary(models.Model):
 
     def __str__(self):
         return f'{self.employee} - {self.month_year.month}/{self.month_year.year}'
+

@@ -42,3 +42,20 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+    def clean_employee(self):
+        data = self.cleaned_data['employee']
+        if not data:
+            raise forms.ValidationError('Employee field must not be empty!')
+        return data
+
+    def clean(self):
+        cleaned = super().clean()
+        sick_days = cleaned.get('sick days')
+        if sick_days is not None and sick_days > 5:
+            raise forms.ValidationError("Sick days quantity cannot be more than 5!")
+
+        vacation_days = cleaned.get('vacation days')
+        if vacation_days is not None and vacation_days > 3:
+            raise forms.ValidationError('Vacation days cannot be more than 3!')
+        return cleaned
