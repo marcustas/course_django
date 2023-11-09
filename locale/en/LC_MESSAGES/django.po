@@ -91,3 +91,6 @@ msgstr "This is a simple home page for the HR application."
 #: templates/home.html:11
 msgid "You can manage employees or calculate salaries from here."
 msgstr "You can manage employees or calculate salaries from here."
+
+msgid "Employee Details"
+msgstr "Employee Details"

@@ -11,7 +11,7 @@ from hr.models import (
 
 
 @admin.register(Department)
-class DepartmentAdmin(admin.ModelAdmin):
+class DepartmentAdmin(TranslationAdmin):
     list_display = ('name', 'parent_department')
 
 

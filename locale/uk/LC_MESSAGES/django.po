@@ -98,3 +98,6 @@ msgstr "Це проста домашня сторінка програми HR."
 #: templates/home.html:11
 msgid "You can manage employees or calculate salaries from here."
 msgstr "Звідси можна керувати співробітниками або розраховувати зарплату."
+
+msgid "Employee Details"
+msgstr "Деталі робітника"

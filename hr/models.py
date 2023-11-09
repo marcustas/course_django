@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    email = models.EmailField()
-    tax_code = models.CharField(max_length=200)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
+    address = models.CharField(max_length=200, verbose_name=_('Address'))
+    email = models.EmailField(verbose_name=_('Email'))
+    tax_code = models.CharField(max_length=200, verbose_name=_('Tax Code'))
 
     def __str(self):
         return self.name
@@ -20,7 +20,7 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, verbose_name=_('Name'))
     parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -28,11 +28,11 @@ class Department(models.Model):
 
 
 class Position(models.Model):
-    title = models.CharField(verbose_name=_('Title'), max_length=200)
+    title = models.CharField(max_length=200, verbose_name=_('Title'))
     department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
     is_manager = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
+    job_description = models.CharField(max_length=500, verbose_name=_('Job Description'), default='')
     monthly_rate = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
