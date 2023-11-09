@@ -22,4 +22,6 @@ class DepartmentTranslationOptions(TranslationOptions):
     fields = ('name', 'parent_department')
 
 
-translator.register(Position, PositionTranslationOptions, Company, CompanyTranslationOptions, Department, DepartmentTranslationOptions)
+translator.register(Position, PositionTranslationOptions)
+translator.register(Company, CompanyTranslationOptions)
+translator.register(Department, DepartmentTranslationOptions)

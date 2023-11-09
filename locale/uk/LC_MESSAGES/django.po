@@ -23,7 +23,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Last Name"
 msgid "Name"
-msgstr "Прізвище"
+msgstr "Назва"
 
 #: hr/models.py:9
 msgid "Address"
@@ -33,7 +33,7 @@ msgstr "Адресса"
 #, fuzzy
 #| msgid "Department"
 msgid "Parent Department"
-msgstr "Відділ"
+msgstr "Батьківський Відділ"
 
 #: hr/models.py:31
 msgid "Title"
