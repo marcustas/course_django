@@ -186,3 +186,5 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
