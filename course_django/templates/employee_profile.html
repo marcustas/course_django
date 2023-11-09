@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+
+        <ul class="list-group">
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Username' %} :
+                </div>
+                <div>{{ object.username }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'First name' %} :
+                </div>
+                <div>{{ object.first_name }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Last name' %} :
+                </div>
+                <div>{{ object.last_name }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Birth day' %} :
+                </div>
+                <div>{{ object.birth_date }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Email' %} :
+                </div>
+                <div>{{ object.email }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Phone number' %} :
+                </div>
+                <div>{{ object.phone_number }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-25">
+                    {% trans 'Is staff' %} :
+                </div>
+                <input type="checkbox" value="" id="flexCheckChecked" disabled
+                       checked="{{ object.is_staff }}">
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Position' %} :
+                </div>
+                <div>{{ object.position }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Position department' %} :
+                </div>
+                <div>{{ object.position.department }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Hire day' %} :
+                </div>
+                <div>{{ object.hire_date }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Date joined' %} :
+                </div>
+                <div>{{ object.date_joined }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    {% trans 'Job Description' %} :
+                </div>
+                <div>{{ object.position.job_description }}</div>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-25">
+                    {% trans 'Is active' %} :
+                </div>
+                <input type="checkbox" value="" id="flexCheckChecked" disabled
+                       checked="{{ object.position.is_active }}">
+            </li>
+            <li class="pt-10">
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'hr:employee_update' object.pk %}" class="btn btn-primary">{% trans 'Update' %}</a>
+                    <a href="{% url 'hr:employee_delete' object.pk %}" class="btn btn-danger">{% trans 'Delete' %}</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{% endblock %}
