@@ -41,6 +41,7 @@ ignore = [
     "F722",
     "B904",
     "F841", #  Only for course examples!!!
+    "E501",
 ]
 select = [
     "B", # flake8-bugbear
