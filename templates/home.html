@@ -10,6 +10,12 @@
     <h1>Welcome to HR System</h1>
 </div>
 
+{% if company.logo %}
+        <img src="{{ company.logo.url }}" alt="Company Logo" style="max-width: 200px; max-height: 100px;">
+    {% else %}
+        <img src="{% static 'img/logo.png' %}" alt="Default Logo" style="max-width: 200px; max-height: 100px;">
+    {% endif %}
+
 <div class="jumbotron">
   <h1 class="display-4">{% trans 'Welcome!' %}</h1>
   <p class="lead">{% trans 'This is a simple home page for the HR application.' %}</p>

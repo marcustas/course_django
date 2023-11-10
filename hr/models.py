@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Company(models.Model):
@@ -11,6 +13,7 @@ class Company(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to='logo/', null=True, blank=True)
 
     def __str(self):
         return self.name
@@ -33,6 +36,11 @@ class Department(models.Model):
         return self.position_set.filter(is_active=True).count()
 
 
+@receiver(pre_save, sender=Department)
+def capitalize_department_name(sender, instance, **kwargs):
+    instance.name = instance.name.capitalize()
+
+
 class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
@@ -52,6 +60,10 @@ class Position(models.Model):
 
     def __str__(self):
         return self.title
+
+    @cached_property
+    def total_positions(self):
+        return Position.objects.count()
 
 
 class Employee(AbstractUser):
