@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 11:45+0000\n"
-"PO-Revision-Date: 2023-11-01 19:34+0100\n"
+"POT-Creation-Date: 2023-11-10 15:53+0100\n"
+"PO-Revision-Date: 2023-11-10 16:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -18,15 +18,76 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.1\n"
 
+#: hr/models.py:8 hr/models.py:23
+msgid "Name"
+msgstr "Name"
+
+#: hr/models.py:9
+msgid "Address"
+msgstr "Address"
+
+#: hr/models.py:24
+msgid "Parent Department"
+msgstr "Parent departmen"
+
 #: hr/models.py:31
 msgid "Title"
 msgstr "Title"
 
-#: hr/models.py:35
-#, fuzzy
-#| msgid "Position"
+#: hr/models.py:32
+msgid "Department"
+msgstr "Department"
+
+#: hr/models.py:35 templates/employee_profile.html:76
 msgid "Job Description"
 msgstr "Job Description"
+
+#: templates/base.html:30
+msgid "Change Language"
+msgstr "Change Language"
+
+#: templates/employee_confirm_delete.html:5
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+#: templates/employee_confirm_delete.html:6
+msgid "Are you sure you want to delete"
+msgstr "Are you sure you want to delete"
+
+#: templates/employee_confirm_delete.html:9 templates/employee_list.html:51
+#: templates/employee_profile.html:90
+msgid "Delete"
+msgstr "Delete"
+
+#: templates/employee_confirm_delete.html:10
+msgid "Cancel"
+msgstr "Cancel"
+
+#: templates/employee_form.html:9 templates/employee_profile.html:9
+msgid "Username"
+msgstr "Username"
+
+#: templates/employee_form.html:19 templates/employee_list.html:31
+msgid "First Name"
+msgstr "First Name"
+
+#: templates/employee_form.html:29 templates/employee_list.html:32
+msgid "Last Name"
+msgstr "Last Name"
+
+#: templates/employee_form.html:39 templates/employee_list.html:33
+#: templates/employee_profile.html:33
+msgid "Email"
+msgstr "Email"
+
+#: templates/employee_form.html:49 templates/employee_list.html:34
+#: templates/employee_profile.html:52
+msgid "Position"
+msgstr "Position"
+
+#: templates/employee_form.html:65
+msgid "Save"
+msgstr "Save"
 
 #: templates/employee_list.html:4 templates/home.html:13
 msgid "Employee List"
@@ -44,37 +105,53 @@ msgstr "Salary Calculator"
 msgid "Filter"
 msgstr "Filter"
 
-#: templates/employee_list.html:31
-msgid "First Name"
-msgstr "First Name"
-
-#: templates/employee_list.html:32
-msgid "Last Name"
-msgstr "Last Name"
-
-#: templates/employee_list.html:33
-msgid "Email"
-msgstr "Email"
-
-#: templates/employee_list.html:34
-msgid "Position"
-msgstr "Position"
-
 #: templates/employee_list.html:35
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/employee_list.html:48
+#: templates/employee_list.html:48 templates/employee_profile.html:89
 msgid "Update"
 msgstr "Update"
-
-#: templates/employee_list.html:51
-msgid "Delete"
-msgstr "Delete"
 
 #: templates/employee_list.html:54
 msgid "View"
 msgstr "View"
+
+#: templates/employee_profile.html:15
+msgid "First name"
+msgstr "First Name"
+
+#: templates/employee_profile.html:21
+msgid "Last name"
+msgstr "Last Name"
+
+#: templates/employee_profile.html:27
+msgid "Birth day"
+msgstr "Birth day"
+
+#: templates/employee_profile.html:39
+msgid "Phone number"
+msgstr "Phone number"
+
+#: templates/employee_profile.html:45
+msgid "Is staff"
+msgstr "Is staff"
+
+#: templates/employee_profile.html:58
+msgid "Position department"
+msgstr "Position departmen"
+
+#: templates/employee_profile.html:64
+msgid "Hire day"
+msgstr "Hire day"
+
+#: templates/employee_profile.html:70
+msgid "Data joined"
+msgstr "Data joined"
+
+#: templates/employee_profile.html:82
+msgid "Is active"
+msgstr "Is active"
 
 #: templates/home.html:4
 msgid "Home"
