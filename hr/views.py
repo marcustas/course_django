@@ -15,6 +15,7 @@ from django.views.generic import (
     FormView,
     ListView,
     UpdateView,
+    TemplateView,
 )
 
 from hr.calculate_salary import CalculateMonthRateSalary
@@ -24,6 +25,9 @@ from hr.forms import (
 )
 from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
+from .models import Company
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 class EmployeeListView(ListView):
@@ -67,6 +71,16 @@ class EmployeeUpdateView(UserIsAdminMixin, UpdateView):
     template_name = 'employee_form.html'
     success_url = reverse_lazy('hr:employee_list')
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Employee information updated.')
+        return response
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request, 'Failed to update employee information.')
+        return response
+
 
 class EmployeeDeleteView(UserIsAdminMixin, DeleteView):
     model = Employee
@@ -87,6 +101,10 @@ class EmployeeProfileView(UserIsAdminMixin, DetailView):
             cache.set(f'employee_{employee_id}', employee, timeout=5 * 60)
 
         return employee
+
+    @method_decorator(cache_page(180))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class SalaryCalculatorView(UserIsAdminMixin, FormView):
@@ -121,3 +139,12 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
                 'calculated_salary': salary,
             },
         )
+
+
+class HomePageView(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company'] = Company.objects.first()
+        return context
