@@ -15,6 +15,7 @@ class Position(models.Model):
     title = models.CharField(max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if self.is_manager:
