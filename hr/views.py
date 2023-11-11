@@ -44,6 +44,16 @@ class EmployeeListView(ListView):
             )
         return queryset
 
+    def get_object(self):
+        employee_id = self.kwargs.get('pk')
+        employee = cache.get(f'employee_{employee_id}')
+
+        if not employee:
+            employee = get_object_or_404(Employee, pk=employee_id)
+            cache.set(f'employee_{employee_id}', employee, timeout=3 * 60)
+
+        return employee
+
 
 class EmployeeCreateView(UserIsAdminMixin, CreateView):
     model = Employee

@@ -7,6 +7,7 @@ from hr.models import (
     Employee,
     MonthlySalary,
     Position,
+    Company
 )
 
 
@@ -35,3 +36,8 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(MonthlySalary)
 class MonthlySalaryAdmin(admin.ModelAdmin):
     list_display = ('employee', 'month_year', 'salary', 'paid')
+
+
+@admin.register(Company)
+class Company(admin.ModelAdmin):
+    list_display = ('logo',)
