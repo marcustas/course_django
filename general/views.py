@@ -8,14 +8,13 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            company = Company.objects.first()
-            if company.logo:
-                context['logo'] = company.logo.url
-            else:
-                context['logo'] = '/static/img/logo.png'
-        except Company.DoesNotExist:
+        company = Company.objects.first()
+
+        if company.logo:
+            context['logo'] = company.logo.url
+        else:
             context['logo'] = '/static/img/logo.png'
+
         return context
 
 
