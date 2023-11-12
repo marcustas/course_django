@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 def company_logo_upload_path(instance, filename):
@@ -40,6 +42,11 @@ class Department(models.Model):
         return self.position_set.filter(is_active=True).count()
 
 
+@receiver(pre_save, sender=Department)
+def capitalize_department_name(sender, instance, **kwargs):
+    instance.name = instance.name.capitalize()
+
+
 class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
@@ -56,6 +63,9 @@ class Position(models.Model):
             if existing_manager:
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)
+
+    def total_positions(self):
+        return Position.objects.filter(department=self.department).count()
 
     def __str__(self):
         return self.title
