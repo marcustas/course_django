@@ -36,7 +36,11 @@
 </nav>
 
 <div class="header">
-    <img src="{% static 'img/logo.png' %}" alt="Logo">
+  {% if logo %}
+    <img src="{{ logo.url }}" alt="Company Logo" class="img-fluid">
+  {% else %}
+    <img src="{% static 'img/logo.png' %}" alt="Default Logo" class="img-fluid">
+  {% endif %}
     <h1>Welcome to HR System</h1>
 </div>
 

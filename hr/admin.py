@@ -7,12 +7,18 @@ from hr.models import (
     Employee,
     MonthlySalary,
     Position,
+    Company,
 )
 
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent_department')
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'address', 'email', 'tax_code', 'logo')
 
 
 @admin.register(Position)

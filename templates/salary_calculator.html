@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load cache %}
 
 {% block content %}
   <h1>Salary calculator</h1>
@@ -40,6 +41,7 @@
       {% endif %}
     </div>
 
+    {% cache 300 form_choices %}
     <div class="row">
       {% for field in form %}
         {% if forloop.counter > 1 %}
@@ -55,6 +57,7 @@
           </div>
         {% endif %}
       {% endfor %}
+    {% endcache %}
     </div>
 
     <div class="form-group mt-4">
