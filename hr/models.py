@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    email = models.EmailField()
-    tax_code = models.CharField(max_length=200)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
+    address = models.CharField(max_length=200, verbose_name=_('Address'))
+    email = models.EmailField(verbose_name=_('Email'))
+    tax_code = models.CharField(max_length=200, verbose_name=_('Tax Code'))
 
     def __str(self):
         return self.name
@@ -20,7 +20,7 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, verbose_name=_('Name'))
     parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -49,8 +49,8 @@ class Position(models.Model):
 
 
 class Employee(AbstractUser):
-    hire_date = models.DateField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    hire_date = models.DateField(null=True, blank=True, auto_now_add=True)
+    birth_date = models.DateField(null=True, blank=True, auto_now_add=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=151, default='')
 

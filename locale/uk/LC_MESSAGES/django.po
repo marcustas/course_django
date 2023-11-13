@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 17:33+0000\n"
+"POT-Creation-Date: 2023-11-13 20:54+0000\n"
 "PO-Revision-Date: 2023-11-02 18:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,6 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.4.1\n"
+
+#: hr/models.py:8 hr/models.py:23
+#, fuzzy
+#| msgid "Last Name"
+msgid "Name"
+msgstr "Ім'я"
+
+#: hr/models.py:9
+msgid "Address"
+msgstr ""
+
+#: hr/models.py:10 templates/employee_list.html:33
+msgid "Email"
+msgstr "Пошта"
+
+#: hr/models.py:11
+msgid "Tax Code"
+msgstr ""
 
 #: hr/models.py:31
 msgid "Title"
@@ -58,10 +76,6 @@ msgstr "Ім'я"
 #: templates/employee_list.html:32
 msgid "Last Name"
 msgstr "Прізвище"
-
-#: templates/employee_list.html:33
-msgid "Email"
-msgstr "Пошта"
 
 #: templates/employee_list.html:34
 msgid "Position"
