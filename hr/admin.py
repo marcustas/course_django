@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from modeltranslation.admin import TranslationAdmin
 
 from hr.models import (
     Department,
     Employee,
+    MonthlySalary,
     Position,
 )
 
@@ -14,8 +16,8 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(Position)
-class PositionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'department', 'is_manager')
+class PositionAdmin(TranslationAdmin):
+    list_display = ('id', 'title', 'department', 'is_manager')
 
     def save_model(self, request, obj, form, change):
         try:
@@ -27,4 +29,12 @@ class PositionAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('username', 'position', 'hire_date')
+    list_display = ('username', 'position', 'hire_date', 'phone_number')
+
+
+@admin.register(MonthlySalary)
+class MonthlySalaryAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'month_year', 'salary', 'paid')
+
+class DepartmentAdmin(TranslationAdmin):
+    pass
