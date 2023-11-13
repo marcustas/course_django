@@ -35,3 +35,6 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(MonthlySalary)
 class MonthlySalaryAdmin(admin.ModelAdmin):
     list_display = ('employee', 'month_year', 'salary', 'paid')
+
+class DepartmentAdmin(TranslationAdmin):
+    pass
