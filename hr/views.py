@@ -110,7 +110,8 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
 
         days = {day: day_type for day, day_type in cleaned_data.items() if day.startswith(calculator.day_prefix)}
 
-        salary = calculator.calculate_salary(days_dict=days)
+        month_days = calculator.get_days_count(days_dict=days)
+        salary = calculator.calculate_salary(month_days=month_days)
 
         calculator.save_salary(salary=salary, date=datetime.date.today())
 
