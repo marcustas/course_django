@@ -8,12 +8,14 @@ from hr.calculate_salary import CalculateMonthRateSalary
 from hr.models import (
     Employee,
     Position,
+    Department,
 )
 from hr.pydantic_models import WorkingDays
 from hr.serializers import (
     EmployeeSerializer,
     PositionSerializer,
     SalarySerializer,
+    DepartmentSerializer,
 )
 
 
@@ -38,6 +40,17 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         employee = self.get_object()
         count = Employee.objects.filter(position=employee.position).count()
         return Response({'position_count': count})
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+    @action(detail=True, methods=['get'])
+    def employee_count(self, request, pk=None):
+        department = self.get_object()
+        employee_count = Employee.objects.filter(position__department=department).count()
+        return Response({'employee_count': employee_count})
 
 
 class PositionViewSet(viewsets.ModelViewSet):
