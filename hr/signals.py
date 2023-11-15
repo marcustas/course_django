@@ -9,6 +9,9 @@ from hr.models import Position
 
 logger = logging.getLogger()
 
+@receiver(pre_save, sender=Department)
+def capitalize_department_name(sender, instance, **kwargs):
+    instance.name = capfirst(instance.name)
 
 @receiver(pre_save, sender=Position)
 def ensure_minimum_wage(sender, instance, **kwargs):

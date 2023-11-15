@@ -44,6 +44,14 @@ class EmployeeListView(ListView):
             )
         return queryset
 
+    def get(self, request, *args, **kwargs):
+        cache_key = 'employee_list_view'
+        employees = cache.get(cache_key)
+
+        if employees is None:
+            employees = list(self.get_queryset())
+            cache.set(cache_key, employees, timeout=3 * 60)
+
 
 class EmployeeCreateView(UserIsAdminMixin, CreateView):
     model = Employee
@@ -67,6 +75,15 @@ class EmployeeUpdateView(UserIsAdminMixin, UpdateView):
     template_name = 'employee_form.html'
     success_url = reverse_lazy('hr:employee_list')
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Інформацію про працівника успішно оновлено.')
+        return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Виникла помилка при оновленні інформації про працівника.')
+        return super().form_invalid(form)
+
 
 class EmployeeDeleteView(UserIsAdminMixin, DeleteView):
     model = Employee
@@ -87,6 +104,7 @@ class EmployeeProfileView(UserIsAdminMixin, DetailView):
             cache.set(f'employee_{employee_id}', employee, timeout=5 * 60)
 
         return employee
+
 
 
 class SalaryCalculatorView(UserIsAdminMixin, FormView):

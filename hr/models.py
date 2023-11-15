@@ -11,6 +11,7 @@ class Company(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to='logos/', blank=True, null=True)
 
     def __str(self):
         return self.name
@@ -49,6 +50,10 @@ class Position(models.Model):
             if existing_manager:
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)
+
+    @cached_property
+    def total_positions(self):
+        return Position.objects.filter(department=self.department, is_active=True).count()
 
     def __str__(self):
         return self.title
