@@ -19,6 +19,7 @@
     </div>
   {% endif %}
 
+  {% cache 120 form_cache_key %}
   <form method="post">
     {% csrf_token %}
 
