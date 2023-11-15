@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 
@@ -25,6 +27,10 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
+    @cached_property
+    def position_count(self):
+        return self.position_set.filter(is_active=True).count()
 
 
 class Position(models.Model):
@@ -53,9 +59,19 @@ class Employee(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', verbose_name=_('Position'), on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=151, default='')
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    cv = models.FileField(upload_to='cvs/', null=True, blank=True, help_text='PDF, DOC, or DOCX')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.position or ""}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'employee_{self.pk}')
+
+    def delete(self, *args, **kwargs):
+        cache.delete(f'employee_{self.pk}')
+        super().delete(*args, **kwargs)
 
 
 class MonthlySalary(models.Model):

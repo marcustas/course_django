@@ -1,10 +1,16 @@
 import datetime
 import logging
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 from math import ceil
 
 from common.enums import WorkDayEnum
-from hr.models import Employee, MonthlySalary
+from hr.models import (
+    Employee,
+    MonthlySalary,
+)
 
 
 logger = logging.getLogger(__name__)

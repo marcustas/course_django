@@ -1,44 +1,54 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-
 {% block content %}
     <div class="container mt-5">
 
         <ul class="list-group">
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Username' %} :
+                    Avatar :
+                </div>
+                <img src="{{ employee.avatar.url }}" alt="Avatar" width=100>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    CV :
+                </div>
+                <a href="{{ employee.cv.url }}">Download CV</a>
+            </li>
+            <li class="list-group-item d-flex">
+                <div class="mr-15">
+                    Username :
                 </div>
                 <div>{{ object.username }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'First name' %} :
+                    First name :
                 </div>
                 <div>{{ object.first_name }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Last name' %} :
+                    Last name :
                 </div>
                 <div>{{ object.last_name }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Birth day' %} :
+                    Birth day :
                 </div>
                 <div>{{ object.birth_date }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Email' %} :
+                    Email :
                 </div>
                 <div>{{ object.email }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Phone number' %} :
+                    Phone number :
                 </div>
                 <div>{{ object.phone_number }}</div>
             </li>
@@ -51,31 +61,31 @@
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Position' %} :
+                    Position :
                 </div>
                 <div>{{ object.position }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Position department' %} :
+                    Position department :
                 </div>
                 <div>{{ object.position.department }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Hire day' %} :
+                    Hire day :
                 </div>
                 <div>{{ object.hire_date }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Data joined' %} :
+                    Data joined :
                 </div>
                 <div>{{ object.date_joined }}</div>
             </li>
             <li class="list-group-item d-flex">
                 <div class="mr-15">
-                    {% trans 'Job Description' %} :
+                    Job Description :
                 </div>
                 <div>{{ object.position.job_description }}</div>
             </li>
@@ -88,8 +98,8 @@
             </li>
             <li class="pt-10">
                 {% if request.user.is_superuser %}
-                    <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-primary">{% trans 'Update' %}</a>
-                    <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-danger">{% trans 'Delete' %}</a>
+                    <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-primary">Update</a>
+                    <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
                 {% endif %}
             </li>
         </ul>

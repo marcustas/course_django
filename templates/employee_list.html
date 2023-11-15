@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load cache %}
 
 {% block title %}{% trans 'Employee List' %}{% endblock title %}
 
@@ -25,6 +26,17 @@
             </div>
         </form>
 
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
         <table class="table">
             <thead>
             <tr>
@@ -36,27 +48,29 @@
             </tr>
             </thead>
             <tbody>
-            {% for employee in employees %}
-                <tr>
-                    <td>{{ employee.first_name }}</td>
-                    <td>{{ employee.last_name }}</td>
-                    <td>{{ employee.email }}</td>
-                    <td>{{ employee.position.title }}</td>
-                    <td>
-                        {% if request.user.is_superuser %}
-                            <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-primary">
-                                {% trans 'Update' %}
-                            </a>
-                            <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-danger">
-                                {% trans 'Delete' %}
-                            </a>
-                            <a href="{% url 'hr:employee_profile' employee.pk %}" class="btn btn-success">
-                                {% trans 'View' %}
-                            </a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
+            {% cache 300 employee_list %}
+                {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.first_name }}</td>
+                        <td>{{ employee.last_name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.position.title }}</td>
+                        <td>
+                            {% if request.user.is_superuser %}
+                                <a href="{% url 'hr:employee_update' employee.pk %}" class="btn btn-primary">
+                                    {% trans 'Update' %}
+                                </a>
+                                <a href="{% url 'hr:employee_delete' employee.pk %}" class="btn btn-danger">
+                                    {% trans 'Delete' %}
+                                </a>
+                                <a href="{% url 'hr:employee_profile' employee.pk %}" class="btn btn-success">
+                                    {% trans 'View' %}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endcache %}
             </tbody>
         </table>
         <div class="pagination">
