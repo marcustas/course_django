@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import (
@@ -26,7 +27,7 @@ from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
 
 
-class EmployeeListView(ListView):
+class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
