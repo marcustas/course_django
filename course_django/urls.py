@@ -22,7 +22,9 @@ from django.urls import (
     include,
     path,
 )
+
 from general.views import HomePageView
+
 
 urlpatterns = [
     path('napshhdf/', admin.site.urls),
@@ -32,5 +34,8 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('', HomePageView.as_view(), name='home'),
     path('hr/', include(('hr.urls', 'hr'), namespace='hr')),
+    path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
+
     path('i18n/', include('django.conf.urls.i18n')),
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
