@@ -56,6 +56,9 @@ class Position(models.Model):
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)
 
+    def all_positions(self):
+        return Position.objects.filter(department=self.department).count()
+
     def __str__(self):
         return self.title
 
