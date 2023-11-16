@@ -57,6 +57,8 @@ MIDDLEWARE = [
     'general.middlewares.RequestStatisticsMiddleware',
 ]
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 ROOT_URLCONF = 'course_django.urls'
 
 TEMPLATES = [
