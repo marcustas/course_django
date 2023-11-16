@@ -56,8 +56,8 @@ class Position(models.Model):
 
     @cached_property
     def count_positions(self):
-        count_pos = Position.objects.count()
-        return count_pos
+        count_position = Position.objects.count()
+        return count_position
 
 
 
