@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+
   <h1>Salary calculator</h1>
+{% load cache %}
+
+{% cache 120 form_cache_key %}
+  {% for field in form %}
 
   <!-- Відображення помилок на рівні форми -->
   {% if form.non_field_errors %}
@@ -61,4 +66,6 @@
       <button type="submit" class="btn btn-primary">Calculate Salary</button>
     </div>
   </form>
+    {% endfor %}
+{% endcache %}
 {% endblock %}

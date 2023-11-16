@@ -25,7 +25,10 @@ from hr.forms import (
 from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
+@method_decorator(cache_page(180), name='get')
 class EmployeeListView(ListView):
     model = Employee
     template_name = 'employee_list.html'
