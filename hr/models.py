@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Company(models.Model):
@@ -32,6 +34,11 @@ class Department(models.Model):
     @cached_property
     def position_count(self):
         return self.position_set.filter(is_active=True).count()
+
+
+@receiver(pre_save, sender=Department)
+def capitalize_department_name(sender, instance, **kwargs):
+    instance.name = instance.name.capitalize()
 
 
 class Position(models.Model):
