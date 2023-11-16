@@ -41,6 +41,7 @@
     </div>
 
     <div class="row">
+      {% cache 2*60 salary_fields %}
       {% for field in form %}
         {% if forloop.counter > 1 %}
           <div class="col-2">
@@ -55,6 +56,7 @@
           </div>
         {% endif %}
       {% endfor %}
+      {% endcache %}
     </div>
 
     <div class="form-group mt-4">
