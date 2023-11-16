@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="header">
-    {% if company.logo %}
+    {% if company and company.logo %}
         <img src="{{ company.logo.url }}" alt="{{ company.name }} logo">
     {% else %}
         <img src="{% static 'img/logo.png' %}" alt="Logo">
