@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -9,6 +10,8 @@ from hr.models import (
     Employee,
     Position,
 )
+from hr.pagination import SmallSetPagination
+from hr.permissions import IsNotRussianEmail
 from hr.pydantic_models import WorkingDays
 from hr.serializers import (
     EmployeeSerializer,
@@ -18,8 +21,13 @@ from hr.serializers import (
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    queryset = Employee.objects.all()
+    """
+    Provide CRUD viewset for Employee.
+    """
+    queryset = Employee.objects.all().order_by()
     serializer_class = EmployeeSerializer
+    pagination_class = SmallSetPagination
+    permission_classes = [IsNotRussianEmail]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -46,6 +54,8 @@ class PositionViewSet(viewsets.ModelViewSet):
 
 
 class SalaryCalculatorView(APIView):
+    permission_classes = [IsAdminUser]
+
     def post(self, request, *args, **kwargs):
         serializer = SalarySerializer(data=request.data)
         if serializer.is_valid():

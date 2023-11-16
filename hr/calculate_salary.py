@@ -97,13 +97,13 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
 
         working_days_salary = self._calculate_working_monthly_salary(working_days=month_days.working)
         sick_monthly_salary = self._calculate_sick_monthly_salary(sick_days=month_days.sick)
-        holiday_monthly_salary = self._calculate_vacation_monthly_salary(vacation_days=month_days.vacation)
+        vacation_monthly_salary = self._calculate_vacation_monthly_salary(vacation_days=month_days.vacation)
 
         salary = sum(
             (
                 working_days_salary,
                 sick_monthly_salary,
-                holiday_monthly_salary,
+                vacation_monthly_salary,
             ),
         )
 

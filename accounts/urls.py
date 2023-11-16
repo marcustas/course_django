@@ -1,7 +1,11 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from accounts.views import LoginView, PasswordResetConfirmView, PasswordResetView
+from accounts.views import (
+    LoginView,
+    PasswordResetConfirmView,
+    PasswordResetView,
+)
 
 
 urlpatterns = [
