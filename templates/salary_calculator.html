@@ -42,7 +42,7 @@
     </div>
 
     <div class="row">
-        {% cache 60*2 "calculate_salary" %}
+        {% cache 120 "calculate_salary" %}
           {% for field in form %}
             {% if forloop.counter > 1 %}
               <div class="col-2">
