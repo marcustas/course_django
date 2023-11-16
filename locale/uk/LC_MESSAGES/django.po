@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 17:33+0000\n"
+"POT-Creation-Date: 2023-11-16 17:31+0000\n"
 "PO-Revision-Date: 2023-11-02 18:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,82 +19,82 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.4.1\n"
 
-#: hr/models.py:31
+#: hr/models.py:38
 msgid "Title"
 msgstr "Назва"
 
-#: hr/models.py:32
+#: hr/models.py:39
 msgid "Department"
 msgstr "Відділ"
 
-#: hr/models.py:35
+#: hr/models.py:42
 msgid "Job Description"
 msgstr "Опис посади"
 
-#: templates/base.html:30
+#: templates/base.html:32
 msgid "Change Language"
 msgstr "Змінити мову"
 
-#: templates/employee_list.html:4 templates/home.html:13
+#: templates/employee_list.html:5 templates/home.html:23
 msgid "Employee List"
 msgstr "Список працівників"
 
-#: templates/employee_list.html:10
+#: templates/employee_list.html:11
 msgid "Create New Employee"
 msgstr "Створити нового працівника"
 
-#: templates/employee_list.html:15 templates/home.html:14
+#: templates/employee_list.html:16 templates/home.html:24
 msgid "Salary Calculator"
 msgstr "Калькулятор заробітної плати"
 
-#: templates/employee_list.html:23
+#: templates/employee_list.html:24
 msgid "Filter"
 msgstr "Фільтр"
 
-#: templates/employee_list.html:31
+#: templates/employee_list.html:43
 msgid "First Name"
 msgstr "Ім'я"
 
-#: templates/employee_list.html:32
+#: templates/employee_list.html:44
 msgid "Last Name"
 msgstr "Прізвище"
 
-#: templates/employee_list.html:33
+#: templates/employee_list.html:45
 msgid "Email"
 msgstr "Пошта"
 
-#: templates/employee_list.html:34
+#: templates/employee_list.html:46
 msgid "Position"
 msgstr "Посада"
 
-#: templates/employee_list.html:35
+#: templates/employee_list.html:47
 msgid "Actions"
 msgstr "ДіЇ"
 
-#: templates/employee_list.html:48
+#: templates/employee_list.html:61
 msgid "Update"
 msgstr "Оновити"
 
-#: templates/employee_list.html:51
+#: templates/employee_list.html:64
 msgid "Delete"
 msgstr "Видалити"
 
-#: templates/employee_list.html:54
+#: templates/employee_list.html:67
 msgid "View"
 msgstr "Показати"
 
-#: templates/home.html:4
+#: templates/home.html:5
 msgid "Home"
 msgstr "Головна сторінка"
 
-#: templates/home.html:8
+#: templates/home.html:18
 msgid "Welcome!"
 msgstr "Ласкаво просимо!"
 
-#: templates/home.html:9
+#: templates/home.html:19
 msgid "This is a simple home page for the HR application."
 msgstr "Це проста домашня сторінка програми HR."
 
-#: templates/home.html:11
+#: templates/home.html:21
 msgid "You can manage employees or calculate salaries from here."
 msgstr "Звідси можна керувати співробітниками або розраховувати зарплату."
