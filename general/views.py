@@ -8,5 +8,6 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.first()
-        context['company'] = company
+        if company is not None:
+            context['company_logo'] = company.logo
         return context
