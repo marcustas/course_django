@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import (
@@ -26,7 +27,7 @@ from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
 
 
-class EmployeeListView(ListView):
+class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
@@ -66,6 +67,15 @@ class EmployeeUpdateView(UserIsAdminMixin, UpdateView):
     form_class = EmployeeForm
     template_name = 'employee_form.html'
     success_url = reverse_lazy('hr:employee_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Інформацію про працівника успішно оновлено.')
+        return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Виникла помилка при оновленні інформації про працівника.')
+        return super().form_invalid(form)
 
 
 class EmployeeDeleteView(UserIsAdminMixin, DeleteView):
