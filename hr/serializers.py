@@ -27,7 +27,7 @@ class SalarySerializer(serializers.Serializer):
     vacation_days = serializers.IntegerField(default=0)
 
 
-class DepartmentSerializer(serializers.Serializer):
+class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ('name', 'parent_department')
