@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from hr.models import (
+    Department,
     Employee,
     Position,
 )
@@ -24,3 +25,9 @@ class SalarySerializer(serializers.Serializer):
     holiday_days = serializers.IntegerField()
     sick_days = serializers.IntegerField(default=0)
     vacation_days = serializers.IntegerField(default=0)
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ('name', 'parent_department')
