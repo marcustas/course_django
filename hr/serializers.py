@@ -4,7 +4,8 @@ from hr.models import (
     Employee,
     Position,
 )
-from hr.validators import validate_positive
+from hr.validators import validate_positive, validate_max_month_days
+from hr.constants import MAX_MONTH_DAYS
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -21,7 +22,7 @@ class PositionSerializer(serializers.ModelSerializer):
 
 class SalarySerializer(serializers.Serializer):
     employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
-    working_days = serializers.IntegerField(validators=[validate_positive])
+    working_days = serializers.IntegerField(validators=[validate_positive, validate_max_month_days])
     holiday_days = serializers.IntegerField()
     sick_days = serializers.IntegerField(default=0)
     vacation_days = serializers.IntegerField(default=0)
@@ -33,7 +34,7 @@ class SalarySerializer(serializers.Serializer):
             data.get('sick_days', 0),
             data.get('vacation_days', 0),
         ])
-        if total_days > 31:
+        if total_days > MAX_MONTH_DAYS:
             raise serializers.ValidationError('Total days exceed the number of days in a month.')
         return data
 
