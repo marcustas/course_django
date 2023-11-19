@@ -11,7 +11,6 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-
 from hr.calculate_salary import CalculateMonthRateSalary
 from hr.forms import (
     EmployeeForm,

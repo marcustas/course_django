@@ -1,9 +1,7 @@
 import logging
 
 from django.utils.deprecation import MiddlewareMixin
-
 from general.models import RequestStatistics
-
 
 logger = logging.getLogger('middlewares')
 

@@ -1,11 +1,14 @@
 from rest_framework import serializers
 
+from hr.constants import MAX_MONTH_DAYS
 from hr.models import (
     Employee,
     Position,
 )
-from hr.validators import validate_positive, validate_max_month_days
-from hr.constants import MAX_MONTH_DAYS
+from hr.validators import (
+    validate_max_month_days,
+    validate_positive,
+)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

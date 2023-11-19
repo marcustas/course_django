@@ -7,7 +7,6 @@ from django.shortcuts import (
 )
 from django.urls import reverse
 from django.views import View
-
 from hr.forms import EmployeeForm
 from hr.models import Employee
 
