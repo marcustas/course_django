@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
     'hr',
     'general',
+
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

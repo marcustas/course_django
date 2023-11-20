@@ -83,7 +83,7 @@ class EmployeeProfileView(UserIsAdminMixin, DetailView):
     model = Employee
     template_name = 'employee_profile.html'
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         employee_id = self.kwargs.get('pk')
         employee = cache.get(f'employee_{employee_id}')
 
