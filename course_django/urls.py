@@ -29,11 +29,14 @@ from general.views import HomePageView
 urlpatterns = [
     path('napshhdf/', admin.site.urls),
     path('examples/', include('examples.urls')),
+    path('api/hr/', include(('hr.api_urls', 'hr'), namespace='api-hr')),
+
 ]
 
 urlpatterns += i18n_patterns(
     path('', HomePageView.as_view(), name='home'),
     path('hr/', include(('hr.urls', 'hr'), namespace='hr')),
+
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
 
     path('i18n/', include('django.conf.urls.i18n')),
