@@ -46,7 +46,7 @@ class Position(models.Model):
     def total_positions(self):
         """
         Returns the total number of positions.
-    
+
         :return: The total number of positions.
         :rtype: int
         """
