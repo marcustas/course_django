@@ -24,7 +24,10 @@ from hr.forms import (
     SalaryForm,
 )
 from hr.mixins import UserIsAdminMixin
-from hr.models import Employee
+from hr.models import Employee, Department
+
+from rest_framework import viewsets
+from hr.serializers import DepartmentSerializer
 
 
 class EmployeeListView(LoginRequiredMixin, ListView):
@@ -123,3 +126,9 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
                 'calculated_salary': salary,
             },
         )
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
