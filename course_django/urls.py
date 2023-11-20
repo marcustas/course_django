@@ -24,12 +24,17 @@ from django.urls import (
 )
 
 from general.views import HomePageView
+from rest_framework.routers import DefaultRouter
+from hr.views import DepartmentViewSet
 
+router = DefaultRouter()
+router.register(r'departments', DepartmentViewSet, basename='department')
 
 urlpatterns = [
     path('napshhdf/', admin.site.urls),
     path('examples/', include('examples.urls')),
     path('api/hr/', include(('hr.api_urls', 'hr'), namespace='api-hr')),
+    path('api/', include(router.urls)),
 
 ]
 

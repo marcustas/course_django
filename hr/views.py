@@ -26,7 +26,8 @@ from hr.forms import (
 from hr.mixins import UserIsAdminMixin
 from hr.models import Employee, Department
 
-from rest_framework import viewsets
+from rest_framework import viewsets, response
+from rest_framework.decorators import action
 from hr.serializers import DepartmentSerializer
 
 
@@ -132,3 +133,9 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
+    @action(detail=True, methods=['get'], url_path='employee_count')
+    def employee_count(self, request, *args, **kwargs):
+        department_id = kwargs.get('pk')
+        department = self.get_object()
+        employee_count = department.employee_set.count()
+        return response({'employee_count': employee_count})
