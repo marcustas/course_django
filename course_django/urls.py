@@ -22,7 +22,9 @@ from django.urls import (
     include,
     path,
 )
+
 from general.views import HomePageView
+
 
 urlpatterns = [
     path('napshhdf/', admin.site.urls),

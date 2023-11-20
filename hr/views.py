@@ -44,6 +44,30 @@ class EmployeeListView(ListView):
             )
         return queryset
 
+    def get_object(self):
+        """
+        Retrieves an employee object based on the 'pk' parameter provided in the kwargs.
+
+        Args:
+            self: An instance of the current class.
+
+        Returns:
+            Employee: An employee object retrieved from either the cache or the database.
+        """
+        # Get the employee_id from the kwargs
+        employee_id = self.kwargs.get('pk')
+
+        # Check if the employee is cached
+        employee = cache.get(f'employee_{employee_id}')
+
+        # If the employee is not cached, retrieve it from the database and cache it
+        if not employee:
+            employee = get_object_or_404(Employee, pk=employee_id)
+            cache.set(f'employee_{employee_id}', employee, timeout=3 * 60)
+
+        # Return the employee object
+        return employee
+
 
 class EmployeeCreateView(UserIsAdminMixin, CreateView):
     model = Employee
@@ -66,6 +90,31 @@ class EmployeeUpdateView(UserIsAdminMixin, UpdateView):
     form_class = EmployeeForm
     template_name = 'employee_form.html'
     success_url = reverse_lazy('hr:employee_list')
+
+    def form_valid(self, form):
+        """
+        Override the form_valid method to display a success message after successfully editing information.
+        """
+        response = super().form_valid(form)
+        # Display success message
+        messages.success(self.request, 'Інформацію успішно відредаговано.')
+        return response
+
+    def form_invalid(self, form):
+        """
+        Handle the case when the form is invalid.
+
+        Args:
+            form (Form): The invalid form.
+
+        Returns:
+            HttpResponse: The response to be returned.
+        """
+        # Display an error message to the user
+        messages.error(self.request, 'Виникла помилка при редагувані.')
+
+        # Call the parent class's form_invalid method
+        return super().form_invalid(form)
 
 
 class EmployeeDeleteView(UserIsAdminMixin, DeleteView):

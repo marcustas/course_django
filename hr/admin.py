@@ -2,12 +2,7 @@ from django.contrib import admin
 from django.core.exceptions import ValidationError
 from modeltranslation.admin import TranslationAdmin
 
-from hr.models import (
-    Department,
-    Employee,
-    MonthlySalary,
-    Position,
-)
+from hr.models import Company, Department, Employee, MonthlySalary, Position
 
 
 @admin.register(Department)
@@ -35,3 +30,8 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(MonthlySalary)
 class MonthlySalaryAdmin(admin.ModelAdmin):
     list_display = ('employee', 'month_year', 'salary', 'paid')
+
+
+@admin.register(Company)
+class Company(admin.ModelAdmin):
+    list_display = ('logo',)
