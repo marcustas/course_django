@@ -24,7 +24,11 @@ from hr.forms import (
     SalaryForm,
 )
 from hr.mixins import UserIsAdminMixin
-from hr.models import Employee
+from hr.models import Employee, Department
+
+from rest_framework import viewsets, response
+from rest_framework.decorators import action
+from hr.serializers import DepartmentSerializer
 
 
 class EmployeeListView(LoginRequiredMixin, ListView):
@@ -79,7 +83,7 @@ class EmployeeProfileView(UserIsAdminMixin, DetailView):
     model = Employee
     template_name = 'employee_profile.html'
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         employee_id = self.kwargs.get('pk')
         employee = cache.get(f'employee_{employee_id}')
 
@@ -123,3 +127,15 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
                 'calculated_salary': salary,
             },
         )
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+    @action(detail=True, methods=['get'], url_path='employee_count')
+    def employee_count(self, request, *args, **kwargs):
+        department_id = kwargs.get('pk')
+        department = self.get_object()
+        employee_count = department.employee_set.count()
+        return response({'employee_count': employee_count})
