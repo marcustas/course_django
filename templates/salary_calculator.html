@@ -41,6 +41,7 @@
     </div>
 
     <div class="row">
+    {% load cache %}
       {% cache 120 form %}
         {% for field in form %}
           {% if forloop.counter > 1 %}
