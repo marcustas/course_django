@@ -7,11 +7,12 @@ from hr.models import (
     Employee,
     MonthlySalary,
     Position,
+    Company,
 )
 
 
 @admin.register(Department)
-class DepartmentAdmin(admin.ModelAdmin):
+class DepartmentAdmin(TranslationAdmin):
     list_display = ('name', 'parent_department')
 
 
@@ -35,3 +36,8 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(MonthlySalary)
 class MonthlySalaryAdmin(admin.ModelAdmin):
     list_display = ('employee', 'month_year', 'salary', 'paid')
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('logo',)
