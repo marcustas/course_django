@@ -29,7 +29,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all().order_by()
     serializer_class = EmployeeSerializer
     pagination_class = SmallSetPagination
-    permission_classes = [IsNotRussianEmail]
+    permission_classes = [IsNotRussianEmail, ]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -61,8 +61,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['GET'])
     def employee_count(self, request, pk=None):
-        department = self.get_object()
-        count = department.employee_set.count()
+        count = Employee.objects.filter(position__department_id=pk)
         return Response({'employee_count': count})
 
 

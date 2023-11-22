@@ -10,3 +10,13 @@ class IsNotRussianEmail(permissions.BasePermission):
         if request.user and request.user.email:
             return not request.user.email.endswith('.ru')
         return False
+
+
+class HasPositionField(permissions.BasePermission):
+    """
+    Allows access only to those users who have Position field
+    """
+    def has_object_permission(self, request, view, obj):
+        if obj.position:
+            return True
+        return False

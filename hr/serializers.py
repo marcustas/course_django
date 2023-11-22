@@ -1,11 +1,12 @@
 from rest_framework import serializers
 
+from hr.constants import MAX_MONTH_DAYS
 from hr.models import (
     Employee,
     Position, Department,
 )
 from hr.validators import validate_positive, validate_max_month_days
-from hr.constants import MAX_MONTH_DAYS
+from static.CONSTANS import SICK_DAYS_MAX, HOLIDAYS_DAYS_MAX
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -28,8 +29,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class SalarySerializer(serializers.Serializer):
     employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
-    working_days = serializers.IntegerField(validators=[validate_positive, validate_max_month_days])
-    holiday_days = serializers.IntegerField()
+    working_days = serializers.IntegerField(validators=[validate_positive, validate_max_month_days], max_value=31)
+    holiday_days = serializers.IntegerField(validators=[])
     sick_days = serializers.IntegerField(default=0)
     vacation_days = serializers.IntegerField(default=0)
 
@@ -48,6 +49,14 @@ class SalarySerializer(serializers.Serializer):
         """
         Checks that the number of sick days does not exceed 3.
         """
-        if value > 3:
-            raise serializers.ValidationError('The number of sick days cannot be more than 3.')
+        if value > SICK_DAYS_MAX:
+            raise serializers.ValidationError(f'The number of sick days cannot be more than {SICK_DAYS_MAX}.')
+        return value
+
+    def validate_holiday_days(self, value):
+        """
+        Checks that the number of holiday days does not exceed 5.
+        """
+        if value > HOLIDAYS_DAYS_MAX:
+            raise serializers.ValidationError(f'The number of sick holiday cannot be more than {HOLIDAYS_DAYS_MAX}.')
         return value
