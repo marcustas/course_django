@@ -12,7 +12,7 @@ from hr.models import (
     Department,
 )
 from hr.pagination import SmallSetPagination
-from hr.permissions import IsNotRussianEmail
+from hr.permissions import IsNotRussianEmail, HasPositionField
 from hr.pydantic_models import WorkingDays
 from hr.serializers import (
     EmployeeSerializer,
@@ -29,7 +29,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all().order_by()
     serializer_class = EmployeeSerializer
     pagination_class = SmallSetPagination
-    permission_classes = [IsNotRussianEmail, ]
+    permission_classes = [IsNotRussianEmail, HasPositionField]
 
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -5,7 +5,7 @@ from hr.models import (
     Employee,
     Position, Department,
 )
-from hr.validators import validate_positive, validate_max_month_days
+from hr.validators import validate_positive, validate_max_month_days, validate_max_holiday_days
 from static.CONSTANS import SICK_DAYS_MAX, HOLIDAYS_DAYS_MAX
 
 
@@ -30,7 +30,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class SalarySerializer(serializers.Serializer):
     employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
     working_days = serializers.IntegerField(validators=[validate_positive, validate_max_month_days], max_value=31)
-    holiday_days = serializers.IntegerField(validators=[])
+    holiday_days = serializers.IntegerField(validators=[validate_max_holiday_days])
     sick_days = serializers.IntegerField(default=0)
     vacation_days = serializers.IntegerField(default=0)
 
