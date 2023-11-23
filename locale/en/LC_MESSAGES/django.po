@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 11:45+0000\n"
+"POT-Creation-Date: 2023-11-16 17:31+0000\n"
 "PO-Revision-Date: 2023-11-01 19:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,76 +18,84 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.1\n"
 
-#: hr/models.py:31
+#: hr/models.py:38
 msgid "Title"
 msgstr "Title"
 
-#: hr/models.py:35
+#: hr/models.py:39
+msgid "Department"
+msgstr "Department"
+
+#: hr/models.py:42
 #, fuzzy
 #| msgid "Position"
 msgid "Job Description"
 msgstr "Job Description"
 
-#: templates/employee_list.html:4 templates/home.html:13
+#: templates/base.html:32
+msgid "Change Language"
+msgstr "Change Language"
+
+#: templates/employee_list.html:5 templates/home.html:23
 msgid "Employee List"
 msgstr "Employee List"
 
-#: templates/employee_list.html:10
+#: templates/employee_list.html:11
 msgid "Create New Employee"
 msgstr "Create New Employee"
 
-#: templates/employee_list.html:15 templates/home.html:14
+#: templates/employee_list.html:16 templates/home.html:24
 msgid "Salary Calculator"
 msgstr "Salary Calculator"
 
-#: templates/employee_list.html:23
+#: templates/employee_list.html:24
 msgid "Filter"
 msgstr "Filter"
 
-#: templates/employee_list.html:31
+#: templates/employee_list.html:43
 msgid "First Name"
 msgstr "First Name"
 
-#: templates/employee_list.html:32
+#: templates/employee_list.html:44
 msgid "Last Name"
 msgstr "Last Name"
 
-#: templates/employee_list.html:33
+#: templates/employee_list.html:45
 msgid "Email"
 msgstr "Email"
 
-#: templates/employee_list.html:34
+#: templates/employee_list.html:46
 msgid "Position"
 msgstr "Position"
 
-#: templates/employee_list.html:35
+#: templates/employee_list.html:47
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/employee_list.html:48
+#: templates/employee_list.html:61
 msgid "Update"
 msgstr "Update"
 
-#: templates/employee_list.html:51
+#: templates/employee_list.html:64
 msgid "Delete"
 msgstr "Delete"
 
-#: templates/employee_list.html:54
+#: templates/employee_list.html:67
 msgid "View"
 msgstr "View"
 
-#: templates/home.html:4
+#: templates/home.html:5
 msgid "Home"
 msgstr "Home"
 
-#: templates/home.html:8
+#: templates/home.html:18
 msgid "Welcome!"
 msgstr "Welcome!"
 
-#: templates/home.html:9
+#: templates/home.html:19
 msgid "This is a simple home page for the HR application."
 msgstr "This is a simple home page for the HR application."
 
-#: templates/home.html:11
+#: templates/home.html:21
 msgid "You can manage employees or calculate salaries from here."
 msgstr "You can manage employees or calculate salaries from here."

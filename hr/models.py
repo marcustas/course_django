@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Company(models.Model):
@@ -11,6 +13,7 @@ class Company(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to='logos/', null=True, blank=True)
 
     def __str(self):
         return self.name
@@ -33,6 +36,11 @@ class Department(models.Model):
         return self.position_set.filter(is_active=True).count()
 
 
+@receiver(pre_save, sender=Department)
+def capitalize_department_name(sender, instance, **kwargs):
+    instance.name = instance.name.capitalize()
+
+
 class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
@@ -50,6 +58,10 @@ class Position(models.Model):
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)
 
+    @cached_property
+    def total_positions(self):
+        return Employee.objects.filter(position=self).count()
+
     def __str__(self):
         return self.title
 
@@ -61,6 +73,7 @@ class Employee(AbstractUser):
     phone_number = models.CharField(max_length=151, default='')
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     cv = models.FileField(upload_to='cvs/', null=True, blank=True, help_text='PDF, DOC, or DOCX')
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.position or ""}'
