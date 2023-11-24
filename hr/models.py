@@ -42,7 +42,6 @@ class Company(models.Model):
     tax_code = models.CharField(max_length=200)
 
     def save(self, *args, **kwargs):
-
         if not self.pk and Company.objects.exists():
             raise ValidationError('There can be only one Company instance.')
         return super(Company, self).save(*args, **kwargs)
