@@ -23,7 +23,7 @@ class PositionSerializer(serializers.ModelSerializer):
 class SalarySerializer(serializers.Serializer):
     employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
     working_days = serializers.IntegerField(validators=[validate_positive, validate_max_month_days], max_value=31)
-    holiday_days = serializers.IntegerField(validators=[validate_holiday_days()])
+    holiday_days = serializers.IntegerField(validators=[validate_holiday_days])
     sick_days = serializers.IntegerField(default=0)
     vacation_days = serializers.IntegerField(default=0)
 
