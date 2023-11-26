@@ -3,7 +3,6 @@ from django.db.models import (
     Q,
 )
 from django.http import HttpResponse
-
 from hr.models import (
     Department,
     Position,

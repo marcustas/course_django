@@ -22,14 +22,12 @@ from django.urls import (
     include,
     path,
 )
+from general.schema import schema_view
+from general.views import HomePageView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
-from general.schema import schema_view
-from general.views import HomePageView
-
 
 urlpatterns = [
     path('napshhdf/', admin.site.urls),
