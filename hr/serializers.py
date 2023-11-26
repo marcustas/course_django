@@ -1,12 +1,11 @@
 from rest_framework import serializers
 
-from hr.constants import MAX_MONTH_DAYS
+from hr.constants import MAX_MONTH_DAYS, SICK_DAYS_MAX, HOLIDAYS_DAYS_MAX
 from hr.models import (
     Employee,
     Position, Department,
 )
 from hr.validators import validate_positive, validate_max_month_days, validate_max_holiday_days
-from static.CONSTANS import SICK_DAYS_MAX, HOLIDAYS_DAYS_MAX
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

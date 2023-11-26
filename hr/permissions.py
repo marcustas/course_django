@@ -17,6 +17,4 @@ class HasPositionField(permissions.BasePermission):
     Allows access only to those users who have Position field
     """
     def has_object_permission(self, request, view, obj):
-        if obj.position:
-            return True
-        return False
+        return bool(obj.position)

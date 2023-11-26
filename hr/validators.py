@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from hr.constants import MAX_MONTH_DAYS
-from static.CONSTANS import TOTAL_HOLIDAY_DAYS
+
+from hr.constants import MAX_MONTH_DAYS, TOTAL_HOLIDAY_DAYS
 
 
 def validate_positive(value):
