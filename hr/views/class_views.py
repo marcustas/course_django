@@ -23,10 +23,10 @@ class EmployeeListView(View):
 
         if search:
             employees = employees.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search) |
-                Q(email__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
 
         # Debugging: Print the search string and filtered employees
@@ -37,7 +37,6 @@ class EmployeeListView(View):
 
         # Print the SQL query
         print(employees.query)
-
 
         context = {'employees': employees}
         return render(request, 'employee_list.html', context)
@@ -80,7 +79,9 @@ class EmployeeUpdateView(UserPassesTestMixin, View):
 class EmployeeDeleteView(UserPassesTestMixin, View):
     def get(self, request, pk):
         employee = get_object_or_404(Employee, pk=pk)
-        return render(request, 'employee_confirm_delete.html', {'object': employee})
+        return render(
+            request, 'employee_confirm_delete.html', {'object': employee}
+        )
 
     def post(self, request, pk):
         employee = get_object_or_404(Employee, pk=pk)

@@ -7,9 +7,8 @@ from django.views.generic import (
     DeleteView,
     ListView,
     UpdateView,
-    DetailView
+    DetailView,
 )
-
 from hr.forms import EmployeeForm
 from hr.models import Employee
 
@@ -22,6 +21,7 @@ class EmployeeListView(ListView):
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -29,10 +29,10 @@ class EmployeeListView(ListView):
 
         if search:
             queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search) |
-                Q(email__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
         return queryset
 
@@ -52,7 +52,6 @@ class EmployeeDetailsView(UserPassesTestMixin, DetailView):
     model = Employee
     template_name = 'employee_details.html'
     context_object_name = 'employee'
-    paginate_by = 2
     success_url = reverse_lazy('employee_list')
 
     def test_func(self):
