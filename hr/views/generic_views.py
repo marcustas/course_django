@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -46,8 +47,25 @@ class EmployeeCreateView(CreateView):
     def test_func(self):
         return user_is_superadmin(self.request.user)
 
-class EmployeeDetailsView(UserPassesTestMixin, UpdateView):
-    name=''
+
+class EmployeeDetailsView(UserPassesTestMixin, DetailView):
+    model = Employee
+    template_name = 'employee_details.html'
+    context_object_name = 'employee'
+    paginate_by = 2
+    success_url = reverse_lazy('employee_list')
+
+    def test_func(self):
+        return user_is_superadmin(self.request.user)
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')  # Retrieve the pk from URL parameters
+        queryset = self.get_queryset()
+
+        # Use get_object_or_404 to retrieve the employee based on the pk
+        employee = get_object_or_404(queryset, pk=pk)
+        return employee
+
 
 class EmployeeUpdateView(UserPassesTestMixin, UpdateView):
     model = Employee
@@ -66,4 +84,3 @@ class EmployeeDeleteView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
-

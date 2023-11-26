@@ -29,22 +29,22 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in employees %}
-      <tr>
-        <td>{{ employee.first_name }}</td>
-        <td>{{ employee.last_name }}</td>
-        <td>{{ employee.email }}</td>
-        <td>{{ employee.position.title }}</td>
-        <td>
-          {% if request.user.is_superuser %}
-          <a href="{% url 'employee_details' employee.pk %}" class="btn
-          btn-info">info</a>
-          <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
-          <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
+        {% for employee in employees %}
+          <tr>
+            <td>{{ employee.first_name }}</td>
+            <td>{{ employee.last_name }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.position.title }}</td>
+            <td>
+              {% if request.user.is_superuser %}
+              <a href="{% url 'employee_details' employee.pk %}" class="btn
+              btn-info">Details</a>
+              <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
+              <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
     </tbody>
   </table>
 </div>
