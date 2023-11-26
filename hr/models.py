@@ -7,10 +7,16 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
+    name = models.CharField(verbose_name=_('name'), max_length=100)
+    address = models.CharField(verbose_name=_('address'), max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(
+        verbose_name=_('logo'),
+        upload_to='logos/',
+        null=True,
+        blank=True,
+    )
 
     def __str(self):
         return self.name
@@ -22,8 +28,8 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(verbose_name=_('name'), max_length=200)
+    parent_department = models.ForeignKey('self',verbose_name=_('parent_department'),  on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -50,6 +56,9 @@ class Position(models.Model):
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)
 
+    def all_positions(self):
+        return Position.objects.filter(department=self.department).count()
+
     def __str__(self):
         return self.title
 
@@ -57,7 +66,7 @@ class Position(models.Model):
 class Employee(AbstractUser):
     hire_date = models.DateField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
+    position = models.ForeignKey('Position', verbose_name=_('Position'), on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=151, default='')
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     cv = models.FileField(upload_to='cvs/', null=True, blank=True, help_text='PDF, DOC, or DOCX')
