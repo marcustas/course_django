@@ -15,8 +15,9 @@ from hr.tests.factories import (
 class EmployeeListViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.employees = EmployeeFactory.create_batch(10)
-        self.client.force_login(self.employees[0])
+        self.employees_count = 10
+        self.employees = EmployeeFactory.create_batch(self.employees_count)
+        self.client.force_login(user=self.employees[0])
         self.url = reverse('hr:employee_list')
 
     def test_access_employee_list(self):
@@ -26,12 +27,12 @@ class EmployeeListViewTest(TestCase):
     def test_employee_list_content(self):
         response = self.client.get(self.url)
         self.assertTrue('employees' in response.context)
-        self.assertEqual(len(response.context['employees']), 10)
+        self.assertEqual(len(response.context['employees']), self.employees_count)
 
     def test_employee_search(self):
         search_query = self.employees[0].first_name
         response = self.client.get(f'{self.url}?search={search_query}')
-        self.assertTrue(len(response.context['employees']), 1)
+        self.assertEqual(len(response.context['employees']), 1)
         self.assertEqual(response.context['employees'][0].first_name, search_query)
 
 

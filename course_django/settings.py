@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
     'rest_framework_simplejwt',
+    'django_celery_beat',
 
     'hr',
     'general',
@@ -86,12 +88,15 @@ WSGI_APPLICATION = 'course_django.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'course_db',
+        'USER': 'course_user',
+        'PASSWORD': 'course_password',
+        'HOST': 'db',   # назва сервісу PostgreSQL у docker-compose
+        'PORT': 5432,
+    }
 }
 
 
@@ -143,6 +148,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
