@@ -14,6 +14,4 @@ class IsNotRussianEmail(permissions.BasePermission):
 
 class EmployeeIsWithPosition(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        if obj.position is not None:
-            return True
-        return False
+        return bool(request.user.position)
