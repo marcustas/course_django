@@ -37,6 +37,8 @@
         <td>{{ employee.position.title }}</td>
         <td>
           {% if request.user.is_superuser %}
+          <a href="{% url 'employee_details' employee.pk %}" class="btn
+          btn-info">info</a>
           <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
           <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
           {% endif %}

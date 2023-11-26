@@ -30,12 +30,14 @@ class EmployeeListView(ListView):
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
-                Q(position__title__icontains=search),
+                Q(position__title__icontains=search) |
+                Q(email__icontains=search),
             )
         return queryset
 
 
-class EmployeeCreateView(UserPassesTestMixin, CreateView):
+# class EmployeeCreateView(UserPassesTestMixin, CreateView):
+class EmployeeCreateView(CreateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'employee_form.html'
@@ -44,6 +46,8 @@ class EmployeeCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return user_is_superadmin(self.request.user)
 
+class EmployeeDetailsView(UserPassesTestMixin, UpdateView):
+    name=''
 
 class EmployeeUpdateView(UserPassesTestMixin, UpdateView):
     model = Employee
@@ -62,3 +66,4 @@ class EmployeeDeleteView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
+
