@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views import View
 
 from hr.forms import EmployeeForm
-from hr.models import Employee
+from hr.models import Employee, Department, Position
 
 
 def user_is_superadmin(user) -> bool:
@@ -90,3 +90,44 @@ class EmployeeDeleteView(UserPassesTestMixin, View):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
+
+
+class InfoFromDb(View):
+    def get(self, request, *args, **kwargs):
+        departments_with_managers_query = Department.objects.filter(
+            position__is_manager=True)
+
+        departments_with_managers_names = list(
+            departments_with_managers_query.values_list('name', flat=True))
+
+        ordered_departments_with_managers = list(
+            departments_with_managers_query.order_by('department').values_list(
+                'name', flat=True))
+
+        active_positions_count = Position.objects.filter(is_active=True).count()
+
+        positions_in_hr_or_active = list(
+            Position.objects.filter(
+                Q(department__name='HR') | Q(is_active=True)
+            ).values_list('title', flat=True)
+        )
+
+
+
+        positions_sorted = Position.objects.order_by('title').values(
+            'title', 'is_active'
+        )
+
+        data = {
+            'ordered_departments_with_managers': ', '.join(ordered_departments_with_managers),
+            'active_positions_count': str(active_positions_count),
+            'positions_in_hr_or_active': ', '.join(
+                positions_in_hr_or_active
+            ),
+            'departments_with_managers_names': ', '.join(
+                departments_with_managers_names
+            ),
+            'positions_sorted': list(positions_sorted),
+        }
+
+        return render(request, 'info_from_db.html', data)

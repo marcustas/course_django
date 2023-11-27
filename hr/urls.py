@@ -1,6 +1,7 @@
 from django.urls import path
 
 from hr.views import generic_views as views
+from hr.views import class_views
 
 
 urlpatterns = [
@@ -24,6 +25,9 @@ urlpatterns = [
         'employees/details/<int:pk>/',
         views.EmployeeDetailsView.as_view(),
         name='employee_details',
+    ),
+    path(
+        'info_from_db', class_views.InfoFromDb.as_view(), name='infor_from_db'
     ),
 ]
 
