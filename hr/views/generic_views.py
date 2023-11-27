@@ -37,8 +37,7 @@ class EmployeeListView(ListView):
         return queryset
 
 
-# class EmployeeCreateView(UserPassesTestMixin, CreateView):
-class EmployeeCreateView(CreateView):
+class EmployeeCreateView(UserPassesTestMixin, CreateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'employee_form.html'
@@ -58,10 +57,9 @@ class EmployeeDetailsView(UserPassesTestMixin, DetailView):
         return user_is_superadmin(self.request.user)
 
     def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')  # Retrieve the pk from URL parameters
+        pk = self.kwargs.get('pk')
         queryset = self.get_queryset()
 
-        # Use get_object_or_404 to retrieve the employee based on the pk
         employee = get_object_or_404(queryset, pk=pk)
         return employee
 
