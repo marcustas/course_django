@@ -1,0 +1,21 @@
+{% block title %}Employee Detail{% endblock title %}
+
+    {% block content %}
+    <div class="container mt-4">
+      <h1>Employee Profile</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>First Name:</strong> {{ employee.first_name }}</p>
+          <p><strong>Last Name:</strong> {{ employee.last_name }}</p>
+          <p><strong>Email:</strong> {{ employee.email }}</p>
+          <p><strong>Position:</strong> {{ employee.position.title }}</p>
+        </div>
+      </div>
+      <div class="mt-3">
+        {% if request.user.is_superuser %}
+          <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endblock %}
