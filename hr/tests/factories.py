@@ -32,3 +32,5 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     last_name = factory.Faker('last_name')
     email = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')
     password = make_password('password')
+    # avatar = factory.django.ImageField(from_path='media/avatars/IMG_3837.jpeg')
+    # cv = factory.django.ImageField(from_path='media/cvs/IMG_4194.png')
