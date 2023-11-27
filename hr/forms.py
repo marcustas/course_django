@@ -14,7 +14,7 @@ WorkDayChoices = [(tag.name, tag.value) for tag in WorkDayEnum]
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ('username', 'first_name', 'last_name', 'email', 'position')
+        fields = ('username', 'first_name', 'last_name', 'email', 'position',)
 
 
 class SalaryForm(forms.Form):

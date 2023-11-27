@@ -18,6 +18,7 @@ from hr.serializers import (
     PositionSerializer,
     SalarySerializer,
 )
+from hr.permissions import HasPositionPermission
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
@@ -27,7 +28,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all().order_by()
     serializer_class = EmployeeSerializer
     pagination_class = SmallSetPagination
-    permission_classes = [IsNotRussianEmail]
+    permission_classes = [IsNotRussianEmail, HasPositionPermission]
 
     def get_queryset(self):
         queryset = super().get_queryset()
