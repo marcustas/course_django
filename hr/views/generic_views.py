@@ -1,14 +1,14 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
     ListView,
     UpdateView,
-    DetailView
+    DetailView,
 )
-
 from hr.forms import EmployeeForm
 from hr.models import Employee
 
@@ -21,6 +21,7 @@ class EmployeeListView(ListView):
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -28,9 +29,10 @@ class EmployeeListView(ListView):
 
         if search:
             queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
         return queryset
 
@@ -43,6 +45,23 @@ class EmployeeCreateView(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
+
+
+class EmployeeDetailsView(UserPassesTestMixin, DetailView):
+    model = Employee
+    template_name = 'employee_details.html'
+    context_object_name = 'employee'
+    success_url = reverse_lazy('employee_list')
+
+    def test_func(self):
+        return user_is_superadmin(self.request.user)
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        queryset = self.get_queryset()
+
+        employee = get_object_or_404(queryset, pk=pk)
+        return employee
 
 
 class EmployeeUpdateView(UserPassesTestMixin, UpdateView):

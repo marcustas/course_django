@@ -18,17 +18,16 @@ def user_is_superadmin(user) -> bool:
 @user_passes_test(user_is_superadmin)
 def employee_list(request):
     search = request.GET.get('search', '')
+
     employees = Employee.objects.all()
 
     if search:
         employees = employees.filter(
-            Q(first_name__icontains=search) |
-            Q(last_name__icontains=search) |
-            Q(position__title__icontains=search),
+            Q(first_name__icontains=search)
+            | Q(last_name__icontains=search)
+            | Q(position__title__icontains=search)
+            | Q(email__icontains=search),
         )
-
-    for employee in employees:
-        print(employee.birth_date)
 
     context = {'employees': employees}
     return render(request, 'employee_list.html', context)

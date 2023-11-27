@@ -29,21 +29,40 @@
       </tr>
     </thead>
     <tbody>
-      {% for employee in employees %}
-      <tr>
-        <td>{{ employee.first_name }}</td>
-        <td>{{ employee.last_name }}</td>
-        <td>{{ employee.email }}</td>
-        <td>{{ employee.position.title }}</td>
-        <td>
-          {% if request.user.is_superuser %}
-          <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
-          <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
+        {% for employee in page_obj %}
+          <tr>
+            <td>{{ employee.first_name }}</td>
+            <td>{{ employee.last_name }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.position.title }}</td>
+            <td>
+              {% if request.user.is_superuser %}
+              <a href="{% url 'employee_details' employee.pk %}" class="btn
+              btn-info">Details</a>
+              <a href="{% url 'employee_update' employee.pk %}" class="btn btn-primary">Update</a>
+              <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
     </tbody>
   </table>
+  <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</p><br>
+  <div class="pagination">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link"
+                                     href="?page=1">&laquo first</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+
 </div>
 {% endblock %}
