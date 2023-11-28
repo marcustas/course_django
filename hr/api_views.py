@@ -9,14 +9,16 @@ from hr.calculate_salary import CalculateMonthRateSalary
 from hr.models import (
     Employee,
     Position,
+    Department,
 )
 from hr.pagination import SmallSetPagination
-from hr.permissions import IsNotRussianEmail
+from hr.permissions import IsNotRussianEmail, HasPositionField
 from hr.pydantic_models import WorkingDays
 from hr.serializers import (
     EmployeeSerializer,
     PositionSerializer,
     SalarySerializer,
+    DepartmentSerializer,
 )
 
 
@@ -27,7 +29,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all().order_by()
     serializer_class = EmployeeSerializer
     pagination_class = SmallSetPagination
-    permission_classes = [IsNotRussianEmail]
+    permission_classes = [IsNotRussianEmail, HasPositionField]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -53,13 +55,22 @@ class PositionViewSet(viewsets.ModelViewSet):
     serializer_class = PositionSerializer
 
 
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+    @action(detail=True, methods=['GET'])
+    def employee_count(self, request, pk=None):
+        count = Employee.objects.filter(position__department_id=pk)
+        return Response({'employee_count': count})
+
+
 class SalaryCalculatorView(APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request, *args, **kwargs):
         serializer = SalarySerializer(data=request.data)
         if serializer.is_valid():
-
             calculator = CalculateMonthRateSalary(employee=serializer.validated_data['employee'])
             month_days = WorkingDays(
                 working=serializer.validated_data['working_days'],
