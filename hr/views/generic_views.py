@@ -1,4 +1,3 @@
-
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -12,12 +11,10 @@ from django.views.generic import (
 )
 
 from hr.calculate_salary import CalculateMonthRateSalary
-from hr.forms import (
-    EmployeeForm,
-    SalaryForm,
-)
+from hr.forms import EmployeeForm, SalaryForm
 from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
+from datetime import date
 
 
 class EmployeeListView(ListView):
@@ -31,10 +28,10 @@ class EmployeeListView(ListView):
 
         if search:
             queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search) |
-                Q(email__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
         return queryset
 
@@ -70,7 +67,19 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         form = SalaryForm()
-        return render(request, self.template_name, {'form': form})
+
+        today = date.today()
+        empty_days = date(today.year, today.month, 1).weekday()
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'empty_days_range': range(empty_days)
+                if empty_days != 0
+                else None,
+            },
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,7 +91,11 @@ class SalaryCalculatorView(UserIsAdminMixin, FormView):
 
         calculator = CalculateMonthRateSalary(employee=employee)
 
-        days = {day: day_type for day, day_type in cleaned_data.items() if day.startswith(calculator.day_prefix)}
+        days = {
+            day: day_type
+            for day, day_type in cleaned_data.items()
+            if day.startswith(calculator.day_prefix)
+        }
 
         salary = calculator.calculate_salary(days_dict=days)
 

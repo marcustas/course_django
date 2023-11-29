@@ -2,14 +2,10 @@
 
 import django.db.models.deletion
 from django.conf import settings
-from django.db import (
-    migrations,
-    models,
-)
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('hr', '0003_position_is_active'),
     ]
@@ -23,11 +19,25 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MonthlySalary',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('month_year', models.DateField()),
                 ('salary', models.IntegerField()),
                 ('bonus', models.IntegerField(blank=True, null=True)),
-                ('employee', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'employee',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]
