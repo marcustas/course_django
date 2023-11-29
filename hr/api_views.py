@@ -21,9 +21,9 @@ from hr.serializers import (
 
 
 class PositionPermission(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj) -> bool:
         # Checking if employee has assigned Position.
-        return obj.position is not None
+        return bool(request.user.position)
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):

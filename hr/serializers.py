@@ -41,12 +41,18 @@ class SalarySerializer(serializers.Serializer):
 
     def validate_sick_days(self, value):
         """
-        Checks that the number of sick days does not exceed 3 or 5.
+        Checks that the number of sick days does not exceed 3.
         """
         if value > 3:
             raise serializers.ValidationError('The number of sick days cannot be more than 3.')
-        elif value > 5:
-            raise serializers.ValidationError("The number of sick days cannot be more than 5.")
+        return value
+
+    def validate_vacation_days(self, value):
+        """
+        Checks that the number of vacation days does not exceed 5.
+        """
+        if value > 5:
+            raise serializers.ValidationError('The number of vacation days cannot be more than 5.')
         return value
 
     def validate_holiday_days(self, value):
