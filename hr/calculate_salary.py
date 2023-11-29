@@ -28,7 +28,8 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
             {
                 day: work_type
                 for day, work_type in days_dict.items()
-                if work_type not in (WorkDayEnum.HOLIDAY.name, WorkDayEnum.WEEKEND.name)
+                if work_type
+                not in (WorkDayEnum.HOLIDAY.name, WorkDayEnum.WEEKEND.name)
             },
         )
 
@@ -38,13 +39,21 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
     @staticmethod
     def _calculate_monthly_working_days(days_dict: dict[str, int]) -> int:
         return len(
-            {day: work_type for day, work_type in days_dict.items() if work_type == WorkDayEnum.WORKING_DAY.name},
+            {
+                day: work_type
+                for day, work_type in days_dict.items()
+                if work_type == WorkDayEnum.WORKING_DAY.name
+            },
         )
 
     @staticmethod
     def _calculate_monthly_sick_days(days_dict: dict[str, int]) -> int:
         return len(
-            {day: work_type for day, work_type in days_dict.items() if work_type == WorkDayEnum.SICK_DAY.name},
+            {
+                day: work_type
+                for day, work_type in days_dict.items()
+                if work_type == WorkDayEnum.SICK_DAY.name
+            },
         )
 
     def _calculate_sick_daily_salary(self) -> int:
@@ -55,7 +64,9 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
 
         return self._calculate_sick_daily_salary() * sick_days
 
-    def _calculate_working_monthly_salary(self, days_dict: dict[str, int]) -> int:
+    def _calculate_working_monthly_salary(
+        self, days_dict: dict[str, int]
+    ) -> int:
         working_days = self._calculate_monthly_working_days(days_dict=days_dict)
 
         return working_days * self._daily_salary
@@ -63,11 +74,21 @@ class CalculateMonthRateSalary(AbstractSalaryCalculate):
     def calculate_salary(self, days_dict: dict[str, int]) -> int:
         base_working_days = self._calculate_base_work_days(days_dict)
 
-        self._daily_salary = self._calculate_daily_salary(base_working_days=base_working_days)
+        self._daily_salary = self._calculate_daily_salary(
+            base_working_days=base_working_days
+        )
 
-        working_days_salary = self._calculate_working_monthly_salary(days_dict=days_dict)
-        sick_monthly_salary = self._calculate_sick_monthly_salary(days_dict=days_dict)
+        working_days_salary = self._calculate_working_monthly_salary(
+            days_dict=days_dict
+        )
+        sick_monthly_salary = self._calculate_sick_monthly_salary(
+            days_dict=days_dict
+        )
 
         salary = working_days_salary + sick_monthly_salary
 
-        return salary if salary <= self.employee.position.monthly_rate else self.employee.position.monthly_rate
+        return (
+            salary
+            if salary <= self.employee.position.monthly_rate
+            else self.employee.position.monthly_rate
+        )

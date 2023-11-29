@@ -1,11 +1,7 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 
-from hr.models import (
-    Department,
-    Employee,
-    Position,
-)
+from hr.models import Department, Employee, Position
 
 
 @admin.register(Department)

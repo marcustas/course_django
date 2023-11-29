@@ -41,9 +41,18 @@
     </div>
 
     <div class="row">
+        {% if empty_days != 0 %}
+              {% if empty_days_range %}
+                {% for i in empty_days_range %}
+                    <div class="col-2" style="max-width: 14%; border: 1px
+                    solid grey;"></div>
+                {% endfor %}
+            {% endif %}
+          {% endif %}
       {% for field in form %}
+
         {% if forloop.counter > 1 %}
-          <div class="col-2">
+          <div class="col-2" style="max-width: 14%; border: 1px solid grey">
             <div class="form-group">
               <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
               <select name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control">

@@ -5,8 +5,8 @@ from django import forms
 from django.forms import ChoiceField
 
 from common.enums import WorkDayEnum
+from hr.additional_functions import validate_day_count
 from hr.models import Employee
-
 
 WorkDayChoices = [(tag.name, tag.value) for tag in WorkDayEnum]
 
@@ -27,13 +27,19 @@ class SalaryForm(forms.Form):
         _, num_days = calendar.monthrange(today.year, today.month)
 
         for day in range(1, num_days + 1):
-            weekday_name = calendar.day_name[calendar.weekday(today.year, today.month, day)]
+            weekday_name = calendar.day_name[
+                calendar.weekday(today.year, today.month, day)
+            ]
             field_name = f'day_{day}'
 
-            if calendar.weekday(today.year, today.month, day) >= 5:  # Saturday and Sunday
+            if (
+                calendar.weekday(today.year, today.month, day) >= 5
+            ):  # Saturday and Sunday
                 self.fields[field_name] = ChoiceField(
                     label=f'{day} - {weekday_name}',
-                    choices=[(WorkDayEnum.WEEKEND.name, WorkDayEnum.WEEKEND.value)],
+                    choices=[
+                        (WorkDayEnum.WEEKEND.name, WorkDayEnum.WEEKEND.value)
+                    ],
                     initial=WorkDayEnum.WEEKEND.name,
                 )
             else:
@@ -42,3 +48,16 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+    def clean_employee(self):
+        employee = self.cleaned_data.get('employee')
+        if not employee:
+            raise forms.ValidationError("Поле Employee має бути заповненим.")
+        return employee
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        validate_day_count(cleaned_data, 'SICK_DAY', 5)
+        validate_day_count(cleaned_data, 'HOLIDAY', 3)
+        return cleaned_data
