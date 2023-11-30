@@ -86,3 +86,42 @@ class EmployeeCreateViewTest(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Працівника успішно створено.')
+
+
+class EmployeeProfileViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employee = EmployeeFactory()
+        self.url = reverse('hr:employee_profile', args=[self.employee.id])
+
+    def test_profile_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'hr/employee_profile.html')
+        self.assertEqual(response.context['employee'], self.employee)
+
+
+class EmployeeDeleteViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employee = EmployeeFactory()
+        self.url = reverse('hr:employee_delete', args=[self.employee.id])
+
+    def test_delete_view(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Employee.objects.filter(id=self.employee.id).exists())
+
+
+class EmployeeUpdateView(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employee = EmployeeFactory()
+        self.url = reverse('hr:employee_update', args=[self.employee.id])
+
+    def test_update_view(self):
+        new_first_name = 'UpdatedFirstName'
+        response = self.client.post(self.url, {'first_name': new_first_name})
+        self.assertEqual(response.status_code, 302)
+        updated_employee = Employee.objects.get(id=self.employee.id)
+        self.assertEqual(updated_employee.first_name, new_first_name)
