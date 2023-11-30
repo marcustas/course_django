@@ -63,7 +63,7 @@ class PositionViewSetTestCase(APITestCase):
     def test_create_position(self):
         data = {
             'title': 'New Position',
-            'department': '5',
+            'department': '1',
         }
         response = self.client.post(reverse('api-hr:position-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
