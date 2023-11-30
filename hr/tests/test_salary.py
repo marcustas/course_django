@@ -10,7 +10,7 @@ from django.test import (
 )
 from django.urls import reverse
 
-from hr.calculate_salary import CalculateMonthRateSalary
+from hr.calculate_salary import CalculateMonthRateSalary, WorkDayEnum
 from hr.pydantic_models import WorkingDays
 from hr.tests.factories import (
     EmployeeFactory,
@@ -129,3 +129,11 @@ class TestCalculateMonthRateSalary(TestCase):
         expected_working_days = WorkingDays(working=20, sick=4, vacation=2)
 
         self.assertEqual(result, expected_working_days)
+
+    def test__calculate_monthly_working_days(self):
+        result = self.calculator._calculate_monthly_working_days(DAYS_DICT)
+        expected_result = len(
+            {day: work_type for day, work_type in DAYS_DICT.items() if work_type == WorkDayEnum.WORKING_DAY.name},
+        )
+
+        self.assertEqual(result, expected_result)
