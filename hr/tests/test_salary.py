@@ -10,7 +10,7 @@ from django.test import (
 )
 from django.urls import reverse
 
-from hr.calculate_salary import CalculateMonthRateSalary
+from hr.calculate_salary import CalculateMonthRateSalary, WorkDayEnum
 from hr.pydantic_models import WorkingDays
 from hr.tests.factories import (
     EmployeeFactory,
@@ -116,3 +116,24 @@ class TestCalculateMonthRateSalary(TestCase):
     def test_save_salary(self, mock_update_or_create):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
+
+    @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_vacation_days')
+    @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_sick_days')
+    @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_working_days')
+    def test_get_days_count(self, mock_working_days, mock_sick_days, mock_vacation_days):
+        mock_working_days.return_value = 20
+        mock_sick_days.return_value = 4
+        mock_vacation_days.return_value = 2
+
+        result = self.calculator.get_days_count(DAYS_DICT)
+        expected_working_days = WorkingDays(working=20, sick=4, vacation=2)
+
+        self.assertEqual(result, expected_working_days)
+
+    def test__calculate_monthly_working_days(self):
+        result = self.calculator._calculate_monthly_working_days(DAYS_DICT)
+        expected_result = len(
+            {day: work_type for day, work_type in DAYS_DICT.items() if work_type == WorkDayEnum.WORKING_DAY.name},
+        )
+
+        self.assertEqual(result, expected_result)
