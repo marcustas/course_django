@@ -61,12 +61,12 @@ class PositionViewSetTestCase(APITestCase):
         self.client.force_login(self.user)
 
     def test_list_positions(self):
-        url = reverse('position-list')
+        url = reverse('api-hr:position-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_position(self):
-        url = reverse('position-list')
+        url = reverse('api-hr:position-list')
         data = {'title': 'Manager'}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
