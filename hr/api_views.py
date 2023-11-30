@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -18,6 +18,12 @@ from hr.serializers import (
     PositionSerializer,
     SalarySerializer,
 )
+
+
+class PositionPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj) -> bool:
+        # Checking if employee has assigned Position.
+        return bool(request.user.position)
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
