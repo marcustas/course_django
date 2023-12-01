@@ -48,3 +48,37 @@ class EmployeeAPITestCase(APITestCase):
     def test_search_employee(self):
         response = self.client.get(reverse('api-hr:employee-list'), {'search': 'Test'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+#2
+class PositionViewSetTestCase(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = Employee.objects.create_user(username='testuser', password='testpassword', email='test@gmail.com')
+        self.client.force_authenticate(user=self.user)
+
+    def test_get_position_list(self):
+        response = self.client.get(reverse('api-hr:position-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_position(self):
+        data = {
+            'username': 'newposition',
+            'first_name': 'Test',
+            'last_name': 'Position',
+            'email': 'test@position.com',
+        }
+        response = self.client.post(reverse('api-hr:position-list'), data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_update_position(self):
+        position = PositionFactory()
+        update_data = {'first_name': 'Updated Name'}
+        response = self.client.patch(reverse('api-hr:position-detail', args=[position.id]), update_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_position(self):
+        position = PositionFactory()
+        response = self.client.delete(reverse('api-hr:position-detail', args=[position.id]))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+

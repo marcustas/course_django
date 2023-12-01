@@ -1,4 +1,5 @@
 import datetime
+import unittest
 from unittest.mock import (
     MagicMock,
     patch,
@@ -116,3 +117,37 @@ class TestCalculateMonthRateSalary(TestCase):
     def test_save_salary(self, mock_update_or_create):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
+
+#2
+class TestGetDaysCount(unittest.TestCase):
+    @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_working_days')
+    @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_sick_days')
+    @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_vacation_days')
+    def test_get_days_count(self, mock_vacation_days, mock_sick_days, mock_working_days):
+
+        employee = MagicMock()
+        calculator = CalculateMonthRateSalary(employee)
+
+        mock_working_days.return_value = 20
+        mock_sick_days.return_value = 2
+        mock_vacation_days.return_value = 1
+
+        result = calculator.get_days_count()
+
+        mock_working_days.assert_called_once_with()
+        mock_sick_days.assert_called_once_with()
+        mock_vacation_days.assert_called_once_with()
+
+        self.assertIsInstance(result, WorkingDays)
+        self.assertEqual(result.working, 20)
+        self.assertEqual(result.sick, 2)
+        self.assertEqual(result.vacation, 1)
+
+if __name__ == '__main__':
+    unittest.main()
+
+class SecondTestCalculateMonthRateSalary(TestCase):
+    def test_calculate_monthly_working_days(self):
+        expected_working_days = 22
+        result = self.calculator._calculate_monthly_working_days(DAYS_DICT)
+        self.assertEqual(result, expected_working_days)
