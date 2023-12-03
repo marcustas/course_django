@@ -22,7 +22,7 @@ class RequestStatisticsMiddleware(MiddlewareMixin):
 
     def process_exception(self, request, exception):
         try:
-            stats = RequestStatistics.objects.get()
+            stats = RequestStatistics.objects.get(user=request.user)
         except RequestStatistics.DoesNotExist:
             stats = RequestStatistics()
 
