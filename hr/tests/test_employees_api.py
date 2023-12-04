@@ -5,7 +5,7 @@ from rest_framework.test import (
     APITestCase,
 )
 
-from hr.models import Employee
+from hr.models import (Employee, Position)
 from hr.tests.factories import (
     EmployeeFactory,
     PositionFactory,
@@ -48,3 +48,21 @@ class EmployeeAPITestCase(APITestCase):
     def test_search_employee(self):
         response = self.client.get(reverse('api-hr:employee-list'), {'search': 'Test'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    class PositionViewSetTestCase(APITestCase):
+        def setUp(self):
+            self.client = APIClient()
+            self.user = Employee.objects.create_user(username='testuser', password='testpassword')
+            self.client.force_login(self.user)
+
+        def test_list_positions(self):
+            url = reverse('api-hr:position-list')
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        def test_create_position(self):
+            url = reverse('api-hr:position-list')
+            data = {'title': 'Manager'}
+            response = self.client.post(url, data)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertTrue(Position.objects.filter(title='Manager').exists())
