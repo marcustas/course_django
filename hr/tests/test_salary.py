@@ -116,3 +116,27 @@ class TestCalculateMonthRateSalary(TestCase):
     def test_save_salary(self, mock_update_or_create):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
+
+    @patch.object(CalculateMonthRateSalary, '_calculate_monthly_working_days', return_value=20)
+    @patch.object(CalculateMonthRateSalary, '_calculate_monthly_sick_days', return_value=0)
+    @patch.object(CalculateMonthRateSalary, '_calculate_monthly_vacation_days', return_value=0)
+    def test_get_days_count(self, mock_vacation_days, mock_sick_days, mock_working_days):
+        calculate_salary = CalculateMonthRateSalary(employee=self.employee)
+        result = calculate_salary.get_days_count(DAYS_DICT)
+
+        mock_working_days.assert_called_once_with(days_dict=DAYS_DICT)
+        mock_sick_days.assert_called_once_with(days_dict=DAYS_DICT)
+        mock_vacation_days.assert_called_once_with(days_dict=DAYS_DICT)
+
+        working_days = WorkingDays(working=20, sick=0, vacation=0)
+        self.assertEqual(result, working_days)
+
+    def test_calculate_monthly_working_days(self):
+
+        calculate_salary = CalculateMonthRateSalary(employee=self.employee)
+
+        result = calculate_salary._calculate_monthly_working_days(days_dict=DAYS_DICT)
+
+        expected_result = len(list(filter(lambda x: x == 'WORKING_DAY', DAYS_DICT.values())))
+
+        self.assertEqual(result, expected_result)

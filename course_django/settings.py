@@ -95,7 +95,7 @@ DATABASES = {
         'USER': 'course_user',
         'PASSWORD': 'course_password',
         'HOST': 'db',   # назва сервісу PostgreSQL у docker-compose
-        'PORT': 5432,
+        'PORT': '5432',
     }
 }
 

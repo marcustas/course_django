@@ -8,12 +8,14 @@ from hr.api_views import (
     EmployeeViewSet,
     PositionViewSet,
     SalaryCalculatorView,
+    DepartmentViewSet,
 )
 
 
 router = DefaultRouter()
 router.register(r'employees', EmployeeViewSet)
 router.register(r'positions', PositionViewSet)
+router.register(r'departments', DepartmentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

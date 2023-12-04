@@ -4,8 +4,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from hr.constants import MINIMUM_SALARY
-from hr.models import Position
-
+from hr.models import Position, Department
 
 logger = logging.getLogger()
 
@@ -17,3 +16,8 @@ def ensure_minimum_wage(sender, instance, **kwargs):
         logger.info(
             f"Заробітна плата для позиції '{instance.title}' була збільшена до мінімального порогу {MINIMUM_SALARY}.",
         )
+
+
+@receiver(pre_save, sender=Department)
+def first_letter_into_capital(sender, instance, **kwargs):
+    instance.name = instance.name.capitalize()

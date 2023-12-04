@@ -19,9 +19,9 @@ RUN poetry config virtualenvs.create false \
 
 # Копіюємо інші файли проекту
 COPY . /app
-
-# Надання прав на виконання для скрипта
-RUN chmod +x /app/ops/scripts/start-server.sh
-
-# Вказуємо команду для виконання скрипта
-CMD ["bash", "/app/ops/scripts/start-server.sh"]
+#
+## Надання прав на виконання для скрипта
+#RUN chmod +x /app/ops/scripts/start-server_unix.sh
+#
+## Вказуємо команду для виконання скрипта
+#CMD ["bash", "/app/ops/scripts/start-server_unix.sh"]
