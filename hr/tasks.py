@@ -25,23 +25,24 @@ def send_password_reset_emails():
 
 @shared_task
 def generate_user_activity_report():
-    employees = Employee.objects.all()
-    user_activity_report = []
+    # Отримання статистики для користувачів з можливістю відображення нульових значень для тих, у кого немає статистики
+    user_stats = RequestStatistics.objects.values('employee__username', 'requests', 'exceptions')
+    users_without_stats = Employee.objects.filter(request_statistics__isnull=True).values_list('username', flat=True)
 
-    for employee in employees:
-        try:
-            stats = RequestStatistics.objects.get(user=employee)
-            user_activity_report.append({
-                'username': employee.username,
-                'requests_count': stats.requests,
-                'exceptions_count': stats.exception,
-            })
-        except RequestStatistics.DoesNotExist:
-            user_activity_report.append({
-                'username': employee.username,
-                'requests_count': 0,
-                'exceptions_count': 0,
-            })
+    user_activity_report = []
+    for stats in user_stats:
+        user_activity_report.append({
+            'username': stats['employee__username'],
+            'requests_count': stats['requests'],
+            'exceptions_count': stats['exceptions'],
+        })
+
+    for username in users_without_stats:
+        user_activity_report.append({
+            'username': username,
+            'requests_count': 0,
+            'exceptions_count': 0,
+        })
 
     report_text = "User Activity Report:\n\n"
     for user_data in user_activity_report:

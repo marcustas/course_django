@@ -39,7 +39,6 @@ services:
       - "5050:5050"
     depends_on:
       - db
-      - redis
 
   redis:
     image: redis:latest
