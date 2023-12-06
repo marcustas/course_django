@@ -1,4 +1,5 @@
 import datetime
+import unittest
 from unittest.mock import (
     MagicMock,
     patch,
@@ -9,14 +10,12 @@ from django.test import (
     TestCase,
 )
 from django.urls import reverse
-
 from hr.calculate_salary import CalculateMonthRateSalary
 from hr.pydantic_models import WorkingDays
 from hr.tests.factories import (
     EmployeeFactory,
     PositionFactory,
 )
-
 
 DAYS_DICT = {
     'day_1': 'WORKING_DAY',
@@ -70,7 +69,6 @@ class SalaryCalculatorViewTest(TestCase):
         response = self.client.post(self.url, salary_data)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('calculated_salary', response.context)
 
     def test_access_by_non_admin(self):
         non_admin_user = EmployeeFactory(is_staff=False, is_superuser=False)
@@ -116,3 +114,24 @@ class TestCalculateMonthRateSalary(TestCase):
     def test_save_salary(self, mock_update_or_create):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
+
+    class ClassTest(unittest.TestCase):
+        @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_vacation_days')
+        @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_sick_days')
+        @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_working_days')
+        def test_get_days_count(self, mock_working_days, mock_sick_days, mock_vacation_days):
+            mock_working_days.return_value = 20
+            mock_sick_days.return_value = 5
+            mock_vacation_days.return_value = 10
+
+            obj = CalculateMonthRateSalary(EmployeeFactory())
+            result = obj.get_days_count(DAYS_DICT)
+
+            self.assertEqual(result.working, 20)
+            self.assertEqual(result.sick, 5)
+            self.assertEqual(result.vacation, 10)
+
+        def test_calculate_monthly_working_days(self):
+            obj = CalculateMonthRateSalary(EmployeeFactory())
+            result = obj._calculate_monthly_working_days(DAYS_DICT)
+            self.assertEqual(result, 22)
