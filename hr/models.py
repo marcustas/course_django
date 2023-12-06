@@ -2,11 +2,12 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
+    address = models.CharField(max_length=200, verbose_name=_('Address'))
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
 
@@ -20,8 +21,10 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200, verbose_name=_('name'))
+    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL,
+                                          null=True, blank=True,
+                                          verbose_name=_('Parent department'))
 
     def __str__(self):
         return self.name
@@ -29,7 +32,8 @@ class Department(models.Model):
 
 class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
-    department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
+    department = models.ForeignKey('Department', on_delete=models.CASCADE,
+                                   verbose_name=_('Department'))
     is_manager = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
