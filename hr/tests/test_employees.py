@@ -86,3 +86,47 @@ class EmployeeCreateViewTest(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Працівника успішно створено.')
+
+
+class EmployeeProfileViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employee = EmployeeFactory()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.url = reverse('hr:employee_profile', args=[self.employee.id])
+
+    def test_profile_employee(self):
+        self.client.force_login(self.admin_user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+
+class EmployeeDeleteViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employee = EmployeeFactory()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.url = reverse('hr:employee_delete', args=[self.employee.id])
+
+    def test_delete_employee(self):
+        self.client.force_login(self.admin_user)
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Employee.objects.filter(id=self.employee.id).exists())
+
+
+class EmployeeUpdateViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employee = EmployeeFactory()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.url = reverse('hr:employee_update', args=[self.employee.id])
+
+    def test_update_employee(self):
+        self.client.force_login(self.admin_user)
+        new_name = 'new name'
+        updated_data = {'first_name': new_name}
+        response = self.client.put(self.url, updated_data)
+        self.assertEqual(response.status_code, 200)
+        updated_user = Employee.objects.get(id=self.employee.id)
+        self.assertEqual(updated_user.first_name, new_name)
