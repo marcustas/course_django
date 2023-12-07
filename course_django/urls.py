@@ -16,13 +16,9 @@ Including another URLconf
 """
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
-from django.urls import (
-    include,
-    path,
-)
+from django.urls import include, path
 
 from general.views import HomePageView
-
 
 urlpatterns = [
     path('napshhdf/', admin.site.urls),

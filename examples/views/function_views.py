@@ -1,10 +1,6 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
-from django.shortcuts import (
-    get_object_or_404,
-    redirect,
-    render,
-)
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from hr.forms import EmployeeForm
@@ -22,9 +18,7 @@ def employee_list(request):
 
     if search:
         employees = employees.filter(
-            Q(first_name__icontains=search) |
-            Q(last_name__icontains=search) |
-            Q(position__title__icontains=search),
+            Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(position__title__icontains=search),
         )
 
     for employee in employees:

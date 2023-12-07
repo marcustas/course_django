@@ -21,9 +21,9 @@ class Company(models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=200, verbose_name=_('name'))
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL,
-                                          null=True, blank=True,
-                                          verbose_name=_('Parent department'))
+    parent_department = models.ForeignKey(
+        'self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Parent department')
+    )
 
     def __str__(self):
         return self.name
@@ -31,8 +31,7 @@ class Department(models.Model):
 
 class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
-    department = models.ForeignKey('Department', on_delete=models.CASCADE,
-                                   verbose_name=_('Department'))
+    department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
     is_manager = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
@@ -40,9 +39,14 @@ class Position(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_manager:
-            existing_manager = Position.objects.filter(
-                department=self.department, is_manager=True,
-            ).exclude(id=self.id).exists()
+            existing_manager = (
+                Position.objects.filter(
+                    department=self.department,
+                    is_manager=True,
+                )
+                .exclude(id=self.id)
+                .exists()
+            )
             if existing_manager:
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('hr', '0004_position_monthly_rate_monthlysalary'),
     ]

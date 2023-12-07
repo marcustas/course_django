@@ -6,7 +6,6 @@ from math import ceil
 from common.enums import WorkDayEnum
 from hr.models import Employee, MonthlySalary
 
-
 logger = logging.getLogger(__name__)
 
 
