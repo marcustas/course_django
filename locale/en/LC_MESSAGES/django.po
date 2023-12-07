@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-06 22:59+0200\n"
+"POT-Creation-Date: 2023-12-07 09:18+0000\n"
 "PO-Revision-Date: 2023-11-01 19:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,37 +18,41 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.1\n"
 
-#: hr/models.py:9
+#: hr/apps.py:8
+msgid "HR application"
+msgstr "HR application"
+
+#: hr/models.py:8
 #, fuzzy
 #| msgid "Last Name"
 msgid "Name"
 msgstr "Last Name"
 
-#: hr/models.py:10
+#: hr/models.py:9
 msgid "Address"
 msgstr "Adress"
 
-#: hr/models.py:24
+#: hr/models.py:23
 #, fuzzy
 #| msgid "Username"
 msgid "name"
 msgstr "Username"
 
-#: hr/models.py:27
+#: hr/models.py:26
 #, fuzzy
 #| msgid "Position department"
 msgid "Parent department"
 msgstr "Position department"
 
-#: hr/models.py:34
+#: hr/models.py:33
 msgid "Title"
 msgstr "Title"
 
-#: hr/models.py:36
+#: hr/models.py:35
 msgid "Department"
 msgstr "Department"
 
-#: hr/models.py:39 templates/employee_profile.html:76
+#: hr/models.py:38 templates/employee_profile.html:76
 #, fuzzy
 #| msgid "Position"
 msgid "Job Description"
