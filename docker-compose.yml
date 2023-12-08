@@ -76,3 +76,23 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+      PGADMIN_LISTEN_PORT: 5050
+      PGADMIN_DEFAULT_SERVER: db
+      PGADMIN_DISABLE_ADMIN_PROMPT: 1
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5050:5050"
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /healthcheck.sh ] && /healthcheck.sh || exit 0"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
