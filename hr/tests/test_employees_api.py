@@ -5,7 +5,7 @@ from rest_framework.test import (
     APITestCase,
 )
 
-from hr.models import Employee
+from hr.models import Employee, Position
 from hr.tests.factories import (
     EmployeeFactory,
     PositionFactory,
@@ -51,3 +51,36 @@ class EmployeeAPITestCase(APITestCase):
     def test_search_employee(self):
         response = self.client.get(reverse('api-hr:employee-list'), data={'search': 'Test'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class PositionViewSetTestCase(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = Employee.objects.create_user(username='testuser', password='testpassword', email='test@gmail.com')
+        self.client.force_authenticate(user=self.user)
+        self.url = reverse('api-hr:position-list')
+
+    def test_list_positions(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_position(self):
+        data = {'title': 'test'}
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(Position.objects.filter(title='test').exists())
+
+    def test_update_position(self):
+        position = PositionFactory()
+        updated_data = {'title': 'Updated Test Title'}
+        url = reverse('api-hr:position-detail', kwargs={'pk': position.pk})
+        response = self.client.patch(url, updated_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(Position.objects.filter(title='Updated Test Title').exists())
+
+    def test_delete_position(self):
+        position = PositionFactory()
+        url = reverse('api-hr:position-detail', kwargs={'pk': position.pk})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Position.objects.filter(title='Updated Test Title').exists())
