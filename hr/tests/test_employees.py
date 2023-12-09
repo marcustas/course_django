@@ -52,7 +52,6 @@ class EmployeeUpdateViewTest(TestCase):
         expected_first_name = new_first_name
         response = self.client.post(self.url, data)
         updated_employee = Employee.objects.get(pk=self.employee.pk)
-        print(f"Expected: {new_first_name}, Actual: {updated_employee.first_name}")
         self.assertEqual(response.status_code, 200)
         expected_first_name = updated_employee.first_name
         self.assertEqual(updated_employee.first_name, expected_first_name)
