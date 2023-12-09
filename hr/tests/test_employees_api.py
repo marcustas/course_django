@@ -40,11 +40,14 @@ class EmployeeAPITestCase(APITestCase):
         response = self.client.patch(reverse('api-hr:employee-detail', kwargs={'pk': employee.pk}), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        employee = Employee.objects.get(pk=employee.pk)
+        self.assertEqual(employee.first_name, 'Updated Name')
+
     def test_delete_employee(self):
         employee = EmployeeFactory(position=self.position)
         response = self.client.delete(reverse('api-hr:employee-detail', kwargs={'pk': employee.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_search_employee(self):
-        response = self.client.get(reverse('api-hr:employee-list'), {'search': 'Test'})
+        response = self.client.get(reverse('api-hr:employee-list'), data={'search': 'Test'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
