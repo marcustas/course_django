@@ -1,8 +1,10 @@
+from datetime import timedelta
+
 from celery import shared_task
 from django.core.mail import send_mail
-from hr.models import Employee
 from django.utils import timezone
-from datetime import timedelta
+from general.models import RequestStatistics
+from hr.models import Employee
 
 
 @shared_task
@@ -18,5 +20,31 @@ def send_password_reset_emails():
             message,
             'from@example.com',
             [user.email],
+            fail_silently=False,
+        )
+
+
+@shared_task
+def send_activity_report():
+    yesterday = timezone.now().date() - timedelta(days=1)
+    users = User.objects.all()
+
+    for user in users:
+        statistics, created = RequestStatistics.objects.get_or_create(
+            user=user,
+            date=yesterday
+        )
+
+        request_count = statistics.requests
+        exception_count = statistics.exception
+
+        subject = f"Звіт про активність користувача {user.username}"
+        message = f"Ім'я користувача: {user.username}\nКількість запитів: {request_count}\nКількість винятків: {exception_count}"
+
+        send_mail(
+            subject,
+            message,
+            'from@example.com',
+            ['admin@example.com'],
             fail_silently=False,
         )
