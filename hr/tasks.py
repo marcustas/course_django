@@ -1,6 +1,7 @@
 from celery import shared_task
 from django.core.mail import send_mail
 from hr.models import Employee
+from general.models import RequestStatistics
 from django.utils import timezone
 from datetime import timedelta
 
@@ -20,3 +21,19 @@ def send_password_reset_emails():
             [user.email],
             fail_silently=False,
         )
+
+
+@shared_task()
+def send_summary():
+    data = RequestStatistics.objects.all()
+    subject = "Звіт по запитам"
+    message = ''
+    for record in data:
+        message += f'{record.user} send {record.requests} requests and have {record.exception} exceptions\n'
+    send_mail(
+        subject,
+        message,
+        'from@example.com',
+        ['to@example.com'],
+        fail_silently=False,
+    )
