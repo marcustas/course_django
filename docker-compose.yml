@@ -32,7 +32,7 @@ services:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: forsoc310@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: Adiy1488!
+      PGADMIN_DEFAULT_PASSWORD: A8!
       PGADMIN_LISTEN_PORT: 5051
       PGADMIN_DEFAULT_SERVER: db
     depends_on:
