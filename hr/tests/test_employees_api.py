@@ -50,6 +50,7 @@ class EmployeeAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
+
 class PositionViewSetTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()

@@ -80,7 +80,6 @@ class SalaryCalculatorViewTest(TestCase):
 
         self.assertEqual(response.status_code, 403)
 
-
     @patch('hr.calculate_salary.CalculateMonthRateSalary.get_days_count')
     def test_get_days_count_integration(self, mock_get_days_count):
         mock_get_days_count.return_value = WorkingDays(working=20, sick=0, vacation=0)
@@ -129,6 +128,7 @@ class TestCalculateMonthRateSalary(TestCase):
     def test_save_salary(self, mock_update_or_create):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
+
 
     def test_calculate_monthly_working_days(self):
         result = CalculateMonthRateSalary._calculate_monthly_working_days(DAYS_DICT)

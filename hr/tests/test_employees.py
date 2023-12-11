@@ -129,4 +129,3 @@ class EmployeeDeleteViewTest(TestCase):
         response = self.client.post(self.delete_url)
         self.assertEqual(Employee.objects.count(), initial_count - 1)
         self.assertEqual(response.status_code, 302)
-        
