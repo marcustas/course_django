@@ -1,4 +1,5 @@
 import datetime
+import unittest
 from unittest.mock import (
     MagicMock,
     patch,
@@ -10,7 +11,7 @@ from django.test import (
 )
 from django.urls import reverse
 
-from hr.calculate_salary import CalculateMonthRateSalary
+from hr.calculate_salary import CalculateMonthRateSalary, WorkDayEnum
 from hr.pydantic_models import WorkingDays
 from hr.tests.factories import (
     EmployeeFactory,
@@ -80,6 +81,18 @@ class SalaryCalculatorViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
 
+    @patch('hr.calculate_salary.CalculateMonthRateSalary.get_days_count')
+    def test_get_days_count_integration(self, mock_get_days_count):
+        mock_get_days_count.return_value = WorkingDays(working=20, sick=0, vacation=0)
+
+        self.client.force_login(self.admin_user)
+        employee = EmployeeFactory(position=self.position)
+        salary_data = dict({'employee': employee.id}, **DAYS_DICT)
+        response = self.client.post(self.url, salary_data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('calculated_salary', response.context)
+
 class TestCalculateMonthRateSalary(TestCase):
     def setUp(self):
         self.employee = EmployeeFactory()
@@ -116,3 +129,10 @@ class TestCalculateMonthRateSalary(TestCase):
     def test_save_salary(self, mock_update_or_create):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
+
+    def test_calculate_monthly_working_days(self):
+        result = CalculateMonthRateSalary._calculate_monthly_working_days(DAYS_DICT)
+
+        expected_working_days = len(
+            [day for day, work_type in DAYS_DICT.items() if work_type == WorkDayEnum.WORKING_DAY.name])
+        self.assertEqual(result, expected_working_days)
