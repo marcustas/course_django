@@ -5,8 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
+    address = models.CharField(max_length=200, verbose_name=_('Address'))
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
 
@@ -20,8 +20,10 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=200)
-    parent_department = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200, verbose_name=_('name'))
+    parent_department = models.ForeignKey(
+        'self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Parent department')
+    )
 
     def __str__(self):
         return self.name
@@ -37,9 +39,14 @@ class Position(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_manager:
-            existing_manager = Position.objects.filter(
-                department=self.department, is_manager=True,
-            ).exclude(id=self.id).exists()
+            existing_manager = (
+                Position.objects.filter(
+                    department=self.department,
+                    is_manager=True,
+                )
+                .exclude(id=self.id)
+                .exists()
+            )
             if existing_manager:
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 17:33+0000\n"
+"POT-Creation-Date: 2023-12-07 09:17+0000\n"
 "PO-Revision-Date: 2023-11-02 18:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,21 +19,70 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.4.1\n"
 
-#: hr/models.py:31
+#: hr/apps.py:8
+msgid "HR application"
+msgstr "Управлыння кадрами"
+
+#: hr/models.py:8
+#, fuzzy
+#| msgid "Last Name"
+msgid "Name"
+msgstr "Прізвище"
+
+#: hr/models.py:9
+msgid "Address"
+msgstr ""
+
+#: hr/models.py:23
+#, fuzzy
+#| msgid "Username"
+msgid "name"
+msgstr "Ім'я користувача"
+
+#: hr/models.py:26
+#, fuzzy
+#| msgid "Department"
+msgid "Parent department"
+msgstr "Відділ"
+
+#: hr/models.py:33
 msgid "Title"
 msgstr "Назва"
 
-#: hr/models.py:32
+#: hr/models.py:35
 msgid "Department"
 msgstr "Відділ"
 
-#: hr/models.py:35
+#: hr/models.py:38 templates/employee_profile.html:76
 msgid "Job Description"
 msgstr "Опис посади"
 
 #: templates/base.html:30
 msgid "Change Language"
 msgstr "Змінити мову"
+
+#: templates/employee_confirm_delete.html:5
+#, fuzzy
+#| msgid "Delete"
+msgid "Confirm Delete"
+msgstr "Видалити"
+
+#: templates/employee_confirm_delete.html:6
+msgid "Are you sure you want to delete"
+msgstr "Ви впевнені, що хочете видалити"
+
+#: templates/employee_confirm_delete.html:9 templates/employee_list.html:51
+#: templates/employee_profile.html:90
+msgid "Delete"
+msgstr "Видалити"
+
+#: templates/employee_confirm_delete.html:10
+msgid "Cancel"
+msgstr "Відмінити"
+
+#: templates/employee_form.html:65
+msgid "Save"
+msgstr "Зберегти"
 
 #: templates/employee_list.html:4 templates/home.html:13
 msgid "Employee List"
@@ -59,11 +108,11 @@ msgstr "Ім'я"
 msgid "Last Name"
 msgstr "Прізвище"
 
-#: templates/employee_list.html:33
+#: templates/employee_list.html:33 templates/employee_profile.html:33
 msgid "Email"
 msgstr "Пошта"
 
-#: templates/employee_list.html:34
+#: templates/employee_list.html:34 templates/employee_profile.html:52
 msgid "Position"
 msgstr "Посада"
 
@@ -71,17 +120,59 @@ msgstr "Посада"
 msgid "Actions"
 msgstr "ДіЇ"
 
-#: templates/employee_list.html:48
+#: templates/employee_list.html:48 templates/employee_profile.html:89
 msgid "Update"
 msgstr "Оновити"
-
-#: templates/employee_list.html:51
-msgid "Delete"
-msgstr "Видалити"
 
 #: templates/employee_list.html:54
 msgid "View"
 msgstr "Показати"
+
+#: templates/employee_profile.html:9
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: templates/employee_profile.html:15
+#, fuzzy
+#| msgid "First Name"
+msgid "First name"
+msgstr "Ім'я"
+
+#: templates/employee_profile.html:21
+#, fuzzy
+#| msgid "Last Name"
+msgid "Last name"
+msgstr "Прізвище"
+
+#: templates/employee_profile.html:27
+msgid "Birth day"
+msgstr "Дата народження"
+
+#: templates/employee_profile.html:39
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: templates/employee_profile.html:45
+msgid "Is staff"
+msgstr "Э в стафі"
+
+#: templates/employee_profile.html:58
+#, fuzzy
+#| msgid "Department"
+msgid "Position department"
+msgstr "Відділ"
+
+#: templates/employee_profile.html:64
+msgid "Hire day"
+msgstr "Дата найму"
+
+#: templates/employee_profile.html:70
+msgid "Data joined"
+msgstr "Дата початку роботи"
+
+#: templates/employee_profile.html:82
+msgid "Is active"
+msgstr "Є активним"
 
 #: templates/home.html:4
 msgid "Home"
