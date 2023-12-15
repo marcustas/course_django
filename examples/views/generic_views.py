@@ -3,20 +3,11 @@ import datetime
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    FormView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView)
 
 from hr.calculate_salary import CalculateMonthRateSalary
-from hr.forms import (
-    EmployeeForm,
-    SalaryForm,
-)
+from hr.forms import EmployeeForm, SalaryForm
 from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
 
@@ -32,10 +23,10 @@ class EmployeeListView(ListView):
 
         if search:
             queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search) |
-                Q(email__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
         return queryset
 

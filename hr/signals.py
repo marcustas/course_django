@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from hr.constants import MINIMUM_SALARY
 from hr.models import Position
 
-
 logger = logging.getLogger()
 
 

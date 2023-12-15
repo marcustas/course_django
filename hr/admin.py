@@ -2,12 +2,7 @@ from django.contrib import admin
 from django.core.exceptions import ValidationError
 from modeltranslation.admin import TranslationAdmin
 
-from hr.models import (
-    Department,
-    Employee,
-    MonthlySalary,
-    Position,
-)
+from hr.models import Department, Employee, MonthlySalary, Position
 
 
 @admin.register(Department)

@@ -1,13 +1,7 @@
-from django.db.models import (
-    Count,
-    Q,
-)
+from django.db.models import Count, Q
 from django.http import HttpResponse
 
-from hr.models import (
-    Department,
-    Position,
-)
+from hr.models import Department, Position
 
 
 def querysets_examples(request):
@@ -70,7 +64,6 @@ def querysets_examples(request):
 
     # JOINs в Django (INNER JOIN приклад)
     inner_joined = Position.objects.select_related('department')
-
 
     # JOINs в Django (LEFT OUTER JOIN приклад)
     left_joined = Department.objects.prefetch_related('positions').distinct()
