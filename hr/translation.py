@@ -1,7 +1,4 @@
-from modeltranslation.translator import (
-    TranslationOptions,
-    translator,
-)
+from modeltranslation.translator import TranslationOptions, translator
 
 from hr.models import Position
 

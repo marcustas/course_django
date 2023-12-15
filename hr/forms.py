@@ -7,7 +7,6 @@ from django.forms import ChoiceField
 from common.enums import WorkDayEnum
 from hr.models import Employee
 
-
 WorkDayChoices = [(tag.name, tag.value) for tag in WorkDayEnum]
 
 
