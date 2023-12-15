@@ -11,6 +11,7 @@ class Company(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     def __str(self):
         return self.name
@@ -43,9 +44,14 @@ class Position(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_manager:
-            existing_manager = Position.objects.filter(
-                department=self.department, is_manager=True,
-            ).exclude(id=self.id).exists()
+            existing_manager = (
+                Position.objects.filter(
+                    department=self.department,
+                    is_manager=True,
+                )
+                .exclude(id=self.id)
+                .exists()
+            )
             if existing_manager:
                 raise ValidationError(f'Manager already exists in the {self.department.name} department.')
         super(Position, self).save(*args, **kwargs)

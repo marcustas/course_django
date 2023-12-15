@@ -3,25 +3,13 @@ import datetime
 from django.contrib import messages
 from django.core.cache import cache
 from django.db.models import Q
-from django.shortcuts import (
-    get_object_or_404,
-    render,
-)
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    FormView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView)
 
 from hr.calculate_salary import CalculateMonthRateSalary
-from hr.forms import (
-    EmployeeForm,
-    SalaryForm,
-)
+from hr.forms import EmployeeForm, SalaryForm
 from hr.mixins import UserIsAdminMixin
 from hr.models import Employee
 
@@ -37,10 +25,10 @@ class EmployeeListView(ListView):
 
         if search:
             queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search) |
-                Q(email__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
         return queryset
 
@@ -84,7 +72,7 @@ class EmployeeProfileView(UserIsAdminMixin, DetailView):
 
         if not employee:
             employee = get_object_or_404(Employee, pk=employee_id)
-            cache.set(f'employee_{employee_id}', employee, timeout=5 * 60)
+            cache.set(f'employee_{employee_id}', employee, timeout=3 * 60)
 
         return employee
 

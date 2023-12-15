@@ -23,6 +23,7 @@ class Command(BaseCommand):
 
         self.stdout.write(
             self.style.SUCCESS(
-                f'Successfully set "paid" to True for {salaries.count()} MonthlySalary instances for the current month',
+                f'Successfully set "paid" to True for {salaries.count()} '
+                + 'MonthlySalary instances for the current month',
             ),
         )
