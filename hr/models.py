@@ -15,6 +15,7 @@ class Position(models.Model):
     title = models.CharField(max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)
     is_manager = models.BooleanField(default=False)
+    job_description = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.is_manager:
@@ -31,3 +32,19 @@ class Employee(AbstractUser):
     hire_date = models.DateField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
+    email = models.EmailField(max_length=50)
+    tax_code = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if Company.objects.exists() and not self.pk:
+            raise ValidationError('Only one company can be created.')
+        super(Company, self).save(*args, **kwargs)
