@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.core.exceptions import ValidationError
 
 from hr.models import (
+    Company,
     Department,
     Employee,
     Position,
-    Company,
 )
 
 
