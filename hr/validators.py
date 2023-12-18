@@ -10,3 +10,7 @@ def validate_positive(value):
 def validate_max_month_days(value):
     if value > MAX_MONTH_DAYS:
         raise serializers.ValidationError(f'Max month days is {MAX_MONTH_DAYS}.')
+
+def validate_max_holiday_days(value):
+    if value > 10:
+        raise serializers.ValidationError('Max holiday days is 10')
