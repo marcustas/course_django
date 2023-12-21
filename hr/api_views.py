@@ -5,10 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from hr.calculate_salary import CalculateMonthRateSalary
-from hr.models import (
-    Employee,
-    Position,
-)
+from hr.models import Employee, Position
 from hr.pydantic_models import WorkingDays
 from hr.serializers import (
     EmployeeSerializer,
@@ -31,8 +28,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def employee_count(self, request, pk):
         department = self.get_object()
-        count = Employee.objects.filter(
-            position=department.employee).count()
+        count = Employee.objects.filter(position__department=department).count()
         return Response({'employee_count': count})
 
 
@@ -45,10 +41,10 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         search = self.request.query_params.get('search', None)
         if search:
             queryset = queryset.filter(
-                Q(first_name__icontains=search) |
-                Q(last_name__icontains=search) |
-                Q(position__title__icontains=search) |
-                Q(email__icontains=search),
+                Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+                | Q(position__title__icontains=search)
+                | Q(email__icontains=search),
             )
         return queryset
 
@@ -68,8 +64,9 @@ class SalaryCalculatorView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = SalarySerializer(data=request.data)
         if serializer.is_valid():
-
-            calculator = CalculateMonthRateSalary(employee=serializer.validated_data['employee'])
+            calculator = CalculateMonthRateSalary(
+                employee=serializer.validated_data['employee']
+            )
             month_days = WorkingDays(
                 working=serializer.validated_data['working_days'],
                 sick=serializer.validated_data['sick_days'],
