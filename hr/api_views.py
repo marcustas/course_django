@@ -23,7 +23,6 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     """
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    http_method_names = ['get', 'post', 'put', 'patch', 'delete']
 
     @action(detail=True, methods=['get'])
     def employee_count(self, request, pk):
