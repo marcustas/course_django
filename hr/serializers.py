@@ -1,9 +1,17 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.response import Response
 
 from hr.models import (
     Employee,
     Position,
+    Department
 )
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ('id', 'name')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

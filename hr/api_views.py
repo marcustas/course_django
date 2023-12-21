@@ -16,6 +16,25 @@ from hr.serializers import (
     SalarySerializer,
 )
 
+from .models import Department
+from .serializers import DepartmentSerializer
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows departments to be viewed or edited.
+    """
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    http_method_names = ['get', 'post', 'put', 'patch', 'delete']
+
+    @action(detail=True, methods=['get'])
+    def employee_count(self, request, pk):
+        department = self.get_object()
+        count = Employee.objects.filter(
+            position=department.employee).count()
+        return Response({'employee_count': count})
+
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
