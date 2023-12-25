@@ -18,6 +18,7 @@ def user_is_superadmin(user) -> bool:
 
 
 class EmployeeListView(ListView):
+    paginate_by = 10
     model = Employee
     template_name = 'employee_list.html'
     context_object_name = 'employees'
@@ -30,7 +31,8 @@ class EmployeeListView(ListView):
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
-                Q(position__title__icontains=search),
+                Q(position__title__icontains=search) |
+                Q(email__icontains=search),
             )
         return queryset
 
@@ -62,3 +64,9 @@ class EmployeeDeleteView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return user_is_superadmin(self.request.user)
+
+
+class EmployeeDetailView(DetailView):
+    model = Employee
+    template_name = 'employee_detail.html'
+    context_object_name = 'employee'
