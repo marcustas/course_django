@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Employee Details</h1>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Username</th>
+                        <td>{{ employee.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <td>{{ employee.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <td>{{ employee.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ employee.email }}</td>
+                    </tr>
+                    <!-- Position model: title, department, is_manager, -->
+                    <tr>
+                        <th>Position</th>
+                        <td>{{ employee.position.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{ employee.position.department }}</td>
+                    </tr>
+                    <tr>
+                        <th>Manager</th>
+                        <td>{{ employee.position.is_manager }}</td>
+                    </tr>
+                </table>
+                <a href="{% url 'employee_list' %}" class="btn btn-secondary">Back</a>
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'employee_update' employee.id %}" class="btn btn-primary">Update</a>
+                    <a href="{% url 'employee_delete' employee.id %}" class="btn btn-danger">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
