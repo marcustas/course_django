@@ -21,6 +21,6 @@ from django.urls import (
 )
 
 urlpatterns = [
-    path('', include('hr.urls')),
-    path('napshhdf/', admin.site.urls),
+    path("", include("hr.urls")),
+    path("napshhdf/", admin.site.urls),
 ]
