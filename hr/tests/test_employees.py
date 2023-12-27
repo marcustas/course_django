@@ -86,3 +86,19 @@ class EmployeeCreateViewTest(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Працівника успішно створено.')
+
+
+class EmployeeProfileViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.employee = EmployeeFactory()
+        self.position = PositionFactory()
+        self.url = reverse('hr:employee_profile', kwargs={'pk': self.employee.pk})
+
+    def test_access_employee_profile_as_admin(self):
+        self.client.force_login(self.admin_user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+
