@@ -18,7 +18,7 @@ class EmployeeForm(forms.ModelForm):
 
 
 class SalaryForm(forms.Form):
-    employee = forms.ModelChoiceField(queryset=Employee.objects.all())
+    employee = forms.ModelChoiceField(queryset=Employee.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         super(SalaryForm, self).__init__(*args, **kwargs)
@@ -42,3 +42,20 @@ class SalaryForm(forms.Form):
                     choices=WorkDayChoices,
                     initial=WorkDayEnum.WORKING_DAY.name,
                 )
+
+    def clean_employee(self):
+        employee = self.cleaned_data['employee']
+        if not employee:
+            raise forms.ValidationError('Employee is required.')
+        return employee
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        seek_days_count = sum(1 for field_name, value in cleaned_data.items() if value == WorkDayEnum.SICK_DAY.name)
+        holiday_days_count = sum(1 for field_name, value in cleaned_data.items() if value == WorkDayEnum.HOLIDAY.name)
+
+        if seek_days_count > 5:
+            raise forms.ValidationError('Sick days count cannot be more than 5.')
+        if holiday_days_count > 3:
+            raise forms.ValidationError('Holiday days count cannot be more than 3.')
