@@ -37,9 +37,13 @@ class Position(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
     department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name=_('Department'))
     is_manager = models.BooleanField(default=False)
+<<<<<<< HEAD
     is_active = models.BooleanField(default=True)
     job_description = models.CharField(verbose_name=_('Job Description'), max_length=500, default='')
     monthly_rate = models.IntegerField(default=0)
+=======
+    job_description = models.CharField(max_length=200)
+>>>>>>> master
 
     def save(self, *args, **kwargs):
         if self.is_manager:
@@ -58,6 +62,7 @@ class Employee(AbstractUser):
     hire_date = models.DateField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     position = models.ForeignKey('Position', on_delete=models.SET_NULL, null=True, blank=True)
+<<<<<<< HEAD
     phone_number = models.CharField(max_length=151, default='')
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     cv = models.FileField(upload_to='cvs/', null=True, blank=True, help_text='PDF, DOC, or DOCX')
@@ -83,3 +88,22 @@ class MonthlySalary(models.Model):
 
     def __str__(self):
         return f'{self.employee} - {self.month_year.month}/{self.month_year.year}'
+=======
+    phone_number = models.CharField(max_length=200, null=True)
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    tax_code = models.CharField(max_length=200)
+
+    def save(self, *args, **kwargs):
+
+        if not self.pk and Company.objects.exists():
+            raise ValidationError('There can be only one Company instance.')
+        return super(Company, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+>>>>>>> master
