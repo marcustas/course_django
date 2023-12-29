@@ -32,14 +32,16 @@ class EmployeeListViewTest(TestCase):
         search_query = self.employees[0].first_name
         response = self.client.get(f'{self.url}?search={search_query}')
         self.assertTrue(len(response.context['employees']), 1)
-        self.assertEqual(response.context['employees'][0].first_name, search_query)
+        self.assertEqual(response.context['employees'][0].first_name,
+                         search_query)
 
 
 class EmployeeCreateViewTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
-        self.non_admin_user = EmployeeFactory(is_staff=False, is_superuser=False)
+        self.non_admin_user = EmployeeFactory(is_staff=False,
+                                              is_superuser=False)
         self.employee = EmployeeFactory()
         self.position = PositionFactory()
         self.url = reverse('hr:employee_create')
@@ -86,3 +88,52 @@ class EmployeeCreateViewTest(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Працівника успішно створено.')
+
+
+class EmployeeProfileView(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.employees = EmployeeFactory.create_batch(10)
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.client.force_login(self.admin_user)
+        self.url = reverse('hr:employee_profile',
+                           kwargs={'pk': self.employees[0].pk})
+
+    def test_access_employee_profile(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+
+class EmployeeDeleteView(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.employee = EmployeeFactory()
+        self.url = reverse('hr:employee_delete',
+                           kwargs={'pk': self.employee.pk})
+
+    def test_delete_employee_by_admin(self):
+        self.client.force_login(self.admin_user)
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Employee.objects.filter(pk=self.employee.pk).exists())
+
+
+class EmployeeUpdateView(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.url = reverse('hr:employee_update',
+                           kwargs={'pk': self.admin_user.pk})
+
+    def test_update_employee(self):
+        self.client.force_login(self.admin_user)
+        new_first_name = 'UpdatedName'
+        employee_data = {
+            'username': 'newuser',
+            'first_name': new_first_name,
+        }
+        response = self.client.post(self.url, employee_data)
+        self.assertEqual(response.status_code, 302)
+        updated_employee = Employee.objects.get(pk=self.admin_user.pk)
+        self.assertEqual(updated_employee.first_name, new_first_name)
