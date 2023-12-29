@@ -11,8 +11,9 @@ class Company(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField()
     tax_code = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to='custom_logos/', null=True, blank=True)
 
-    def __str(self):
+    def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
@@ -52,6 +53,10 @@ class Position(models.Model):
 
     def __str__(self):
         return self.title
+
+    @cached_property
+    def positions_sum(self):
+        return self.objects.all().count()
 
 
 class Employee(AbstractUser):
