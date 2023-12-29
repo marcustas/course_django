@@ -5,7 +5,7 @@ from hr.models import (
     Position,
 )
 from hr.validators import validate_positive, validate_max_month_days
-from hr.constants import MAX_MONTH_DAYS
+from hr.constants import MAX_MONTH_DAYS, MAX_VACATION_DAYS, MAX_HOLIDAYS
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -50,18 +50,20 @@ class SalarySerializer(serializers.Serializer):
 
     def validate_vacation_days(self, value):
         """
-        Checks that the number of vacation days does not exceed 5.
+        Checks that the number of vacation days does not exceed VACATION_DAYS.
         """
-        if value > 5:
+        if value > MAX_VACATION_DAYS:
             raise serializers.ValidationError('The number of vacation days '
-                                              'cannot be more than 5.')
+                                              'cannot be more than'
+                                              f'{MAX_VACATION_DAYS}.')
         return value
 
     def validate_holiday_days(self, value):
         """
         Checks that the number of holiday days does not exceed 10.
         """
-        if value > 10:
+        if value > MAX_HOLIDAYS:
             raise serializers.ValidationError('The number of holiday days '
-                                              'cannot be more than 10.')
+                                              'cannot be more'
+                                              f' than {MAX_HOLIDAYS}.')
         return value
