@@ -9,6 +9,7 @@ from hr.models import (Employee, Position)
 from hr.tests.factories import (
     EmployeeFactory,
     PositionFactory,
+    DepartmentFactory
 )
 
 
@@ -53,8 +54,8 @@ class EmployeeAPITestCase(APITestCase):
 class PositionViewSetTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = Employee.objects.create_user(username='testuser', password='testpassword',
-                                                     email='test@gmail.com')
+        self.user = Employee.objects.create_user(username='testuser', password='testpassword',email='test@gmail.com')
+        self.department = DepartmentFactory()
         self.client.force_authenticate(user=self.user)
         self.url = reverse('api-hr:position-list')
 
@@ -63,7 +64,8 @@ class PositionViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_position(self):
-        data = {'title': 'test'}
+        data = {'title': 'test',
+                'department': self.department.pk}
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Position.objects.filter(title='test').exists())

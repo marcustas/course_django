@@ -100,7 +100,6 @@ class EmployeeProfileViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-
     def test_employee_profile_content(self):
         self.client.force_login(self.admin_user)
         response = self.client.get(self.url)
@@ -131,9 +130,10 @@ class EmployeeUpdateViewTest(TestCase):
     def test_update_employee(self):
         self.client.force_login(self.admin_user)
         new_name = 'new name'
-        updated_data = {'first_name': new_name}
-        response = self.client.put(self.url, updated_data)
-        self.assertEqual(response.status_code, 200)
+        updated_data = {'username': 'newuser',
+                        'first_name': new_name}
+        response = self.client.post(self.url, updated_data)
+        self.assertEqual(response.status_code, 302)
         updated_user = Employee.objects.get(id=self.employee.id)
         self.assertEqual(updated_user.first_name, new_name)
 
