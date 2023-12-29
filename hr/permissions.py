@@ -1,5 +1,4 @@
 from rest_framework import permissions
-from hr.models import Position
 
 
 class IsNotRussianEmail(permissions.BasePermission):
