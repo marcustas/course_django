@@ -79,6 +79,15 @@ class EmployeeProfileView(UserIsAdminMixin, DetailView):
     model = Employee
     template_name = 'employee_profile.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not context['employee'].avatar:
+            context['employee'].avatar = 'static/img/logo.png'
+
+        if not context['employee'].cv:
+            context['employee'].cv = ' '
+        return context
+
     def get_object(self):
         employee_id = self.kwargs.get('pk')
         employee = cache.get(f'employee_{employee_id}')
