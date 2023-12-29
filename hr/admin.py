@@ -30,11 +30,8 @@ class PositionAdmin(TranslationAdmin):
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ('username', 'position', 'hire_date', 'phone_number')
-<<<<<<< HEAD
 
 
 @admin.register(MonthlySalary)
 class MonthlySalaryAdmin(admin.ModelAdmin):
     list_display = ('employee', 'month_year', 'salary', 'paid')
-=======
->>>>>>> master
