@@ -55,6 +55,8 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     def employee_count(self, request, pk=None):
         count = Employee.objects.filter(position__department=pk).count()
         return Response({'employee_count': count})
+
+
 class SalaryCalculatorView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = SalarySerializer(data=request.data)
