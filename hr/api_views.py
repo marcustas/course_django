@@ -11,7 +11,10 @@ from hr.models import (
     Position,
 )
 from hr.pagination import SmallSetPagination
-from hr.permissions import IsNotRussianEmail, HasPosition
+from hr.permissions import (
+    IsNotRussianEmail,
+    HasPosition,
+)
 from hr.pydantic_models import WorkingDays
 from hr.serializers import (
     EmployeeSerializer,
