@@ -30,4 +30,4 @@ class SalarySerializer(serializers.Serializer):
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = {'id', 'name', 'parent_department'}
+        fields = ('id', 'name', 'parent_department')

@@ -51,7 +51,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
-    @action(detail=true, methods=['get'])
+    @action(detail=True, methods=['get'])
     def employee_count(self, request, pk=None):
         count = Employee.objects.filter(position__department=pk).count()
         return Response({'employee_count': count})
