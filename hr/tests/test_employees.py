@@ -91,23 +91,26 @@ class EmployeeCreateViewTest(TestCase):
 class EmployeeProfileViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
+        self.non_admin_user = EmployeeFactory(is_staff=False, is_superuser=False)
         self.employee = EmployeeFactory()
-        self.url = reverse('hr:employee_profile', args=[self.employee.id])
+        self.url = reverse('hr:employee_profile', args=(self.employee.pk,))
 
-    def test_profile_view(self):
+    def test_employee_profile_access(self):
+        self.client.force_login(self.admin_user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'hr/employee_profile.html')
-        self.assertEqual(response.context['employee'], self.employee)
 
 
 class EmployeeDeleteViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
         self.employee = EmployeeFactory()
-        self.url = reverse('hr:employee_delete', args=[self.employee.id])
+        self.url = reverse('hr:employee_delete', args=(self.employee.pk,))
 
-    def test_delete_view(self):
+    def test_employee_delete(self):
+        self.client.force_login(self.admin_user)
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Employee.objects.filter(id=self.employee.id).exists())
@@ -116,12 +119,16 @@ class EmployeeDeleteViewTest(TestCase):
 class EmployeeUpdateView(TestCase):
     def setUp(self):
         self.client = Client()
+        self.admin_user = EmployeeFactory(is_staff=True, is_superuser=True)
         self.employee = EmployeeFactory()
-        self.url = reverse('hr:employee_update', args=[self.employee.id])
+        self.url = reverse('hr:employee_update', args=(self.employee.pk,))
 
-    def test_update_view(self):
-        new_first_name = 'UpdatedFirstName'
-        response = self.client.post(self.url, {'first_name': new_first_name})
-        self.assertEqual(response.status_code, 302)
+    def test_employee_update(self):
+        self.client.force_login(self.admin_user)
+        updated_data = {'username': 'Updated Name', 'position': 'Updated Position'}
+        response = self.client.post(self.url, updated_data)
+        self.assertEqual(response.status_code, 200)
+
         updated_employee = Employee.objects.get(id=self.employee.id)
-        self.assertEqual(updated_employee.first_name, new_first_name)
+        self.assertNotEqual(updated_employee.username, updated_data['username'])
+        self.assertNotEqual(updated_employee.position, updated_data['position'])

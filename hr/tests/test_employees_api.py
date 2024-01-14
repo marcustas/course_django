@@ -5,10 +5,7 @@ from rest_framework.test import (
     APITestCase,
 )
 
-from hr.models import (
-    Employee,
-    Position,
-)
+from hr.models import Employee
 from hr.tests.factories import (
     EmployeeFactory,
     PositionFactory,
@@ -56,31 +53,29 @@ class EmployeeAPITestCase(APITestCase):
 class PositionViewSetTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = Employee.objects.create_user(username='test', password='test', email='test@ymail.com')
-        self.position = PositionFactory()
+        self.user = Employee.objects.create_user(username='johndoe', password='test1#2$3%4', email='test@ymail.com')
         self.client.force_authenticate(user=self.user)
+        self.position = PositionFactory()
+        self.position_list_url = reverse('api-hr:position-list')
+        self.position_detail_url = reverse('api-hr:position-detail', kwargs={'pk': self.position.pk})
 
-    def retrieve_positions_list_test(self):
-        response = self.client.get(reverse('api-hr:position-list'))
+    def test_get_position_list(self):
+        response = self.client.get(self.position_list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def create_position_test(self):
-        url = reverse('api-hr:position-list')
-        date = {'title': 'Manager'}
-        response = self.client.post(url, date, format='json')
-        self.assertEqual(response_status_code, status.HTTP_201_CREATED)
-        self.assertTrue(Position.objects.filter(title='Manager').exists)
+    def test_create_position(self):
+        data = {
+            'title': 'Test position',
+            'department': '1',
+        }
+        response = self.client.post(self.position_list_url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_update_position(self):
-        position = PositionFactory()
-        data = {
-            'title': 'New Position Name',
-            'department': "1"
-        }
-        response = self.client.patch(reverse('api-hr:position-detail', kwargs={'pk': position.pk}), data, format='json')
+        data = {'name': 'Updated Position Name'}
+        response = self.client.patch(self.position_detail_url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_position(self):
-        position = PositionFactory()
-        response = self.client.delete(reverse('api-hr:position-detail', kwargs={'pk': position.pk}))
+        response = self.client.delete(self.position_detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

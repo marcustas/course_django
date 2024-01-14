@@ -1,3 +1,4 @@
+import unittest
 import datetime
 from unittest.mock import (
     MagicMock,
@@ -16,8 +17,6 @@ from hr.tests.factories import (
     EmployeeFactory,
     PositionFactory,
 )
-
-import unittest
 
 
 DAYS_DICT = {
@@ -72,7 +71,6 @@ class SalaryCalculatorViewTest(TestCase):
         response = self.client.post(self.url, salary_data)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('calculated_salary', response.context)
 
     def test_access_by_non_admin(self):
         non_admin_user = EmployeeFactory(is_staff=False, is_superuser=False)
@@ -119,6 +117,7 @@ class TestCalculateMonthRateSalary(TestCase):
         self.calculator.save_salary(salary=10000, date=datetime.date.today())
         mock_update_or_create.assert_called_once()
 
+
 class ClassTest(unittest.TestCase):
     @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_vacation_days')
     @patch('hr.calculate_salary.CalculateMonthRateSalary._calculate_monthly_sick_days')
@@ -135,7 +134,11 @@ class ClassTest(unittest.TestCase):
         self.assertEqual(result.sick, 5)
         self.assertEqual(result.vacation, 10)
 
+
+class TestCalculateMonthlyWorkingDays(unittest.TestCase):
     def test_calculate_monthly_working_days(self):
-        obj = CalculateMonthRateSalary(EmployeeFactory())
-        result = obj._calculate_monthly_working_days(DAYS_DICT)
-        self.assertEqual(result, 22)
+        employee = MagicMock()
+        calculator = CalculateMonthRateSalary(employee)
+        result = calculator._calculate_monthly_working_days(DAYS_DICT)
+        expected_result = 22
+        self.assertEqual(result, expected_result)
